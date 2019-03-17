@@ -13,7 +13,6 @@ namespace Workflow.Controllers
     {
         public static string ConnectionString = Startup.GetConnectionString();
         public const string SessionId = "_Id";
-        public User CurrentUser;
         public bool LoggedIn = false;
 
         public override void OnActionExecuted(ActionExecutedContext context)
@@ -37,6 +36,7 @@ namespace Workflow.Controllers
             else
             {
                 LoggedIn = true;
+                ViewBag.CurrentUser = LoginController.CurrentUser;
             }
             ViewBag.LoggedIn = LoggedIn;
         }

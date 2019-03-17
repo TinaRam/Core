@@ -14,6 +14,7 @@ namespace Workflow.Controllers
     {
         // GET: /<controller>/
         private readonly WorkflowContext _context;
+        public static User CurrentUser;
 
         public LoginController(WorkflowContext context)
         {
@@ -40,7 +41,9 @@ namespace Workflow.Controllers
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        HttpContext.Session.SetString(SessionId, reader.GetValue(1).ToString());
+                        int UserID = (int)reader.GetValue(0);
+                        HttpContext.Session.SetInt32(SessionId, UserID);
+                        CurrentUser = _context.User.Find(UserID);
                     }
 
                 }
