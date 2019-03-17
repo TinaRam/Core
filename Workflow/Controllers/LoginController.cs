@@ -40,8 +40,7 @@ namespace Workflow.Controllers
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        
-                        HttpContext.Session.SetString(SessionUsername, username);
+                        HttpContext.Session.SetString(SessionId, reader.GetValue(1).ToString());
                     }
 
                 }
@@ -51,7 +50,7 @@ namespace Workflow.Controllers
 
         public ActionResult Logout()
         {
-            HttpContext.Session.Remove(SessionUsername);
+            HttpContext.Session.Remove(SessionId);
             return Redirect("~/Login/Index");
         }
     }

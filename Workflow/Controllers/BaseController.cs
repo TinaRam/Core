@@ -12,7 +12,7 @@ namespace Workflow.Controllers
     public class BaseController : Controller
     {
         public static string ConnectionString = Startup.GetConnectionString();
-        public const string SessionUsername = "_Name";
+        public const string SessionId = "_Id";
         public User CurrentUser;
         public bool LoggedIn = false;
 
@@ -25,12 +25,11 @@ namespace Workflow.Controllers
             string action = this.ControllerContext.RouteData.Values["action"].ToString();
 
             // if a session is not set AND you are not on the login-page
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionUsername)))
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionId)))
             {
                 if ((controller != "Login" || action != "Index"))
                 {
                     // redirect to the login page
-
                     Response.Redirect("/Login/Index");
                 }
 
@@ -38,7 +37,6 @@ namespace Workflow.Controllers
             else
             {
                 LoggedIn = true;
-                ViewBag.Username = HttpContext.Session.GetString(SessionUsername);
             }
             ViewBag.LoggedIn = LoggedIn;
         }
