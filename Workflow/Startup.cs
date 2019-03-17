@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Workflow.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Workflow
 {
@@ -32,7 +34,7 @@ namespace Workflow
             });
 
             // added by tinahodepina
-            // services.AddDbContext<WorkflowContext>(options => options.UseMySQL(Configuration.GetConnectionString("mysqlConnection")))
+            services.AddDbContext<WorkflowContext>(options => options.UseMySQL(Configuration.GetConnectionString("mysqlConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
