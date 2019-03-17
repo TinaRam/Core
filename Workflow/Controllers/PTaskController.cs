@@ -9,7 +9,7 @@ using Workflow.Models;
 
 namespace Workflow.Controllers
 {
-    public class PTaskController : Controller
+    public class PTaskController : BaseController
     {
         private readonly WorkflowContext _context;
 

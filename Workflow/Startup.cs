@@ -16,9 +16,18 @@ namespace Workflow
 {
     public class Startup
     {
+
+        public static string ConnectionString;
+
+        public static string GetConnectionString()
+        {
+            return ConnectionString;
+        }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            ConnectionString = Configuration.GetSection("ConnectionStrings").GetSection("mysqlConnection").Value;
         }
 
         public IConfiguration Configuration { get; }
@@ -37,6 +46,13 @@ namespace Workflow
             services.AddDbContext<WorkflowContext>(options => options.UseMySQL(Configuration.GetConnectionString("mysqlConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(600);
+                options.Cookie.Name = ".Workflow.Session";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +71,7 @@ namespace Workflow
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
