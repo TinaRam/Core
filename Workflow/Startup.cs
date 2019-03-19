@@ -43,7 +43,7 @@ namespace Workflow
             });
 
             // added by tinahodepina
-            // services.AddDbContext<WorkflowContext>(options => options.UseMySQL(Configuration.GetConnectionString("mysqlConnection")));
+             services.AddDbContext<WorkflowContext>(options => options.UseMySQL(Configuration.GetConnectionString("mysqlConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

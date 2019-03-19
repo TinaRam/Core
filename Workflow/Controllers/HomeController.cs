@@ -8,7 +8,7 @@ using Workflow.Models;
 
 namespace Workflow.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController :BaseController
     {
         public IActionResult Index()
         {
