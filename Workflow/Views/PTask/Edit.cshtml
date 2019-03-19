@@ -1,0 +1,69 @@
+@model Workflow.Models.Ptask
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Ptask</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TaskId" />
+            <div class="form-group">
+                <label asp-for="TaskName" class="control-label"></label>
+                <input asp-for="TaskName" class="form-control" />
+                <span asp-validation-for="TaskName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <input asp-for="Priority" class="form-control" />
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskCreationDate" class="control-label"></label>
+                <input asp-for="TaskCreationDate" class="form-control" />
+                <span asp-validation-for="TaskCreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskDeadline" class="control-label"></label>
+                <input asp-for="TaskDeadline" class="form-control" />
+                <span asp-validation-for="TaskDeadline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompletionDate" class="control-label"></label>
+                <input asp-for="CompletionDate" class="form-control" />
+                <span asp-validation-for="CompletionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskProjectId" class="control-label"></label>
+                <select asp-for="TaskProjectId" class="form-control" asp-items="ViewBag.TaskProjectId"></select>
+                <span asp-validation-for="TaskProjectId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaskListId" class="control-label"></label>
+                <select asp-for="TaskListId" class="form-control" asp-items="ViewBag.TaskListId"></select>
+                <span asp-validation-for="TaskListId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
