@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Workflow.Models
 {
     [Table("Report", Schema = "Workflow")]
-    public partial class Report
+    public class Report
     {
         [Column(TypeName = "int(11)")]
         public int ReportId { get; set; }

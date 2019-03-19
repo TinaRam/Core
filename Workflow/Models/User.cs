@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Workflow.Models
 {
     [Table("User", Schema = "Workflow")]
-    public partial class User
+    public class User
     {
         public User()
         {

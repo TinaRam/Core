@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Workflow.Models
 {
-    public partial class WorkflowContext : DbContext
+    public class WorkflowContext : DbContext
     {
         public WorkflowContext()
         {

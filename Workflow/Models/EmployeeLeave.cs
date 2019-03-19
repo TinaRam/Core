@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Workflow.Models
 {
     [Table("EmployeeLeave", Schema = "Workflow")]
-    public partial class EmployeeLeave
+    public class EmployeeLeave
     {
         [Key]
         [Column(TypeName = "int(11)")]

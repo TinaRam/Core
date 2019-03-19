@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Workflow.Models
 {
     [Table("PTask", Schema = "Workflow")]
-    public partial class Ptask
+    public class Ptask
     {
         public Ptask()
         {
