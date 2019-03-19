@@ -9,7 +9,7 @@ using Workflow.Models;
 
 namespace Workflow.Controllers
 {
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         private readonly WorkflowContext _context;
 
