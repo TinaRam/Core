@@ -21,8 +21,16 @@ namespace Workflow.Controllers
         // GET: Project
         public async Task<IActionResult> Index()
         {
-            var workflowContext = _context.Project.Include(p => p.ProjectManagerNavigation);
-            return View(await workflowContext.ToListAsync());
+            List<Project> Projects = new List<Project>();
+            List<ProjectParticipant> Participants = _context.ProjectParticipant.ToList();
+            foreach (ProjectParticipant p in Participants)
+            {
+                if (p.UserId == CurrentUser.UserId)
+                {
+                    Projects.Add(_context.Project.Include(t => t.ProjectManagerNavigation).FirstOrDefault(t => t.ProjectId == p.ProjectId));
+                }
+            }
+            return View(Projects);
         }
 
         // GET: Project/Details/5

@@ -14,7 +14,6 @@ namespace Workflow.Controllers
     {
         // GET: /<controller>/
         private readonly WorkflowContext _context;
-        public static User CurrentUser;
 
         public LoginController(WorkflowContext context)
         {
