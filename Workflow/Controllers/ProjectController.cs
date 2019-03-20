@@ -65,6 +65,7 @@ namespace Workflow.Controllers
             }
             
             List<ProjectParticipant> Participants = new List<ProjectParticipant>();
+
             foreach (ProjectParticipant p in _context.ProjectParticipant.Include(s => s.User).ToList())
             {
                 if (p.ProjectId == id)
@@ -73,9 +74,23 @@ namespace Workflow.Controllers
                 }
             }
 
+            List<User> availableUsers = _context.User.ToList();
+            
+            foreach (ProjectParticipant p in Participants)
+            {
+                foreach (User u in _context.User.ToList())
+                {
+                    if (p.UserId == u.UserId)
+                    {
+                        availableUsers.Remove(u);
+                    }
+                }
+            }
+
             ViewBag.project = project;
             ViewBag.tasklist = TaskList;
             ViewBag.Participants = Participants;
+            ViewBag.availableUsers = availableUsers;
 
             // må sende med context fordi assignedtask-tabellen ikke har noen connection til user-tabellen,
             // derfor må man finne den fra viewet. ikke så clean, men det funker.. 
