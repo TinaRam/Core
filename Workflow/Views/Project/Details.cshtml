@@ -39,7 +39,7 @@
             Project manager
         </dt>
         <dd class="col-sm-10">
-            @project.ProjectManagerNavigation.FirstName @project.ProjectManagerNavigation.LastName
+            @project.ProjectManagerNavigation.GetName()
         </dd>
         <dt class="col-sm-2">
             Deadline
@@ -80,14 +80,16 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
+                                        <i>Deadline: @task.TaskDeadline</i>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col">
                                         <p>@task.Description</p>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <p>Deadline: @task.TaskDeadline</p>
-                                    </div>
-                                </div>
+                                <hr />
                                 <div class="row">
                                     @{
                                         var myTask = false;
@@ -95,7 +97,7 @@
                                         {
                                             User user = context.User.Find(assigned.UserId);
                                             <div class="col">
-                                                <p>Assigned to @user.FirstName @user.LastName</p>
+                                                <i>Assigned to</i> @user.GetName()
                                             </div>
                                             <div class="col right_align">
                                                 <a title="Reassign" href=""><i class="fas fa-edit"></i></a>
@@ -122,7 +124,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <p>@task.GetStatus()</p>
+                                        <p><em>@task.GetStatus()</em></p>
                                     </div>
                                     <div class="col right_align">
                                         @{
@@ -141,7 +143,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr />
                         }
                     }
 
@@ -171,7 +172,7 @@
                                 <form method="post" action="/Project/RemoveParticipant">
                                     <input type="hidden" name="projectId" value="@project.ProjectId" />
                                     <input type="hidden" name="userId" value="@p.User.UserId" />
-                                    @p.User.FirstName @p.User.LastName
+                                    @p.User.GetName()
                                     <button title="Remove from project" type="submit" class="noButton warning"><i class="fas fa-user-slash"></i></button>
                                 </form>
                             }
@@ -195,7 +196,7 @@
                                 <form method="post" action="/Project/AddParticipant">
                                     <input type="hidden" name="projectId" value="@project.ProjectId" />
                                     <input type="hidden" name="userId" value="@user.UserId" />
-                                    @user.FirstName @user.LastName
+                                    @user.GetName()
                                     <button title="Add to project" type="submit" class="noButton"><i class="fas fa-plus"></i></button>
                                 </form>
 

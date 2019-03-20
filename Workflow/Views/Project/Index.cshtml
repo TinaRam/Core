@@ -47,12 +47,12 @@
                 @item.ProjectDeadline
             </td>
             <td>
-                @item.ProjectManagerNavigation.FirstName @item.ProjectManagerNavigation.LastName
+                @item.ProjectManagerNavigation.GetName()
             </td>
             <td>
                 @{
                     // check if you are project manager
-                    if (item.ProjectManager == CurrentUser.UserId)
+                    if (item.isManager(CurrentUser.UserId))
                     {
                         // if so, you get the "edit" option
                         <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit |</a>

@@ -60,11 +60,18 @@ body {
 
 
 .tasklist_view {
-    background-color: #f3f3f3;
-    border: 1px solid #dadada;
+    background-color: #dadada;
+    border: 1px solid #aeaeae;
     padding: 10px;
     padding-bottom: 0;
     margin-bottom: 10px;
+}
+
+.task_view {
+    background-color: white;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #dadada;
 }
 
 .noStyle {
@@ -78,10 +85,10 @@ body {
     color: blue;
 }
 
-    .noButton:hover {
-        color: darkblue;
-        cursor: pointer;
-    }
+.noButton:hover {
+    color: darkblue;
+   cursor: pointer;
+}
 
 .right_align {
     text-align: right;

@@ -44,5 +44,10 @@ namespace Workflow.Models
         public virtual ICollection<Project> Project { get; set; }
         [InverseProperty("User")]
         public virtual ICollection<ProjectParticipant> ProjectParticipant { get; set; }
+
+        public string GetName()
+        {
+            return FirstName + " " + LastName;
+        }
     }
 }
