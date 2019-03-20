@@ -66,3 +66,8 @@ body {
     padding-bottom: 0;
     margin-bottom: 10px;
 }
+
+.noStyle {
+    list-style-type: none;
+    padding: 5px;
+}

@@ -110,14 +110,26 @@
 
 
     </div>
-    <div class="col-2">
+    <div class="col-3">
         <h5>Participants</h5>
         <hr />
-        <ul>
+        <ul class="noStyle">
             @{
                 foreach (ProjectParticipant p in Participants)
                 {
-                    <li>@p.User.FirstName @p.User.LastName</li>
+                    <li>
+                        @p.User.FirstName @p.User.LastName
+                        @{
+                            if (isManager && p.User.UserId != CurrentUser.UserId)
+                            {
+                                <form method="post" action="/Project/RemoveParticipant">
+                                    <input type="hidden" name="projectId" value="@project.ProjectId" />
+                                    <input type="hidden" name="userId" value="@p.User.UserId" />
+                                    <input type="submit" value="Kick"/>
+                                </form>
+                            }
+                        }
+                    </li>
                 }
             }
         </ul>
@@ -128,11 +140,23 @@
             <div class="col-3">
                 <h5>Available employees</h5>
                 <hr />
-                <ul>
+                <ul class="noStyle">
                     @{
                         foreach (User user in availableUsers)
                         {
-                            <li>@user.FirstName @user.LastName</li>
+                            <li>
+                                @user.FirstName @user.LastName
+                                @{
+                                    if (isManager)
+                                    {
+                                        <form method="post" action="/Project/AddParticipant">
+                                            <input type="hidden" name="projectId" value="@project.ProjectId" />
+                                            <input type="hidden" name="userId" value="@user.UserId" />
+                                            <input type="submit" value="Add"/>
+                                        </form>
+                                    }
+                                }
+                            </li>
                         }
                     }
                 </ul>

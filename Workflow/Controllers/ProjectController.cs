@@ -210,5 +210,25 @@ namespace Workflow.Controllers
         {
             return _context.Project.Any(e => e.ProjectId == id);
         }
+
+        public void AddParticipant(int projectId, int userId)
+        {
+            ProjectParticipant p = new ProjectParticipant();
+            p.ProjectId = projectId;
+            p.UserId = userId;
+            _context.Add(p);
+            _context.SaveChanges();
+
+            Response.Redirect("/Project/Details/" + projectId);
+        }
+
+        public void RemoveParticipant(int projectId, int userId)
+        {
+            ProjectParticipant p = _context.ProjectParticipant.Find(projectId, userId);
+            _context.Remove(p);
+            _context.SaveChanges();
+
+            Response.Redirect("/Project/Details/" + projectId);
+        }
     }
 }
