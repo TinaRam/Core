@@ -57,3 +57,12 @@ body {
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
 }
+
+
+.tasklist_view {
+    background-color: #f3f3f3;
+    border: 1px solid #dadada;
+    padding: 10px;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+}

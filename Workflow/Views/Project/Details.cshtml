@@ -2,59 +2,104 @@
 
 @{
     ViewData["Title"] = "Details";
+    var project = ViewBag.project;
+    var CurrentUser = ViewBag.CurrentUser;
+    bool isManager = project.ProjectManager == CurrentUser.UserId;
+
+    WorkflowContext context = ViewBag.context;
 }
 
-<h1>Details</h1>
+<h3>@project.ProjectName</h3>
+<p>@project.ProjectDescription</p>
 
 <div>
-    <h4>Project</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProjectName)
+        <dt class="col-sm-2">
+            Project manager
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProjectName)
+        <dd class="col-sm-10">
+            @project.ProjectManagerNavigation.FirstName @project.ProjectManagerNavigation.LastName
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProjectDescription)
+        <dt class="col-sm-2">
+            Deadline
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProjectDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProjectStart)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProjectStart)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProjectDeadline)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProjectDeadline)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CompletionDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CompletionDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MarkedAsFinished)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MarkedAsFinished)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProjectManagerNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProjectManagerNavigation.Email)
+        <dd class="col-sm-10">
+            @project.ProjectDeadline
         </dd>
     </dl>
 </div>
+
+<hr />
+
+<div class="row">
+    <div class="col">
+        <h5>Tasks</h5>
+        <hr />
+        @{
+            foreach (TaskList tasklist in ViewBag.tasklist)
+            {
+                <div class="tasklist_view">
+                    @{
+                        foreach (Ptask task in tasklist.Ptask)
+                        {
+                            <div class="task_view">
+                                <table class="">
+                                    <tr>
+                                        <th>@task.TaskName</th>
+                                    </tr>
+                                    <tr>
+                                        <td>@task.Description</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Deadline</th>
+                                        <td>@task.TaskDeadline</td>
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            foreach (AssignedTask assigned in task.AssignedTask)
+                                            {
+                                                <th>Assigned to</th>
+                                                User user = context.User.Find(assigned.UserId);
+                                                <td>@user.FirstName @user.LastName</td>
+                                            }
+                                        }
+                                    </tr>
+                                </table>
+                                <hr />
+                            </div>
+                        }
+                    }
+
+                </div>
+            }
+        }
+
+    </div>
+    <div class="col-2">
+        <h5>Participants</h5>
+        <hr />
+        <p>Overview of participants in the project</p>
+    </div>
+    @{
+        if (isManager)
+        {
+            <div class="col-3">
+                <h5>Available employees</h5>
+                <hr />
+                <p>Overview of employees that can be invited to participate (only visible for manager)</p>
+            </div>
+        }
+    }
+</div>
+
+<hr />
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a> |
+    @{
+        if (isManager)
+        {
+            <a asp-action="Edit" asp-route-id="@project.ProjectId">Edit |</a>
+        }
+    }
     <a asp-action="Index">Back to List</a>
 </div>
