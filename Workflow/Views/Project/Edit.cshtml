@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var project = ViewBag.project;
 }
 
 <h1>Edit</h1>
@@ -12,41 +13,31 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ProjectId" />
+            <input type="hidden" asp-for="ProjectId" value="@project.ProjectId" />
             <div class="form-group">
                 <label asp-for="ProjectName" class="control-label"></label>
-                <input asp-for="ProjectName" class="form-control" />
-                <span asp-validation-for="ProjectName" class="text-danger"></span>
+                <input type="text" asp-for="ProjectName" value="@project.ProjectName" class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="ProjectDescription" class="control-label"></label>
-                <input asp-for="ProjectDescription" class="form-control" />
-                <span asp-validation-for="ProjectDescription" class="text-danger"></span>
+                <input type="text" asp-for="ProjectDescription" value="@project.ProjectDescription" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="ProjectStart" class="control-label"></label>
-                <input asp-for="ProjectStart" class="form-control" />
-                <span asp-validation-for="ProjectStart" class="text-danger"></span>
+                <input asp-for="ProjectStart" type="hidden" value="@project.ProjectStart" class="form-control" />
             </div>
             <div class="form-group">
                 <label asp-for="ProjectDeadline" class="control-label"></label>
-                <input asp-for="ProjectDeadline" class="form-control" />
-                <span asp-validation-for="ProjectDeadline" class="text-danger"></span>
+                <input type="text" asp-for="ProjectDeadline" 
+                onclick="this.type='datetime-local'" onblur="this.type='text'" value="@project.ProjectDeadline" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="CompletionDate" class="control-label"></label>
-                <input asp-for="CompletionDate" class="form-control" />
-                <span asp-validation-for="CompletionDate" class="text-danger"></span>
+                <input asp-for="CompletionDate" type="hidden" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="ProjectManager" class="control-label"></label>
-                <select asp-for="ProjectManager" class="form-control" asp-items="ViewBag.ProjectManager"></select>
-                <span asp-validation-for="ProjectManager" class="text-danger"></span>
+                <input type="hidden" asp-for="ProjectManager" value="@project.ProjectManager" />
             </div>
             <div class="form-group">
-                <label asp-for="MarkedAsFinished" class="control-label"></label>
-                <input asp-for="MarkedAsFinished" class="form-control" />
-                <span asp-validation-for="MarkedAsFinished" class="text-danger"></span>
+                <input type="hidden" asp-for="MarkedAsFinished" value="@project.MarkedAsFinished" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

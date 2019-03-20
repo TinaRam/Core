@@ -137,7 +137,8 @@ namespace Workflow.Controllers
                 return NotFound();
             }
             ViewData["ProjectManager"] = new SelectList(_context.User, "UserId", "Email", project.ProjectManager);
-            return View(project);
+            ViewBag.project = project;
+            return View();
         }
 
         // POST: Project/Edit/5

@@ -2,11 +2,15 @@
 
 @{
     ViewData["Title"] = "Details";
+
     var project = ViewBag.project;
     var CurrentUser = ViewBag.CurrentUser;
     var Participants = ViewBag.Participants;
     var availableUsers = ViewBag.availableUsers;
+
     bool isManager = project.ProjectManager == CurrentUser.UserId;
+    bool isFinished = project.MarkedAsFinished != 0;
+    bool isArchived = project.CompletionDate != null;
 
     WorkflowContext context = ViewBag.context;
     var HttpContext = ViewBag.HttpContext;
@@ -15,9 +19,17 @@
 <h3>@project.ProjectName</h3>
 <p>@project.ProjectDescription</p>
 @{
-    if (isManager)
+    if (isManager && !isFinished)
     {
         <p><a href="/Report/Create/@project.ProjectId">Finish project</a></p>
+    }
+    if (isFinished && !isArchived)
+    {
+        <p>Project is marked as finished by the manager and awaiting admin approval.</p>
+    }
+    else if (isArchived)
+    {
+        <p>This project is finished.</p>
     }
 }
 
@@ -83,7 +95,7 @@
                                         @{
                                             if (task.CompletionDate != null)
                                             {
-                                                if (isManager || myTask)
+                                                if ((isManager || myTask) && !isFinished)
                                                 {
                                                     <td>Finished - <a href="/Ptask/RemoveComplete/@task.TaskId">unfinish</a></td>
                                                 }
@@ -92,7 +104,7 @@
                                                     <td>Finished</td>
                                                 }
                                             }
-                                            else if (isManager || myTask)
+                                            else if ((isManager || myTask) && !isFinished)
                                             {
                                                 <td><a href="/Ptask/Complete/@task.TaskId">Finish</a></td>
                                             }
@@ -106,7 +118,7 @@
 
                 </div>
             }
-            if (isManager)
+            if (isManager && !isFinished)
             {
                 <p>
                     <a asp-controller="PTask" asp-action="Create">Create New</a>
@@ -126,7 +138,7 @@
                     <li>
                         @p.User.FirstName @p.User.LastName
                         @{
-                            if (isManager && p.User.UserId != CurrentUser.UserId)
+                            if (isManager && p.User.UserId != CurrentUser.UserId && !isFinished)
                             {
                                 <form method="post" action="/Project/RemoveParticipant">
                                     <input type="hidden" name="projectId" value="@project.ProjectId" />
@@ -153,7 +165,7 @@
                             <li>
                                 @user.FirstName @user.LastName
                                 @{
-                                    if (isManager)
+                                    if (isManager && !isFinished)
                                     {
                                         <form method="post" action="/Project/AddParticipant">
                                             <input type="hidden" name="projectId" value="@project.ProjectId" />
@@ -174,7 +186,7 @@
 <hr />
 <div>
     @{
-        if (isManager)
+        if (isManager && !isFinished)
         {
             <a asp-action="Edit" asp-route-id="@project.ProjectId">Edit |</a>
         }

@@ -73,6 +73,7 @@ namespace Workflow.Controllers
             }
             ViewData["ProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName", report.ProjectId);
             
+            // TODO: notifications
 
             return View(report);
         }
