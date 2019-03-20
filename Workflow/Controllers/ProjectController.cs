@@ -48,8 +48,8 @@ namespace Workflow.Controllers
             {
                 return NotFound();
             }
-
-            return View(project);
+            ViewBag.project = project;
+            return View();
         }
 
         // GET: Project/Create
