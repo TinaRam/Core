@@ -51,21 +51,31 @@ namespace Workflow.Controllers
 
             List<TaskList> TaskList = new List<TaskList>();
 
-            var test = _context.TaskList
+            var list = _context.TaskList
                 .Include(tasklist => tasklist.Ptask)
                     .ThenInclude(task => task.AssignedTask)
                 .ToList();
 
-            foreach (TaskList t in test)
+            foreach (TaskList t in list)
             {
                 if (t.ProjectId == id)
                 {
                     TaskList.Add(t);
                 }
             }
+            
+            List<ProjectParticipant> Participants = new List<ProjectParticipant>();
+            foreach (ProjectParticipant p in _context.ProjectParticipant.Include(s => s.User).ToList())
+            {
+                if (p.ProjectId == id)
+                {
+                    Participants.Add(p);
+                }
+            }
 
             ViewBag.project = project;
             ViewBag.tasklist = TaskList;
+            ViewBag.Participants = Participants;
 
             // må sende med context fordi assignedtask-tabellen ikke har noen connection til user-tabellen,
             // derfor må man finne den fra viewet. ikke så clean, men det funker.. 
