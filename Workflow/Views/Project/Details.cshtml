@@ -8,12 +8,11 @@
     var Participants = ViewBag.Participants;
     var availableUsers = ViewBag.availableUsers;
 
-    bool isManager = project.ProjectManager == CurrentUser.UserId;
-    bool isFinished = project.MarkedAsFinished != 0;
-    bool isArchived = project.CompletionDate != null;
+    bool isManager = project.isManager(CurrentUser.UserId);
+    bool isFinished = project.isFinished();
+    bool isArchived = project.isArchived();
 
     WorkflowContext context = ViewBag.context;
-    var HttpContext = ViewBag.HttpContext;
 }
 
 <h3>@project.ProjectName</h3>
@@ -65,54 +64,84 @@
                         foreach (Ptask task in tasklist.Ptask)
                         {
                             <div class="task_view">
-                                <table class="">
-                                    <tr>
-                                        <th>@task.TaskName</th>
-                                    </tr>
-                                    <tr>
-                                        <td>@task.Description</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Deadline</th>
-                                        <td>@task.TaskDeadline</td>
-                                    </tr>
-                                    <tr>
-                                        @{
-                                            var myTask = false;
-                                            foreach (AssignedTask assigned in task.AssignedTask)
+                                <div class="row">
+                                    <div class="col">
+                                        <h6>@task.TaskName</h6>
+                                    </div>
+                                    @{
+                                        if (isManager && !isFinished)
+                                        {
+                                            <div class="col right_align">
+                                                <a asp-controller="Ptask" title="Edit" asp-action="Edit" asp-route-id="@task.TaskId"><i class="fas fa-edit"></i></a>
+                                                <a asp-controller="Ptask" title="Delete" asp-action="Delete" asp-route-id="@task.TaskId" class="warning"><i class="fas fa-trash-alt"></i></a>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p>@task.Description</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p>Deadline: @task.TaskDeadline</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @{
+                                        var myTask = false;
+                                        foreach (AssignedTask assigned in task.AssignedTask)
+                                        {
+                                            User user = context.User.Find(assigned.UserId);
+                                            <div class="col">
+                                                <p>Assigned to @user.FirstName @user.LastName</p>
+                                            </div>
+                                            <div class="col right_align">
+                                                <a title="Reassign" href=""><i class="fas fa-edit"></i></a>
+                                            </div>
+                                            if (user.UserId == CurrentUser.UserId)
                                             {
-                                                <th>Assigned to</th>
-                                                User user = context.User.Find(assigned.UserId);
-                                                <td>@user.FirstName @user.LastName</td>
-                                                if (user.UserId == CurrentUser.UserId)
-                                                {
-                                                    myTask = true;
-                                                }
+                                                myTask = true;
                                             }
                                         }
-                                    </tr>
-                                    <tr>
+                                        if (task.AssignedTask.Count <= 0 && !isFinished)
+                                        {
+                                            <div class="col">Unassigned</div>
+                                            <div class="col right_align">
+                                                <a href="">Volunteer</a>
+                                                @{
+                                                    if (isManager)
+                                                    {
+                                                        <a href="">| Assign</a>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p>@task.GetStatus()</p>
+                                    </div>
+                                    <div class="col right_align">
                                         @{
-                                            if (task.CompletionDate != null)
+                                            if ((myTask || isManager) && !isFinished)
                                             {
-                                                if ((isManager || myTask) && !isFinished)
+                                                if (task.CompletionDate == null)
                                                 {
-                                                    <td>Finished - <a href="/Ptask/RemoveComplete/@task.TaskId">unfinish</a></td>
+                                                    <a href="">Complete task</a>
                                                 }
                                                 else
                                                 {
-                                                    <td>Finished</td>
+                                                    <a class="warning" href="">Mark as incomplete</a>
                                                 }
                                             }
-                                            else if ((isManager || myTask) && !isFinished)
-                                            {
-                                                <td><a href="/Ptask/Complete/@task.TaskId">Finish</a></td>
-                                            }
                                         }
-                                    </tr>
-                                </table>
-                                <hr />
+                                    </div>
+                                </div>
                             </div>
+                            <hr />
                         }
                     }
 
@@ -136,14 +165,14 @@
                 foreach (ProjectParticipant p in Participants)
                 {
                     <li>
-                        @p.User.FirstName @p.User.LastName
                         @{
                             if (isManager && p.User.UserId != CurrentUser.UserId && !isFinished)
                             {
                                 <form method="post" action="/Project/RemoveParticipant">
                                     <input type="hidden" name="projectId" value="@project.ProjectId" />
                                     <input type="hidden" name="userId" value="@p.User.UserId" />
-                                    <input type="submit" value="Kick" />
+                                    @p.User.FirstName @p.User.LastName
+                                    <button title="Remove from project" type="submit" class="noButton warning"><i class="fas fa-user-slash"></i></button>
                                 </form>
                             }
                         }
@@ -153,7 +182,7 @@
         </ul>
     </div>
     @{
-        if (isManager)
+        if (isManager && !isFinished)
         {
             <div class="col-3">
                 <h5>Available employees</h5>
@@ -163,17 +192,13 @@
                         foreach (User user in availableUsers)
                         {
                             <li>
-                                @user.FirstName @user.LastName
-                                @{
-                                    if (isManager && !isFinished)
-                                    {
-                                        <form method="post" action="/Project/AddParticipant">
-                                            <input type="hidden" name="projectId" value="@project.ProjectId" />
-                                            <input type="hidden" name="userId" value="@user.UserId" />
-                                            <input type="submit" value="Add" />
-                                        </form>
-                                    }
-                                }
+                                <form method="post" action="/Project/AddParticipant">
+                                    <input type="hidden" name="projectId" value="@project.ProjectId" />
+                                    <input type="hidden" name="userId" value="@user.UserId" />
+                                    @user.FirstName @user.LastName
+                                    <button title="Add to project" type="submit" class="noButton"><i class="fas fa-plus"></i></button>
+                                </form>
+
                             </li>
                         }
                     }

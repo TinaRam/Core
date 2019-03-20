@@ -71,3 +71,26 @@ body {
     list-style-type: none;
     padding: 5px;
 }
+
+.noButton {
+    background-color: transparent;
+    border: none;
+    color: blue;
+}
+
+    .noButton:hover {
+        color: darkblue;
+        cursor: pointer;
+    }
+
+.right_align {
+    text-align: right;
+}
+
+.warning {
+    color: #ff4d4d;
+}
+
+.warning:hover {
+    color: #bd2f2f;
+}

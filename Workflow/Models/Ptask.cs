@@ -41,5 +41,10 @@ namespace Workflow.Models
         public virtual Project TaskProject { get; set; }
         [InverseProperty("Task")]
         public virtual ICollection<AssignedTask> AssignedTask { get; set; }
+
+        public string GetStatus()
+        {
+            return CompletionDate == null ? "Incomplete" : "Complete";
+        }
     }
 }

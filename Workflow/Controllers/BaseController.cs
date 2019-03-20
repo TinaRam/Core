@@ -40,7 +40,6 @@ namespace Workflow.Controllers
                 LoggedIn = true;
                 ViewBag.CurrentUser = CurrentUser;
             }
-            ViewBag.HttpContext = HttpContext;
             ViewBag.LoggedIn = LoggedIn;
         }
     }

@@ -45,5 +45,20 @@ namespace Workflow.Models
         public virtual ICollection<Report> Report { get; set; }
         [InverseProperty("Project")]
         public virtual ICollection<TaskList> TaskList { get; set; }
+
+        public bool isManager(int userId)
+        {
+            return ProjectManager == userId;
+        }
+
+        public bool isFinished()
+        {
+            return MarkedAsFinished != 0;
+        }
+
+        public bool isArchived()
+        {
+            return CompletionDate != null;
+        }
     }
 }

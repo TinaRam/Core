@@ -175,5 +175,24 @@ namespace Workflow.Controllers
             task.CompletionDate = null;
             _context.SaveChanges();
         }
+
+        public async Task<IActionResult> Assign(int? id, int? project)
+        {
+            if (id == null || project == null)
+            {
+                return NotFound();
+            }
+
+            var ptask = await _context.Ptask
+                .Include(p => p.TaskList)
+                .Include(p => p.TaskProject)
+                .FirstOrDefaultAsync(m => m.TaskId == id);
+            if (ptask == null)
+            {
+                return NotFound();
+            }
+
+            return View(ptask);
+        }
     }
 }
