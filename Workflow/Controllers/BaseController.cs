@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Workflow.Models;
@@ -39,6 +40,7 @@ namespace Workflow.Controllers
                 LoggedIn = true;
                 ViewBag.CurrentUser = CurrentUser;
             }
+            ViewBag.HttpContext = HttpContext;
             ViewBag.LoggedIn = LoggedIn;
         }
     }

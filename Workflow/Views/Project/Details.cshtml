@@ -9,6 +9,7 @@
     bool isManager = project.ProjectManager == CurrentUser.UserId;
 
     WorkflowContext context = ViewBag.context;
+    var HttpContext = ViewBag.HttpContext;
 }
 
 <h3>@project.ProjectName</h3>
@@ -59,11 +60,35 @@
                                     </tr>
                                     <tr>
                                         @{
+                                            var myTask = false;
                                             foreach (AssignedTask assigned in task.AssignedTask)
                                             {
                                                 <th>Assigned to</th>
                                                 User user = context.User.Find(assigned.UserId);
                                                 <td>@user.FirstName @user.LastName</td>
+                                                if (user.UserId == CurrentUser.UserId)
+                                                {
+                                                    myTask = true;
+                                                }
+                                            }
+                                        }
+                                    </tr>
+                                    <tr>
+                                        @{
+                                            if (task.CompletionDate != null)
+                                            {
+                                                if (isManager || myTask)
+                                                {
+                                                    <td>Finished - <a href="/Ptask/RemoveComplete/@task.TaskId">unfinish</a></td>
+                                                }
+                                                else
+                                                {
+                                                    <td>Finished</td>
+                                                }
+                                            }
+                                            else if (isManager || myTask)
+                                            {
+                                                <td><a href="/Ptask/Complete/@task.TaskId">Finish</a></td>
                                             }
                                         }
                                     </tr>
@@ -75,7 +100,14 @@
 
                 </div>
             }
+            if (isManager)
+            {
+                <p>
+                    <a asp-controller="PTask" asp-action="Create">Create New</a>
+                </p>
+            }
         }
+
 
     </div>
     <div class="col-2">
