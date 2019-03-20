@@ -4,6 +4,7 @@
     ViewData["Title"] = "Details";
     var project = ViewBag.project;
     var CurrentUser = ViewBag.CurrentUser;
+    var Participants = ViewBag.Participants;
     bool isManager = project.ProjectManager == CurrentUser.UserId;
 
     WorkflowContext context = ViewBag.context;
@@ -79,7 +80,14 @@
     <div class="col-2">
         <h5>Participants</h5>
         <hr />
-        <p>Overview of participants in the project</p>
+        <ul>
+            @{
+                foreach (ProjectParticipant p in Participants)
+                {
+                    <li>@p.User.FirstName @p.User.LastName</li>
+                }
+            }
+        </ul>
     </div>
     @{
         if (isManager)
