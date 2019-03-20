@@ -20,7 +20,5 @@ namespace Workflow.Models
         [ForeignKey("TaskId")]
         [InverseProperty("AssignedTask")]
         public virtual Ptask Task { get; set; }
-        
-        //public virtual User user { get; set; }
     }
 }
