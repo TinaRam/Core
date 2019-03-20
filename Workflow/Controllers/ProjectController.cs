@@ -219,6 +219,8 @@ namespace Workflow.Controllers
             _context.Add(p);
             _context.SaveChanges();
 
+            // TODO: send notification
+
             Response.Redirect("/Project/Details/" + projectId);
         }
 
@@ -227,6 +229,8 @@ namespace Workflow.Controllers
             ProjectParticipant p = _context.ProjectParticipant.Find(projectId, userId);
             _context.Remove(p);
             _context.SaveChanges();
+
+            // TODO: send notification
 
             Response.Redirect("/Project/Details/" + projectId);
         }

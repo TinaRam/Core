@@ -45,9 +45,11 @@ namespace Workflow.Controllers
         }
 
         // GET: Report/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
             ViewData["ProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName");
+            ViewBag.project = id;
+            ViewBag.project = _context.Project.Find(id);
             return View();
         }
 
@@ -61,10 +63,17 @@ namespace Workflow.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(report);
+
+                // set markedasfinished equal to true in database
+                Project p = _context.Project.Find(report.ProjectId);
+                p.MarkedAsFinished = 1;
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName", report.ProjectId);
+            
+
             return View(report);
         }
 

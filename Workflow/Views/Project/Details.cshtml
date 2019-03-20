@@ -14,6 +14,12 @@
 
 <h3>@project.ProjectName</h3>
 <p>@project.ProjectDescription</p>
+@{
+    if (isManager)
+    {
+        <p><a href="/Report/Create/@project.ProjectId">Finish project</a></p>
+    }
+}
 
 <div>
     <hr />
@@ -125,7 +131,7 @@
                                 <form method="post" action="/Project/RemoveParticipant">
                                     <input type="hidden" name="projectId" value="@project.ProjectId" />
                                     <input type="hidden" name="userId" value="@p.User.UserId" />
-                                    <input type="submit" value="Kick"/>
+                                    <input type="submit" value="Kick" />
                                 </form>
                             }
                         }
@@ -152,7 +158,7 @@
                                         <form method="post" action="/Project/AddParticipant">
                                             <input type="hidden" name="projectId" value="@project.ProjectId" />
                                             <input type="hidden" name="userId" value="@user.UserId" />
-                                            <input type="submit" value="Add"/>
+                                            <input type="submit" value="Add" />
                                         </form>
                                     }
                                 }
