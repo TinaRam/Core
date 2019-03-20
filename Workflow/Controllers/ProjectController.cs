@@ -48,7 +48,18 @@ namespace Workflow.Controllers
             {
                 return NotFound();
             }
+
+            List<TaskList> TaskList = new List<TaskList>();
+            foreach (TaskList t in _context.TaskList.Include(t => t.Ptask).ToList())
+            {
+                if (t.ProjectId == id)
+                {
+                    TaskList.Add(t);
+                }
+            }
+
             ViewBag.project = project;
+            ViewBag.tasklist = TaskList;
             return View();
         }
 

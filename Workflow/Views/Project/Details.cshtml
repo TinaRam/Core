@@ -33,10 +33,41 @@
 <div class="row">
     <div class="col">
         <h5>Tasks</h5>
-        <p>Overview of tasks</p>
+        <hr />
+        @{
+            foreach (TaskList tasklist in ViewBag.tasklist)
+            {
+                <div class="tasklist_view">
+                    @{
+                        foreach (Ptask task in tasklist.Ptask)
+                        {
+                            <div class="task_view">
+                                <table class="">
+                                    <tr>
+                                        <th>@task.TaskName</th>
+                                    </tr>
+                                    <tr>
+                                        <td>@task.Description</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Deadline</th>
+                                        <td>@task.TaskDeadline</td>
+                                    </tr>
+                                </table>
+                                <br />
+                            </div>
+                        }
+                    }
+
+                </div>
+                <hr />
+            }
+        }
+
     </div>
     <div class="col">
         <h5>Participants</h5>
+        <hr />
         <p>Overview of participants in the project</p>
     </div>
     @{
@@ -44,6 +75,7 @@
         {
             <div class="col">
                 <h5>Available employees</h5>
+                <hr />
                 <p>Overview of employees that can be invited to participate (only visible for manager)</p>
             </div>
         }
