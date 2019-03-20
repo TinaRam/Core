@@ -5,6 +5,7 @@
     var project = ViewBag.project;
     var CurrentUser = ViewBag.CurrentUser;
     var Participants = ViewBag.Participants;
+    var availableUsers = ViewBag.availableUsers;
     bool isManager = project.ProjectManager == CurrentUser.UserId;
 
     WorkflowContext context = ViewBag.context;
@@ -95,7 +96,14 @@
             <div class="col-3">
                 <h5>Available employees</h5>
                 <hr />
-                <p>Overview of employees that can be invited to participate (only visible for manager)</p>
+                <ul>
+                    @{
+                        foreach (User user in availableUsers)
+                        {
+                            <li>@user.FirstName @user.LastName</li>
+                        }
+                    }
+                </ul>
             </div>
         }
     }
