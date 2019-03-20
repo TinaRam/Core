@@ -5,6 +5,8 @@
     var project = ViewBag.project;
     var CurrentUser = ViewBag.CurrentUser;
     bool isManager = project.ProjectManager == CurrentUser.UserId;
+
+    WorkflowContext context = ViewBag.context;
 }
 
 <h3>@project.ProjectName</h3>
@@ -31,7 +33,7 @@
 <hr />
 
 <div class="row">
-    <div class="col">
+    <div class="col-6">
         <h5>Tasks</h5>
         <hr />
         @{
@@ -53,14 +55,23 @@
                                         <th>Deadline</th>
                                         <td>@task.TaskDeadline</td>
                                     </tr>
+                                    <tr>
+                                        @{
+                                            foreach (AssignedTask assigned in task.AssignedTask)
+                                            {
+                                                <th>Assigned to</th>
+                                                User user = context.User.Find(assigned.UserId);
+                                                <td>@user.FirstName @user.LastName</td>
+                                            }
+                                        }
+                                    </tr>
                                 </table>
-                                <br />
+                                <hr />
                             </div>
                         }
                     }
 
                 </div>
-                <hr />
             }
         }
 
