@@ -18,8 +18,11 @@ namespace Workflow.Controllers
             _context = context;
         }
 
+
         // GET: Project
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<IActionResult> Index()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             List<Project> Projects = new List<Project>();
             List<ProjectParticipant> Participants = _context.ProjectParticipant.ToList();

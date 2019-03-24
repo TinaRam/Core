@@ -162,14 +162,14 @@ namespace Workflow.Controllers
             return _context.Ptask.Any(e => e.TaskId == id);
         }
 
-        public async void Complete(int id)
+        public void Complete(int id)
         {
             Ptask task = _context.Ptask.Find(id);
             task.CompletionDate = DateTime.Now;
             _context.SaveChanges();
         }
 
-        public async void RemoveComplete(int id)
+        public void RemoveComplete(int id)
         {
             Ptask task = _context.Ptask.Find(id);
             task.CompletionDate = null;
