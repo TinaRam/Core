@@ -104,10 +104,7 @@
                                 {
                                     User user = context.User.Find(assigned.UserId);
                                     <div class="col">
-                                        <i>Assigned to</i> @user.GetName()
-                                    </div>
-                                    <div class="col right_align">
-                                        <a title="Reassign" href=""><i class="fas fa-edit"></i></a>
+                                        <i>Assigned to</i> @user.GetName() <a title="Delete" class="warning" href="/Ptask/Unassign/@assigned.AssignedTaskId"><i class="fas fa-times"></i></a>
                                     </div>
                                     if (user.UserId == CurrentUser.UserId)
                                     {
@@ -118,13 +115,25 @@
                                 {
                                     <div class="col">Unassigned</div>
                                     <div class="col right_align">
-                                        <a href="">Volunteer</a>
                                         @{
                                             if (isManager)
                                             {
-                                                <a href="">| Assign</a>
+                                                <form method="post" action="/Ptask/Assign/">
+                                                    <select name="user_id" class="form-control" onchange="this.form.submit()">
+                                                        <option value="">Assign</option>
+                                                        @{
+                                                            @foreach (ProjectParticipant p in Participants)
+                                                            {
+                                                                <option value="@p.UserId">@p.User.GetName()</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                    <input type="hidden" name="task_id" value="@task.TaskId" />
+                                                    <input type="hidden" name="project_id" value="@project.ProjectId" />
+                                                </form>
                                             }
                                         }
+                                        <a href="">Volunteer</a>
                                     </div>
                                 }
                             }
@@ -139,11 +148,11 @@
                                     {
                                         if (task.CompletionDate == null)
                                         {
-                                            <a href="">Complete task</a>
+                                            <a href="/Ptask/Complete/@task.TaskId">Complete task</a>
                                         }
                                         else
                                         {
-                                            <a class="warning" href="">Mark as incomplete</a>
+                                            <a class="warning" href="/Ptask/RemoveComplete/@task.TaskId">Mark as incomplete</a>
                                         }
                                     }
                                 }
