@@ -7,44 +7,65 @@
 <h1>Details</h1>
 
 <div>
-    <h4>@Html.DisplayFor(model => model.Username)</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Username)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Username)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.About)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.About)
-        </dd>
-    </dl>
+    <form method="post" asp-controller="User" asp-action="Edit">
+        <input hidden name="UserId" value="@Html.DisplayFor(model => model.UserId)" />
+        <input hidden name="Password" value="@Html.DisplayFor(model => model.Password)" />
+        <input hidden name="Role" value="@Html.DisplayFor(model => model.Role)" />
+        <div class="row">
+            <div class="col-2">
+                <label for="Username">Username</label>
+            </div>
+            <div class="col">
+                <input type="text" name="Username" value="@Html.DisplayFor(model => model.Username)" class="form-control-plaintext" readonly />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <label for="FirstName">First name</label>
+            </div>
+            <div class="col">
+                <input type="text" name="FirstName" value="@Html.DisplayFor(model => model.FirstName)" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <label for="LastName">Last name</label>
+            </div>
+            <div class="col">
+                <input type="text" name="LastName" value="@Html.DisplayFor(model => model.LastName)" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                <label for="Email">E-mail</label>
+            </div>
+            <div class="col">
+                <input type="text" name="Email" value="@Html.DisplayFor(model => model.Email)" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                <label for="PhoneNumber">Phone number</label>
+            </div>
+            <div class="col">
+                <input type="text" name="PhoneNumber" value="@Html.DisplayFor(model => model.PhoneNumber)" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                <label for="About">About</label>
+            </div>
+            <div class="col">
+                <input type="text" name="About" value="@Html.DisplayFor(model => model.About)" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
 </div>
