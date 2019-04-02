@@ -104,7 +104,13 @@
                                 {
                                     User user = context.User.Find(assigned.UserId);
                                     <div class="col">
-                                        <i>Assigned to</i> @user.GetName() <a title="Delete" class="warning" href="/Ptask/Unassign/@assigned.AssignedTaskId"><i class="fas fa-times"></i></a>
+                                        <i>Assigned to</i> @user.GetName()
+                                        @{
+                                            if (!isFinished && isManager)
+                                            {
+                                                <a title="Delete" class="warning" href="/Ptask/Unassign/@assigned.AssignedTaskId"><i class="fas fa-times"></i></a>
+                                            }
+                                        }
                                     </div>
                                     if (user.UserId == CurrentUser.UserId)
                                     {
@@ -133,7 +139,12 @@
                                                 </form>
                                             }
                                         }
-                                        <a href="">Volunteer</a>
+                                        <form method="post" action="/Ptask/Assign/">
+                                             <input type="hidden" name="user_id" value="@CurrentUser.UserId" />
+                                             <input type="hidden" name="task_id" value="@task.TaskId" />
+                                             <input type="hidden" name="project_id" value="@project.ProjectId" />
+                                             <input type="submit" value="Volunteer" class="btn btn-primary" />
+                                        </form>
                                     </div>
                                 }
                             }
@@ -183,14 +194,20 @@
                 {
                     <li>
                         @{
-                            if (isManager && p.User.UserId != CurrentUser.UserId && !isFinished)
+                            if (p.User.UserId != CurrentUser.UserId)
                             {
-                                <form method="post" action="/Project/RemoveParticipant">
-                                    <input type="hidden" name="projectId" value="@project.ProjectId" />
-                                    <input type="hidden" name="userId" value="@p.User.UserId" />
-                                    @p.User.GetName()
-                                    <button title="Remove from project" type="submit" class="noButton warning"><i class="fas fa-user-slash"></i></button>
-                                </form>
+                            <form method="post" action="/Project/RemoveParticipant">
+                                <input type="hidden" name="projectId" value="@project.ProjectId" />
+                                <input type="hidden" name="userId" value="@p.User.UserId" />
+                                @p.User.GetName()
+                                @{
+                                    if (!isFinished && isManager)
+                                    {
+                                        <button title="Remove from project" type="submit" class="noButton warning"><i class="fas fa-user-slash"></i></button>
+                                    }
+                                }
+
+                            </form>
                             }
                         }
                     </li>
@@ -212,7 +229,7 @@
                                 <form method="post" action="/Project/AddParticipant">
                                     <input type="hidden" name="projectId" value="@project.ProjectId" />
                                     <input type="hidden" name="userId" value="@user.UserId" />
-                                    @user.GetName()
+                                    <a href="/User/Details/@user.UserId">@user.GetName()</a>
                                     <button title="Add to project" type="submit" class="noButton"><i class="fas fa-plus"></i></button>
                                 </form>
 
