@@ -59,94 +59,101 @@
         @{
             foreach (TaskList tasklist in ViewBag.tasklist)
             {
-                <div class="tasklist_view">
-                    @{
-                        foreach (Ptask task in tasklist.Ptask)
-                        {
-                            <div class="task_view">
-                                <div class="row">
-                                    <div class="col">
-                                        <h6>@task.TaskName</h6>
+        <div class="tasklist_view">
+
+            <h5>@tasklist.ListName</h5>
+
+            @{
+                foreach (Ptask task in tasklist.Ptask)
+                {
+                    <div class="task_view">
+                        <div class="row">
+                            <div class="col">
+                                <h6>@task.TaskName</h6>
+                            </div>
+                            @{
+                                if (isManager && !isFinished)
+                                {
+                                    <div class="col right_align">
+                                        <a asp-controller="Ptask" title="Edit" asp-action="Edit" asp-route-id="@task.TaskId"><i class="fas fa-edit"></i></a>
+
+
+                                        <form asp-controller="Ptask" asp-action="Delete" asp-route-id="@task.TaskId">
+                                            <button title="Delete" type="submit" class="noButton warning"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
                                     </div>
-                                    @{
-                                        if (isManager && !isFinished)
-                                        {
-                                            <div class="col right_align">
-                                                <a asp-controller="Ptask" title="Edit" asp-action="Edit" asp-route-id="@task.TaskId"><i class="fas fa-edit"></i></a>
-                                                <a asp-controller="Ptask" title="Delete" asp-action="Delete" asp-route-id="@task.TaskId" class="warning"><i class="fas fa-trash-alt"></i></a>
-                                            </div>
-                                        }
-                                    }
-                                </div>
-                                <div class="row">
+                                }
+                            }
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <i>Deadline: @task.TaskDeadline</i>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col">
+                                <p>@task.Description</p>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            @{
+                                var myTask = false;
+                                foreach (AssignedTask assigned in task.AssignedTask)
+                                {
+                                    User user = context.User.Find(assigned.UserId);
                                     <div class="col">
-                                        <i>Deadline: @task.TaskDeadline</i>
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="row">
-                                    <div class="col">
-                                        <p>@task.Description</p>
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="row">
-                                    @{
-                                        var myTask = false;
-                                        foreach (AssignedTask assigned in task.AssignedTask)
-                                        {
-                                            User user = context.User.Find(assigned.UserId);
-                                            <div class="col">
-                                                <i>Assigned to</i> @user.GetName()
-                                            </div>
-                                            <div class="col right_align">
-                                                <a title="Reassign" href=""><i class="fas fa-edit"></i></a>
-                                            </div>
-                                            if (user.UserId == CurrentUser.UserId)
-                                            {
-                                                myTask = true;
-                                            }
-                                        }
-                                        if (task.AssignedTask.Count <= 0 && !isFinished)
-                                        {
-                                            <div class="col">Unassigned</div>
-                                            <div class="col right_align">
-                                                <a href="">Volunteer</a>
-                                                @{
-                                                    if (isManager)
-                                                    {
-                                                        <a href="">| Assign</a>
-                                                    }
-                                                }
-                                            </div>
-                                        }
-                                    }
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <p><em>@task.GetStatus()</em></p>
+                                        <i>Assigned to</i> @user.GetName()
                                     </div>
                                     <div class="col right_align">
+                                        <a title="Reassign" href=""><i class="fas fa-edit"></i></a>
+                                    </div>
+                                    if (user.UserId == CurrentUser.UserId)
+                                    {
+                                        myTask = true;
+                                    }
+                                }
+                                if (task.AssignedTask.Count <= 0 && !isFinished)
+                                {
+                                    <div class="col">Unassigned</div>
+                                    <div class="col right_align">
+                                        <a href="">Volunteer</a>
                                         @{
-                                            if ((myTask || isManager) && !isFinished)
+                                            if (isManager)
                                             {
-                                                if (task.CompletionDate == null)
-                                                {
-                                                    <a href="">Complete task</a>
-                                                }
-                                                else
-                                                {
-                                                    <a class="warning" href="">Mark as incomplete</a>
-                                                }
+                                                <a href="">| Assign</a>
                                             }
                                         }
                                     </div>
-                                </div>
+                                }
+                            }
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p><em>@task.GetStatus()</em></p>
                             </div>
-                        }
-                    }
+                            <div class="col right_align">
+                                @{
+                                    if ((myTask || isManager) && !isFinished)
+                                    {
+                                        if (task.CompletionDate == null)
+                                        {
+                                            <a href="">Complete task</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="warning" href="">Mark as incomplete</a>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
 
-                </div>
+        </div>
             }
             if (isManager && !isFinished)
             {

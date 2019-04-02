@@ -48,7 +48,7 @@ namespace Workflow.Controllers
         // GET: PTask/Create
         public IActionResult Create()
         {
-            ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "TaskListId");
+            ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "ListName");
             ViewData["TaskProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName");
             return View();
         }
@@ -84,7 +84,7 @@ namespace Workflow.Controllers
             {
                 return NotFound();
             }
-            ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "TaskListId", ptask.TaskListId);
+            ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "ListName", ptask.TaskListId);
             ViewData["TaskProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName", ptask.TaskProjectId);
             return View(ptask);
         }
