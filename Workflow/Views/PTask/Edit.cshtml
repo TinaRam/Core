@@ -25,27 +25,32 @@
             </div>
             <div class="form-group">
                 <label asp-for="Priority" class="control-label"></label>
-                <input asp-for="Priority" class="form-control" />
+                <select asp-for="Priority" class="form-control">
+                    <option value="">Choose priority</option>
+                    <option value="low">Low</option>
+                    <option value="normal">Normal</option>
+                    <option value="high">High</option>
+                </select>
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TaskCreationDate" class="control-label"></label>
-                <input asp-for="TaskCreationDate" class="form-control" />
+                <label asp-for="TaskCreationDate" hidden class="control-label"></label>
+                <input asp-for="TaskCreationDate" hidden class="form-control" />
                 <span asp-validation-for="TaskCreationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TaskDeadline" class="control-label"></label>
-                <input asp-for="TaskDeadline" class="form-control" />
+                <input type="date" asp-for="TaskDeadline" class="form-control" />
                 <span asp-validation-for="TaskDeadline" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CompletionDate" class="control-label"></label>
-                <input asp-for="CompletionDate" class="form-control" />
+                <label asp-for="CompletionDate" hidden class="control-label"></label>
+                <input asp-for="CompletionDate" hidden class="form-control" />
                 <span asp-validation-for="CompletionDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TaskProjectId" class="control-label"></label>
-                <select asp-for="TaskProjectId" class="form-control" asp-items="ViewBag.TaskProjectId"></select>
+                <label asp-for="TaskProjectId" hidden class="control-label"></label>
+                <select asp-for="TaskProjectId" hidden class="form-control" asp-items="ViewBag.TaskProjectId"></select>
                 <span asp-validation-for="TaskProjectId" class="text-danger"></span>
             </div>
             <div class="form-group">

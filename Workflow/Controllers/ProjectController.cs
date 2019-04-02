@@ -94,7 +94,7 @@ namespace Workflow.Controllers
             ViewBag.tasklist = TaskList;
             ViewBag.Participants = Participants;
             ViewBag.availableUsers = availableUsers;
-
+            
             // må sende med context fordi assignedtask-tabellen ikke har noen connection til user-tabellen,
             // derfor må man finne den fra viewet. ikke så clean, men det funker.. 
             ViewBag.context = _context;

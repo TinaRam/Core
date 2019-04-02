@@ -1,11 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Workflow.Models;
+
+
 
 namespace Workflow.Controllers
 {
@@ -41,14 +42,13 @@ namespace Workflow.Controllers
             {
                 return NotFound();
             }
-
             return View(ptask);
         }
 
         // GET: PTask/Create
         public IActionResult Create()
         {
-            ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "TaskListId");
+            ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "ListName");
             ViewData["TaskProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName");
             return View();
         }
@@ -84,7 +84,7 @@ namespace Workflow.Controllers
             {
                 return NotFound();
             }
-            ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "TaskListId", ptask.TaskListId);
+            ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "ListName", ptask.TaskListId);
             ViewData["TaskProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName", ptask.TaskProjectId);
             return View(ptask);
         }
@@ -167,6 +167,8 @@ namespace Workflow.Controllers
             Ptask task = _context.Ptask.Find(id);
             task.CompletionDate = DateTime.Now;
             _context.SaveChanges();
+
+            Response.Redirect("/Project/Details/" + task.TaskProjectId);
         }
 
         public void RemoveComplete(int id)
@@ -174,25 +176,31 @@ namespace Workflow.Controllers
             Ptask task = _context.Ptask.Find(id);
             task.CompletionDate = null;
             _context.SaveChanges();
+
+            Response.Redirect("/Project/Details/" + task.TaskProjectId);
         }
 
-        public async Task<IActionResult> Assign(int? id, int? project)
+        public void Assign(int user_id, int task_id, int project_id)
         {
-            if (id == null || project == null)
-            {
-                return NotFound();
-            }
+            Ptask task = _context.Ptask.Find(task_id);
 
-            var ptask = await _context.Ptask
-                .Include(p => p.TaskList)
-                .Include(p => p.TaskProject)
-                .FirstOrDefaultAsync(m => m.TaskId == id);
-            if (ptask == null)
-            {
-                return NotFound();
-            }
+            AssignedTask at = new AssignedTask();
+            at.ProjectId = project_id;
+            at.UserId = user_id;
+            at.TaskId = task_id;
+            _context.Add(at);
+            _context.SaveChanges();
 
-            return View(ptask);
+            Response.Redirect("/Project/Details/" + project_id);
+        }
+
+        public void Unassign(int id)
+        {
+            AssignedTask a = _context.AssignedTask.Find(id);
+            var project_id = a.ProjectId;
+            _context.Remove(a);
+            _context.SaveChanges();
+            Response.Redirect("/Project/Details/" + project_id);
         }
     }
 }
