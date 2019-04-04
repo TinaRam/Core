@@ -27,8 +27,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ProjectDeadline" class="control-label"></label>
-                <input type="text" asp-for="ProjectDeadline" 
-                onclick="this.type='datetime-local'" onblur="this.type='text'" value="@project.ProjectDeadline" class="form-control" />
+                <input type="date" asp-for="ProjectDeadline" value="@project.ProjectDeadline" class="form-control" />
             </div>
             <div class="form-group">
                 <input asp-for="CompletionDate" type="hidden" class="form-control" />
