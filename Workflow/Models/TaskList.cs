@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Workflow.Models
 {
-    [Table("TaskList", Schema = "Workflow")]
+    [Table("TaskList", Schema = "app2000g11")]
     public class TaskList
     {
         public TaskList()
