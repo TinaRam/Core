@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Workflow.Models
 {
-    [Table("Project", Schema = "Workflow")]
+    [Table("Project", Schema = "app2000g11")]
     public class Project
     {
         public Project()
