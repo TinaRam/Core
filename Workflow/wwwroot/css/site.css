@@ -241,6 +241,17 @@ body {
         font-weight: 800;
     }
 
+#loggedInUser {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    color: darkred;
+}
+
+#loggedInUser:hover {
+    cursor: default;
+}
+
 .smaller {
     font-size: 0.7rem;
 }
