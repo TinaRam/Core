@@ -55,20 +55,10 @@ namespace Workflow.Controllers
                 return NotFound();
             }
 
-            List<TaskList> TaskList = new List<TaskList>();
-
-            var list = _context.TaskList
+            List<TaskList> TaskList = _context.TaskList.Where(l => l.ProjectId == id)
                 .Include(tasklist => tasklist.Ptask)
                     .ThenInclude(task => task.AssignedTask)
                 .ToList();
-
-            foreach (TaskList t in list)
-            {
-                if (t.ProjectId == id)
-                {
-                    TaskList.Add(t);
-                }
-            }
             
             List<ProjectParticipant> Participants = new List<ProjectParticipant>();
 
