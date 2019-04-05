@@ -5,7 +5,56 @@
     var CurrentUser = ViewBag.CurrentUser;
 }
 
-<h3>My projects</h3>
+<h4>Projects i manage</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Start
+            </th>
+            <th>
+                Deadline
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.ProjectsManaging)
+        {
+            <tr>
+                <td>
+                    @item.ProjectName
+                </td>
+                <td>
+                    @item.ProjectDescription
+                </td>
+                <td>
+                    @item.ProjectStart
+                </td>
+                <td>
+                    @item.ProjectDeadline
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit |</a>
+                       
+                    <a asp-action="Details" asp-route-id="@item.ProjectId">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+
+<h4>Other projects</h4>
 
 @*<p>
     <a asp-action="Create">Create New</a>
