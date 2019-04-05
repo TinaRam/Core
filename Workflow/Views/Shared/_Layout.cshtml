@@ -1,4 +1,4 @@
-@{
+﻿@{
     bool LoggedIn = ViewBag.LoggedIn;
     var CurrentUser = ViewBag.CurrentUser;
 }
@@ -23,7 +23,11 @@
               crossorigin="anonymous"
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
+    <!-- MDBootstrap Datatables  -->
+    <link href="css/addons/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body id="page-top">
     @{
@@ -166,6 +170,8 @@
                 integrity="sha256-E/V4cWE4qvAeO5MOhjtGtqDzPndRO1LBk8lJ/PR7CA4="></script>
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- MDBootstrap Datatables  -->
+    <script type="text/javascript" src="js/addons/datatables.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>
