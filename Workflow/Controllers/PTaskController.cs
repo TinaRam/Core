@@ -139,6 +139,7 @@ namespace Workflow.Controllers
             }
             ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "TaskListId", ptask.TaskListId);
             ViewData["TaskProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName", ptask.TaskProjectId);
+            Response.Redirect("/Project/Details/" + ptask.TaskProjectId);
             return View(ptask);
         }
 
@@ -168,8 +169,12 @@ namespace Workflow.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var ptask = await _context.Ptask.FindAsync(id);
+
+            var assigned = await _context.AssignedTask.Where(a => a.TaskId == id).FirstAsync();
+
+            _context.AssignedTask.Remove(assigned);
             _context.Ptask.Remove(ptask);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

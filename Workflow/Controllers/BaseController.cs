@@ -16,6 +16,8 @@ namespace Workflow.Controllers
         public static User CurrentUser;
         public bool LoggedIn = false;
 
+
+
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             // do this every time
@@ -23,6 +25,10 @@ namespace Workflow.Controllers
             // defines current controller and action to determine where you are in the app
             string controller = this.ControllerContext.RouteData.Values["controller"].ToString();
             string action = this.ControllerContext.RouteData.Values["action"].ToString();
+            string id = "";
+            if (this.ControllerContext.RouteData.Values["id"] != null) id = this.ControllerContext.RouteData.Values["id"].ToString();
+
+            
 
             // if a session is not set AND you are not on the login-page
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionId)))
@@ -38,8 +44,14 @@ namespace Workflow.Controllers
             {
                 LoggedIn = true;
                 ViewBag.CurrentUser = CurrentUser;
+                if (!AccessController.hasAccess(CurrentUser, controller, action, id))
+                {
+                    Response.Redirect("/Access/NoAccess");
+                }
             }
             ViewBag.LoggedIn = LoggedIn;
+
+            
         }
     }
 }
