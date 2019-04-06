@@ -30,7 +30,12 @@ namespace Workflow.Controllers
             {
                 if (p.UserId == CurrentUser.UserId)
                 {
-                    Projects.Add(_context.Project.Include(t => t.ProjectManagerNavigation).FirstOrDefault(t => t.ProjectId == p.ProjectId));
+                    Project project = _context.Project.Include(t => t.ProjectManagerNavigation).FirstOrDefault(t => t.ProjectId == p.ProjectId);
+                    if (project.ProjectManager != CurrentUser.UserId)
+                    {
+
+                        Projects.Add(project);
+                    }
                 }
             }
             List<Project> ProjectsManaging = _context.Project.Where(p => p.ProjectManager == CurrentUser.UserId).ToList();
@@ -72,14 +77,21 @@ namespace Workflow.Controllers
 
             List<User> availableUsers = _context.User.ToList();
             
-            foreach (ProjectParticipant p in Participants)
+            foreach (User u in _context.User.ToList())
             {
-                foreach (User u in _context.User.ToList())
+                if (u.UserId == CurrentUser.UserId)
                 {
-                    if (p.UserId == u.UserId || u.UserId == CurrentUser.UserId)
+                    availableUsers.Remove(u);
+                    continue;
+                }
+                foreach (ProjectParticipant p in Participants)
+                {
+                    if (u.UserId == p.UserId)
                     {
                         availableUsers.Remove(u);
+                        continue;
                     }
+                    
                 }
             }
 

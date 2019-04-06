@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Details";
+    var CurrentUser = ViewBag.CurrentUser;
+    var myProfile = Model.UserId == CurrentUser.UserId;
 }
 
 <h1>Details</h1>
@@ -24,7 +26,7 @@
                 <label for="FirstName">First name</label>
             </div>
             <div class="col">
-                <input type="text" name="FirstName" value="@Html.DisplayFor(model => model.FirstName)" class="form-control" />
+                <input type="text" name="FirstName" value="@Html.DisplayFor(model => model.FirstName)" @if (!myProfile) { Write("class=form-control-plaintext readonly"); } class="form-control"  />
             </div>
         </div>
         <div class="row">
@@ -32,7 +34,7 @@
                 <label for="LastName">Last name</label>
             </div>
             <div class="col">
-                <input type="text" name="LastName" value="@Html.DisplayFor(model => model.LastName)" class="form-control" />
+                <input type="text" name="LastName" value="@Html.DisplayFor(model => model.LastName)"  @if (!myProfile) { Write("class=form-control-plaintext readonly"); } class="form-control" />
             </div>
         </div>
 
@@ -41,7 +43,7 @@
                 <label for="Email">E-mail</label>
             </div>
             <div class="col">
-                <input type="text" name="Email" value="@Html.DisplayFor(model => model.Email)" class="form-control" />
+                <input type="text" name="Email" value="@Html.DisplayFor(model => model.Email)"  @if (!myProfile) { Write("class=form-control-plaintext readonly"); } class="form-control" />
             </div>
         </div>
 
@@ -50,7 +52,7 @@
                 <label for="PhoneNumber">Phone number</label>
             </div>
             <div class="col">
-                <input type="text" name="PhoneNumber" value="@Html.DisplayFor(model => model.PhoneNumber)" class="form-control" />
+                <input type="text" name="PhoneNumber" value="@Html.DisplayFor(model => model.PhoneNumber)"  @if (!myProfile) { Write("class=form-control-plaintext readonly"); } class="form-control" />
             </div>
         </div>
 
@@ -59,12 +61,12 @@
                 <label for="About">About</label>
             </div>
             <div class="col">
-                <input type="text" name="About" value="@Html.DisplayFor(model => model.About)" class="form-control" />
+                <input type="text" name="About" value="@Html.DisplayFor(model => model.About)"  @if (!myProfile) { Write("class=form-control-plaintext readonly"); } class="form-control" />
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary"  @if (!myProfile) { Write("hidden"); } />
             </div>
         </div>
     </form>

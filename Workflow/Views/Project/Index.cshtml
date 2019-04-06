@@ -78,37 +78,45 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.ProjectName
-                </td>
-                <td>
-                    @item.ProjectDescription
-                </td>
-                <td>
-                    @item.ProjectStart
-                </td>
-                <td>
-                    @item.ProjectDeadline
-                </td>
-                <td>
-                    @item.ProjectManagerNavigation.GetName()
-                </td>
-                <td>
-                    @{
-                        // check if you are project manager
-                        if (item.isManager(CurrentUser.UserId))
-                        {
-                            // if so, you get the "edit" option
-                            <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit |</a>
-                        }
-                    }
-                    <a asp-action="Details" asp-route-id="@item.ProjectId">View</a>
-                </td>
-            </tr>
+        @{
+            foreach (var item in Model)
+            {
+                if (item != null)
+                {
+                    <tr>
+                        <td>
+                            @item.ProjectName
+                        </td>
+                        <td>
+                            @item.ProjectDescription
+                        </td>
+                        <td>
+                            @item.ProjectStart
+                        </td>
+                        <td>
+                            @item.ProjectDeadline
+                        </td>
+                        <td>
+                            @item.ProjectManagerNavigation.GetName()
+                        </td>
+                        <td>
+                            @{
+                                // check if you are project manager
+                                if (item.isManager(CurrentUser.UserId))
+                                {
+                                    // if so, you get the "edit" option
+                                    <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit |</a>
+                                }
+                            }
+                            <a asp-action="Details" asp-route-id="@item.ProjectId">View</a>
+                        </td>
+                    </tr>
+                }
+
+
+            }
         }
+
     </tbody>
 </table>
 
@@ -117,17 +125,17 @@
     if (p.Count > 5)
     {
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#projects_managing_table').DataTable();
-            } );
+            });
         </script>
     }
     if (Model.Count() > 5)
     {
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('#projects_table').DataTable();
-            } );
+            });
         </script>
     }
 }
