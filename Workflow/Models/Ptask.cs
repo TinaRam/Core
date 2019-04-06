@@ -49,10 +49,17 @@ namespace Workflow.Models
 
         public string getPriorityClass()
         {
+            if (GetStatus() == "Complete") return "priority_finished";
             if (Priority == "low") return "priority_low";
             if (Priority == "normal") return "priority_normal";
             if (Priority == "high") return "priority_high";
             return "";
+        }
+
+        public string PriorityStatus()
+        {
+            if (GetStatus() == "Complete") return "Finished";
+            return Priority;
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Workflow.Controllers
         // GET: TaskList/Create
         public IActionResult Create()
         {
-            ViewData["ProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName");
+            ViewData["ProjectId"] = new SelectList(_context.Project.Where(t => t.ProjectManager == CurrentUser.UserId), "ProjectId", "ProjectName");
             return View();
         }
 
