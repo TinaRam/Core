@@ -45,27 +45,23 @@ namespace Workflow.Controllers
         }
 
         // GET: TaskList/Create
-        public IActionResult Create()
-        {
-            ViewData["ProjectId"] = new SelectList(_context.Project.Where(t => t.ProjectManager == CurrentUser.UserId), "ProjectId", "ProjectName");
-            return View();
-        }
+        //public IActionResult Create()
+        //{
+        //    ViewData["ProjectId"] = new SelectList(_context.Project.Where(t => t.ProjectManager == CurrentUser.UserId), "ProjectId", "ProjectName");
+        //    return View();
+        //}
 
         // POST: TaskList/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TaskListId,ProjectId,ListName")] TaskList taskList)
+        public void Create(int ProjectId, string ListName)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(taskList);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName", taskList.ProjectId);
-            return View(taskList);
+            TaskList t = new TaskList();
+            t.ProjectId = ProjectId;
+            t.ListName = ListName;
+            _context.Add(t);
+            _context.SaveChanges();
+            Response.Redirect("/Project/Details/" + ProjectId);
         }
 
         // GET: TaskList/Edit/5
@@ -122,34 +118,31 @@ namespace Workflow.Controllers
         }
 
         // GET: TaskList/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async void Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var taskList = await _context.TaskList
                 .Include(t => t.Project)
                 .FirstOrDefaultAsync(m => m.TaskListId == id);
-            if (taskList == null)
-            {
-                return NotFound();
-            }
+         
+            var i = taskList.ProjectId;
 
-            return View(taskList);
+            _context.Remove(taskList);
+            _context.SaveChanges();
+
+            Response.Redirect("/Project/Details/" + i);
         }
 
         // POST: TaskList/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var taskList = await _context.TaskList.FindAsync(id);
-            _context.TaskList.Remove(taskList);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var taskList = await _context.TaskList.FindAsync(id);
+        //    var i = taskList.ProjectId;
+        //    _context.TaskList.Remove(taskList);
+        //    await _context.SaveChangesAsync();
+        //    return Redirect("/Project/Details/" + i);
+        //}
 
         private bool TaskListExists(int id)
         {

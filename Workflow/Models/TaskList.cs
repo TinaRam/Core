@@ -25,5 +25,10 @@ namespace Workflow.Models
         public virtual Project Project { get; set; }
         [InverseProperty("TaskList")]
         public virtual ICollection<Ptask> Ptask { get; set; }
+
+        public bool hasTasks()
+        {
+            return Ptask.Count > 0;
+        }
     }
 }

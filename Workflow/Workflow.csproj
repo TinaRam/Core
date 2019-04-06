@@ -17,6 +17,8 @@
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Views\PTask\Create.cshtml" />
+    <Content Remove="Views\TaskList\Create.cshtml" />
     <Content Remove="wwwroot\images\cookie_monster.jpg" />
   </ItemGroup>
   <ItemGroup>

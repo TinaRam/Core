@@ -42,3 +42,12 @@
 
 })(jQuery); // End of use strict
 
+function toggleDisplay(div_id) {
+    var div = document.getElementById(div_id);
+    if (div.classList.contains("hidden")) {
+        div.classList.remove("hidden");
+        document.getElementById("ListName").focus();
+    } else {
+        div.classList.add("hidden");
+    }
+}

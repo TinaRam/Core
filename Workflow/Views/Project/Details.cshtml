@@ -57,130 +57,210 @@
         <h5>Tasks</h5>
         <hr />
         @{
+            if (isManager && !isFinished)
+            {
+                
+                    <div class="tasklist_view">
+                        <a href="javascript:void(0)" id="new-task-list-link" onclick="toggleDisplay('new-task-list-form')"><i class="fas fa-plus"></i> New tasklist</a>
+                        <form method="post" id="new-task-list-form" asp-controller="Tasklist" asp-action="Create" class="hidden">
+                            <input name="ProjectId" hidden value="@project.ProjectId" />
+                            <input name="ListName" id="ListName" type="text" required" placeholder="List name" class="form-control" /><br />
+                            <input type="submit" value="Add list" class="btn btn-primary" />
+                        </form>
+                    </div>
+            }
+        }
+        @{
+            int i = 0;
             foreach (TaskList tasklist in ViewBag.tasklist)
             {
-        <div class="tasklist_view">
+                <div class="tasklist_view">
 
-            <h5>@tasklist.ListName</h5>
-
-            @{
-                foreach (Ptask task in tasklist.Ptask)
-                {
-                    <div class="task_view @task.getPriorityClass()">
-                        <div class="row">
-                            <div class="col">
-                                <h6><span class="priority @task.PriorityStatus()">@task.PriorityStatus()</span> @task.TaskName</h6> 
-                            </div>
+                    <div class="row">
+                        <div class="col">
+                            <h5>@tasklist.ListName</h5>
+                        </div>
+                        <div class="col right_align">
                             @{
                                 if (isManager && !isFinished)
                                 {
-                                    <div class="col right_align">
-                                        <a asp-controller="Ptask" title="Edit" asp-action="Edit" asp-route-id="@task.TaskId"><i class="fas fa-edit"></i></a>
-
-
-                                        <form asp-controller="Ptask" asp-action="Delete" asp-route-id="@task.TaskId">
-                                            <button title="Delete" type="submit" class="noButton warning"><i class="fas fa-trash-alt"></i></button>
-                                        </form>
-                                    </div>
+                                    <a title="Edit tasklist" href="/TaskList/Edit/@tasklist.TaskListId"><i class="fas fa-edit"></i></a>
+                                    
+                                        if (!tasklist.hasTasks())
+                                        {
+                                            <a href="/TaskList/Delete/@tasklist.TaskListId" title="Delete" class="warning"><i class="fas fa-trash-alt"></i></a>
+                                        }
+                                    
                                 }
                             }
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <i>Deadline: @task.TaskDeadline</i>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col">
-                                <p>@task.Description</p>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="row">
-                            @{
-                                var myTask = false;
-                                foreach (AssignedTask assigned in task.AssignedTask)
-                                {
-                                    User user = context.User.Find(assigned.UserId);
-                                    <div class="col">
-                                        <i>Assigned to</i> @user.GetName()
-                                        @{
-                                            if (!isFinished && isManager)
-                                            {
-                                                <a title="Delete" class="warning" href="/Ptask/Unassign/@assigned.AssignedTaskId"><i class="fas fa-times"></i></a>
-                                            }
-                                        }
-                                    </div>
-                                    if (user.UserId == CurrentUser.UserId)
-                                    {
-                                        myTask = true;
-                                    }
-                                }
-                                if (task.AssignedTask.Count <= 0 && !isFinished)
-                                {
-                                    <div class="col">Unassigned</div>
-                                    <div class="col right_align">
-                                        @{
-                                            if (isManager)
-                                            {
-                                                <form method="post" action="/Ptask/Assign/">
-                                                    <select name="user_id" class="form-control" onchange="this.form.submit()">
-                                                        <option value="">Assign</option>
-                                                        @{
-                                                            @foreach (ProjectParticipant p in Participants)
-                                                            {
-                                                                <option value="@p.UserId">@p.User.GetName()</option>
-                                                            }
-                                                        }
-                                                    </select>
-                                                    <input type="hidden" name="task_id" value="@task.TaskId" />
-                                                    <input type="hidden" name="project_id" value="@project.ProjectId" />
-                                                </form>
-                                            }
-                                        }
-                                        <form method="post" action="/Ptask/Assign/">
-                                             <input type="hidden" name="user_id" value="@CurrentUser.UserId" />
-                                             <input type="hidden" name="task_id" value="@task.TaskId" />
-                                             <input type="hidden" name="project_id" value="@project.ProjectId" />
-                                             <input type="submit" value="Volunteer" class="btn btn-primary" />
-                                        </form>
-                                    </div>
-                                }
-                            }
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <p><em>@task.GetStatus()</em></p>
-                            </div>
-                            <div class="col right_align">
-                                @{
-                                    if ((myTask || isManager) && !isFinished)
-                                    {
-                                        if (task.CompletionDate == null)
-                                        {
-                                            <a href="/Ptask/Complete/@task.TaskId">Complete task</a>
-                                        }
-                                        else
-                                        {
-                                            <a class="warning" href="/Ptask/RemoveComplete/@task.TaskId">Mark as incomplete</a>
-                                        }
-                                    }
-                                }
-                            </div>
+
                         </div>
                     </div>
-                }
+
+
+                    @{
+                        foreach (Ptask task in tasklist.Ptask)
+                        {
+                            <div class="task_view @task.getPriorityClass()">
+                                <div class="row priority @task.PriorityStatus()">
+                                    <div class="col">
+                                        <h6>@task.TaskName</h6>
+                                    </div>
+                                    @{
+                                        if (isManager && !isFinished)
+                                        {
+                                            <div class="col right_align">
+
+
+
+                                                <form asp-controller="Ptask" asp-action="Delete" asp-route-id="@task.TaskId">
+                                                    <a asp-controller="Ptask" title="Edit" asp-action="Edit" asp-route-id="@task.TaskId"><i class="fas fa-edit"></i></a>
+                                                    @{
+                                                        if (!task.isAssigned())
+                                                        {
+                                                            <button title="Delete" type="submit" class="noButton warning"><i class="fas fa-trash-alt"></i></button>
+                                                        }
+                                                    }
+
+                                                </form>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <i>Deadline: @task.TaskDeadline</i>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col">
+                                        <p>@task.Description</p>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    @{
+                                        var myTask = false;
+                                        foreach (AssignedTask assigned in task.AssignedTask)
+                                        {
+                                            User user = context.User.Find(assigned.UserId);
+                                            <div class="col">
+                                                <i>Assigned to</i> @user.GetName()
+                                                @{
+                                                    if (!isFinished && isManager)
+                                                    {
+                                                        <a title="Delete" class="warning" href="/Ptask/Unassign/@assigned.AssignedTaskId"><i class="fas fa-times"></i></a>
+                                                    }
+                                                }
+                                            </div>
+                                            if (user.UserId == CurrentUser.UserId)
+                                            {
+                                                myTask = true;
+                                            }
+                                        }
+                                        if (task.AssignedTask.Count <= 0 && !isFinished)
+                                        {
+                                            <div class="col">Unassigned</div>
+                                            <div class="col right_align">
+                                                @{
+                                                    if (isManager)
+                                                    {
+                                                        <form method="post" action="/Ptask/Assign/">
+                                                            <select name="user_id" class="form-control" onchange="this.form.submit()">
+                                                                <option value="">Assign</option>
+                                                                @{
+                                                                    @foreach (ProjectParticipant p in Participants)
+                                                                    {
+                                                                        <option value="@p.UserId">@p.User.GetName()</option>
+                                                                    }
+                                                                }
+                                                            </select>
+                                                            <input type="hidden" name="task_id" value="@task.TaskId" />
+                                                            <input type="hidden" name="project_id" value="@project.ProjectId" />
+                                                        </form>
+                                                    }
+                                                }
+                                                <form method="post" action="/Ptask/Assign/">
+                                                    <input type="hidden" name="user_id" value="@CurrentUser.UserId" />
+                                                    <input type="hidden" name="task_id" value="@task.TaskId" />
+                                                    <input type="hidden" name="project_id" value="@project.ProjectId" />
+                                                    <input type="submit" value="Volunteer" class="btn btn-primary" />
+                                                </form>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p><em>@task.GetStatus()</em></p>
+                                    </div>
+                                    <div class="col right_align">
+                                        @{
+                                            if ((myTask || isManager) && !isFinished)
+                                            {
+                                                if (task.CompletionDate == null)
+                                                {
+                                                    <a href="/Ptask/Complete/@task.TaskId">Complete task</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="warning" href="/Ptask/RemoveComplete/@task.TaskId">Mark as incomplete</a>
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    <div class="new-task-view">
+                        <a href="javascript:void(0)" id="new-task-link" onclick="toggleDisplay('new-task-form[@i]')"><i class="fas fa-plus"></i> New task</a>
+                        <form method="post" id="new-task-form[@i]" class="hidden" asp-controller="PTask" asp-action="Create">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" name="TaskName" placeholder="Task name" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" name="Description" placeholder="Task description" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1">
+                                    <label for="priority">Priority</label>
+                                </div>
+                                <div class="col">
+                                    <select name="Priority" class="form-control">
+                                        <option value="">Choose priority</option>
+                                        <option value="low">Low</option>
+                                        <option value="normal">Normal</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-1">
+                                    <label for="TaskDeadline">Deadline</label>
+                                </div>
+                                <div class="col">
+                                    <input type="date" name="TaskDeadline" class="form-control" />
+                                </div>
+                            </div>
+                            <input name="TaskProjectId" value="@project.ProjectId" hidden />
+                            <input name="TaskListId" value="@tasklist.TaskListId" hidden />
+                            <div class="row">
+                                <div class="col">
+                                    <input type="submit" value="Add task" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                i++;
             }
 
-        </div>
-            }
-            if (isManager && !isFinished)
-            {
-                <p>
-                    <a asp-controller="PTask" asp-action="Create" asp-route-id="@project.ProjectId">Create New</a>
-                </p>
-            }
         }
 
 
@@ -196,18 +276,18 @@
                         @{
                             if (p.User.UserId != CurrentUser.UserId)
                             {
-                            <form method="post" action="/Project/RemoveParticipant">
-                                <input type="hidden" name="projectId" value="@project.ProjectId" />
-                                <input type="hidden" name="userId" value="@p.User.UserId" />
-                                @p.User.GetName()
-                                @{
-                                    if (!isFinished && isManager)
-                                    {
-                                        <button title="Remove from project" type="submit" class="noButton warning"><i class="fas fa-user-slash"></i></button>
+                                <form method="post" action="/Project/RemoveParticipant">
+                                    <input type="hidden" name="projectId" value="@project.ProjectId" />
+                                    <input type="hidden" name="userId" value="@p.User.UserId" />
+                                    @p.User.GetName()
+                                    @{
+                                        if (!isFinished && isManager)
+                                        {
+                                            <button title="Remove from project" type="submit" class="noButton warning"><i class="fas fa-user-slash"></i></button>
+                                        }
                                     }
-                                }
 
-                            </form>
+                                </form>
                             }
                         }
                     </li>

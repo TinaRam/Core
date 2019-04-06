@@ -61,5 +61,10 @@ namespace Workflow.Models
             if (GetStatus() == "Complete") return "Finished";
             return Priority;
         }
+
+        public bool isAssigned()
+        {
+            return AssignedTask.Count > 0;
+        }
     }
 }

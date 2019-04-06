@@ -56,33 +56,34 @@ namespace Workflow.Controllers
         }
 
         // GET: PTask/Create
-        public IActionResult Create(int id)
-        {
-            ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "ListName");
-            ViewData["TaskProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName");
+        //public IActionResult Create(int id)
+        //{
+        //    ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "ListName");
+        //    ViewData["TaskProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName");
 
-            ViewBag.tasklist = _context.TaskList.Where(t => t.ProjectId == id).ToList();
-            ViewBag.project = _context.Project.Find(id);
+        //    ViewBag.tasklist = _context.TaskList.Where(t => t.ProjectId == id).ToList();
+        //    ViewBag.project = _context.Project.Find(id);
 
-            return View();
-        }
+        //    return View();
+        //}
 
         // POST: PTask/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TaskId,TaskName,Description,Priority,TaskCreationDate,TaskDeadline,CompletionDate,TaskProjectId,TaskListId")] Ptask ptask)
+        public void Create(string TaskName, string Description, string Priority, DateTime TaskDeadline, int TaskProjectId, int TaskListId)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(ptask);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "TaskListId", ptask.TaskListId);
-            ViewData["TaskProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName", ptask.TaskProjectId);
-            return View(ptask);
+            Ptask t = new Ptask();
+            t.TaskName = TaskName;
+            t.Description = Description;
+            t.Priority = Priority;
+            t.TaskDeadline = TaskDeadline;
+            t.TaskProjectId = TaskProjectId;
+            t.TaskListId = TaskListId;
+            _context.Add(t);
+            _context.SaveChanges();
+            Response.Redirect("/Project/Details/" + TaskProjectId);
         }
 
         // GET: PTask/Edit/5
@@ -169,13 +170,10 @@ namespace Workflow.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var ptask = await _context.Ptask.FindAsync(id);
-
-            var assigned = await _context.AssignedTask.Where(a => a.TaskId == id).FirstAsync();
-
-            _context.AssignedTask.Remove(assigned);
+            var i = ptask.TaskProjectId;
             _context.Ptask.Remove(ptask);
             _context.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            return Redirect("/Project/Details/" + i);
         }
 
         private bool PtaskExists(int id)

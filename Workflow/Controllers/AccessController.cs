@@ -50,10 +50,10 @@ namespace Workflow.Controllers
             }
             if (controller == "PTask")
             {
-                if (action == "Index") return true;
+                if (action == "Index" || action == "Delete") return true;
                 if (action == "Create")
                 {
-                    return isManager(id, user);
+                    return true;
                 }
                 if (action == "Complete" || action == "RemoveComplete")
                 {
@@ -64,7 +64,7 @@ namespace Workflow.Controllers
                     if (a.UserId == user.UserId) return true;
                     if (t.TaskProject.ProjectManager == user.UserId) return true;
                 }
-                if (action == "Delete" || action == "Edit")
+                if (action == "Edit")
                 {
                     if (id == "") return false;
                     int i = Convert.ToInt32(id);
@@ -110,6 +110,11 @@ namespace Workflow.Controllers
             }
             if (controller == "TaskList")
             {
+                if (action == "Edit")
+                {
+                    var t = _context.TaskList.Find(Convert.ToInt32(id));
+                    if (t.Project.ProjectManager == user.UserId) return true;
+                }
                 foreach (Project p in _context.Project.ToList())
                 {
                     if (p.ProjectManager == user.UserId) return true;
