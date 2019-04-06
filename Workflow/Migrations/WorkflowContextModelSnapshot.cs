@@ -36,7 +36,7 @@ namespace Workflow.Migrations
                     b.HasIndex("TaskId")
                         .HasName("AssignedTaskPTaskFK");
 
-                    b.ToTable("AssignedTask","Workflow");
+                    b.ToTable("AssignedTask","app2000g11");
                 });
 
             modelBuilder.Entity("Workflow.Models.EmployeeLeave", b =>
@@ -59,7 +59,7 @@ namespace Workflow.Migrations
                     b.HasIndex("UserId")
                         .HasName("EmployeeLeaveUserFK");
 
-                    b.ToTable("EmployeeLeave","Workflow");
+                    b.ToTable("EmployeeLeave","app2000g11");
                 });
 
             modelBuilder.Entity("Workflow.Models.Project", b =>
@@ -97,7 +97,7 @@ namespace Workflow.Migrations
                     b.HasIndex("ProjectManager")
                         .HasName("ProjectUserFK");
 
-                    b.ToTable("Project","Workflow");
+                    b.ToTable("Project","app2000g11");
                 });
 
             modelBuilder.Entity("Workflow.Models.ProjectParticipant", b =>
@@ -113,7 +113,7 @@ namespace Workflow.Migrations
                     b.HasIndex("UserId")
                         .HasName("ProjectParticipantUserFK");
 
-                    b.ToTable("ProjectParticipant","Workflow");
+                    b.ToTable("ProjectParticipant","app2000g11");
                 });
 
             modelBuilder.Entity("Workflow.Models.Ptask", b =>
@@ -158,7 +158,7 @@ namespace Workflow.Migrations
                     b.HasIndex("TaskProjectId")
                         .HasName("PTaskProjectFK");
 
-                    b.ToTable("PTask","Workflow");
+                    b.ToTable("PTask","app2000g11");
                 });
 
             modelBuilder.Entity("Workflow.Models.Report", b =>
@@ -182,7 +182,7 @@ namespace Workflow.Migrations
                     b.HasIndex("ProjectId")
                         .HasName("ReportProjectFK");
 
-                    b.ToTable("Report","Workflow");
+                    b.ToTable("Report","app2000g11");
                 });
 
             modelBuilder.Entity("Workflow.Models.TaskList", b =>
@@ -203,7 +203,7 @@ namespace Workflow.Migrations
                     b.HasIndex("ProjectId")
                         .HasName("TaskListFK");
 
-                    b.ToTable("TaskList","Workflow");
+                    b.ToTable("TaskList","app2000g11");
                 });
 
             modelBuilder.Entity("Workflow.Models.User", b =>
@@ -249,7 +249,7 @@ namespace Workflow.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User","Workflow");
+                    b.ToTable("User","app2000g11");
                 });
 
             modelBuilder.Entity("Workflow.Models.AssignedTask", b =>

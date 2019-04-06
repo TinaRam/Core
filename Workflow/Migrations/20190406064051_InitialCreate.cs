@@ -8,11 +8,11 @@ namespace Workflow.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "Workflow");
+                name: "app2000g11");
 
             migrationBuilder.CreateTable(
                 name: "User",
-                schema: "Workflow",
+                schema: "app2000g11",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int(11)", nullable: false)
@@ -33,7 +33,7 @@ namespace Workflow.Migrations
 
             migrationBuilder.CreateTable(
                 name: "EmployeeLeave",
-                schema: "Workflow",
+                schema: "app2000g11",
                 columns: table => new
                 {
                     LeaveId = table.Column<int>(type: "int(11)", nullable: false)
@@ -48,7 +48,7 @@ namespace Workflow.Migrations
                     table.ForeignKey(
                         name: "EmployeeLeaveUserFK",
                         column: x => x.UserId,
-                        principalSchema: "Workflow",
+                        principalSchema: "app2000g11",
                         principalTable: "User",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
@@ -56,7 +56,7 @@ namespace Workflow.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Project",
-                schema: "Workflow",
+                schema: "app2000g11",
                 columns: table => new
                 {
                     ProjectId = table.Column<int>(type: "int(11)", nullable: false)
@@ -75,7 +75,7 @@ namespace Workflow.Migrations
                     table.ForeignKey(
                         name: "ProjectUserFK",
                         column: x => x.ProjectManager,
-                        principalSchema: "Workflow",
+                        principalSchema: "app2000g11",
                         principalTable: "User",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
@@ -83,7 +83,7 @@ namespace Workflow.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ProjectParticipant",
-                schema: "Workflow",
+                schema: "app2000g11",
                 columns: table => new
                 {
                     ProjectId = table.Column<int>(type: "int(11)", nullable: false),
@@ -95,14 +95,14 @@ namespace Workflow.Migrations
                     table.ForeignKey(
                         name: "ProjectParticipantProjectFK",
                         column: x => x.ProjectId,
-                        principalSchema: "Workflow",
+                        principalSchema: "app2000g11",
                         principalTable: "Project",
                         principalColumn: "ProjectId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "ProjectParticipantUserFK",
                         column: x => x.UserId,
-                        principalSchema: "Workflow",
+                        principalSchema: "app2000g11",
                         principalTable: "User",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
@@ -110,7 +110,7 @@ namespace Workflow.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Report",
-                schema: "Workflow",
+                schema: "app2000g11",
                 columns: table => new
                 {
                     ReportId = table.Column<int>(type: "int(11)", nullable: false)
@@ -125,7 +125,7 @@ namespace Workflow.Migrations
                     table.ForeignKey(
                         name: "ReportProjectFK",
                         column: x => x.ProjectId,
-                        principalSchema: "Workflow",
+                        principalSchema: "app2000g11",
                         principalTable: "Project",
                         principalColumn: "ProjectId",
                         onDelete: ReferentialAction.Restrict);
@@ -133,7 +133,7 @@ namespace Workflow.Migrations
 
             migrationBuilder.CreateTable(
                 name: "TaskList",
-                schema: "Workflow",
+                schema: "app2000g11",
                 columns: table => new
                 {
                     TaskListId = table.Column<int>(type: "int(11)", nullable: false)
@@ -147,7 +147,7 @@ namespace Workflow.Migrations
                     table.ForeignKey(
                         name: "TaskListFK",
                         column: x => x.ProjectId,
-                        principalSchema: "Workflow",
+                        principalSchema: "app2000g11",
                         principalTable: "Project",
                         principalColumn: "ProjectId",
                         onDelete: ReferentialAction.Restrict);
@@ -155,7 +155,7 @@ namespace Workflow.Migrations
 
             migrationBuilder.CreateTable(
                 name: "PTask",
-                schema: "Workflow",
+                schema: "app2000g11",
                 columns: table => new
                 {
                     TaskId = table.Column<int>(type: "int(11)", nullable: false)
@@ -175,14 +175,14 @@ namespace Workflow.Migrations
                     table.ForeignKey(
                         name: "PTaskTaskListFK",
                         column: x => x.TaskListId,
-                        principalSchema: "Workflow",
+                        principalSchema: "app2000g11",
                         principalTable: "TaskList",
                         principalColumn: "TaskListId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "PTaskProjectFK",
                         column: x => x.TaskProjectId,
-                        principalSchema: "Workflow",
+                        principalSchema: "app2000g11",
                         principalTable: "Project",
                         principalColumn: "ProjectId",
                         onDelete: ReferentialAction.Restrict);
@@ -190,7 +190,7 @@ namespace Workflow.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AssignedTask",
-                schema: "Workflow",
+                schema: "app2000g11",
                 columns: table => new
                 {
                     AssignedTaskId = table.Column<int>(type: "int(11)", nullable: false)
@@ -205,7 +205,7 @@ namespace Workflow.Migrations
                     table.ForeignKey(
                         name: "AssignedTaskPTaskFK",
                         column: x => x.TaskId,
-                        principalSchema: "Workflow",
+                        principalSchema: "app2000g11",
                         principalTable: "PTask",
                         principalColumn: "TaskId",
                         onDelete: ReferentialAction.Restrict);
@@ -213,49 +213,49 @@ namespace Workflow.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "AssignedTaskPTaskFK",
-                schema: "Workflow",
+                schema: "app2000g11",
                 table: "AssignedTask",
                 column: "TaskId");
 
             migrationBuilder.CreateIndex(
                 name: "EmployeeLeaveUserFK",
-                schema: "Workflow",
+                schema: "app2000g11",
                 table: "EmployeeLeave",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "ProjectUserFK",
-                schema: "Workflow",
+                schema: "app2000g11",
                 table: "Project",
                 column: "ProjectManager");
 
             migrationBuilder.CreateIndex(
                 name: "ProjectParticipantUserFK",
-                schema: "Workflow",
+                schema: "app2000g11",
                 table: "ProjectParticipant",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "PTaskTaskListFK",
-                schema: "Workflow",
+                schema: "app2000g11",
                 table: "PTask",
                 column: "TaskListId");
 
             migrationBuilder.CreateIndex(
                 name: "PTaskProjectFK",
-                schema: "Workflow",
+                schema: "app2000g11",
                 table: "PTask",
                 column: "TaskProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "ReportProjectFK",
-                schema: "Workflow",
+                schema: "app2000g11",
                 table: "Report",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "TaskListFK",
-                schema: "Workflow",
+                schema: "app2000g11",
                 table: "TaskList",
                 column: "ProjectId");
         }
@@ -264,35 +264,35 @@ namespace Workflow.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AssignedTask",
-                schema: "Workflow");
+                schema: "app2000g11");
 
             migrationBuilder.DropTable(
                 name: "EmployeeLeave",
-                schema: "Workflow");
+                schema: "app2000g11");
 
             migrationBuilder.DropTable(
                 name: "ProjectParticipant",
-                schema: "Workflow");
+                schema: "app2000g11");
 
             migrationBuilder.DropTable(
                 name: "Report",
-                schema: "Workflow");
+                schema: "app2000g11");
 
             migrationBuilder.DropTable(
                 name: "PTask",
-                schema: "Workflow");
+                schema: "app2000g11");
 
             migrationBuilder.DropTable(
                 name: "TaskList",
-                schema: "Workflow");
+                schema: "app2000g11");
 
             migrationBuilder.DropTable(
                 name: "Project",
-                schema: "Workflow");
+                schema: "app2000g11");
 
             migrationBuilder.DropTable(
                 name: "User",
-                schema: "Workflow");
+                schema: "app2000g11");
         }
     }
 }
