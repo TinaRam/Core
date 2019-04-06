@@ -20,8 +20,11 @@ namespace Workflow.Controllers
             _context = context;
         }
 
+
         // GET: PTask
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<IActionResult> Index()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             List<Ptask> list = new List<Ptask>();
 
