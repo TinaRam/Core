@@ -46,5 +46,13 @@ namespace Workflow.Models
         {
             return CompletionDate == null ? "Incomplete" : "Complete";
         }
+
+        public string getPriorityClass()
+        {
+            if (Priority == "low") return "priority_low";
+            if (Priority == "normal") return "priority_normal";
+            if (Priority == "high") return "priority_high";
+            return "";
+        }
     }
 }

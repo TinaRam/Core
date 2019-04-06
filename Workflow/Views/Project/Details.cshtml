@@ -66,10 +66,10 @@
             @{
                 foreach (Ptask task in tasklist.Ptask)
                 {
-                    <div class="task_view">
+                    <div class="task_view @task.getPriorityClass()">
                         <div class="row">
                             <div class="col">
-                                <h6>@task.TaskName</h6>
+                                <h6><span class="priority @task.Priority">@task.Priority</span> @task.TaskName</h6> 
                             </div>
                             @{
                                 if (isManager && !isFinished)
