@@ -15,40 +15,49 @@
     WorkflowContext context = ViewBag.context;
 }
 
-<h3>@project.ProjectName</h3>
-<p>@project.ProjectDescription</p>
-@{
-    if (isManager && !isFinished)
-    {
-        <p><a href="/Report/Create/@project.ProjectId">Finish project</a></p>
-    }
-    if (isFinished && !isArchived)
-    {
-        <p>Project is marked as finished by the manager and awaiting admin approval.</p>
-    }
-    else if (isArchived)
-    {
-        <p>This project is finished.</p>
-    }
-}
 
-<div>
-    <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            Project manager
-        </dt>
-        <dd class="col-sm-10">
-            @project.ProjectManagerNavigation.GetName()
-        </dd>
-        <dt class="col-sm-2">
-            Deadline
-        </dt>
-        <dd class="col-sm-10">
-            @project.ProjectDeadline
-        </dd>
+        <div class="col-sm">
+            <h5>@project.ProjectName</h5>
+        </div>
+        <div class="col-sm">
+            Project manager <b>@project.ProjectManagerNavigation.GetName()</b>
+        </div>
+        <div class="col-sm">
+            Deadline <b>@project.ProjectDeadline</b>
+        </div>
+        <div class="col-sm right_align">
+            <div class="dropdown">
+                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Available employees
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    @{
+                        foreach (User user in availableUsers)
+                        {
+                            <li class="dropdown-item">
+                                <form method="post" action="/Project/AddParticipant">
+                                    <input type="hidden" name="projectId" value="@project.ProjectId" />
+                                    <input type="hidden" name="userId" value="@user.UserId" />
+                                    <a href="/User/Details/@user.UserId">@user.GetName()</a>
+                                    <button title="Add to project" type="submit" class="noButton"><i class="fas fa-plus"></i></button>
+                                </form>
+                            </li>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col right_align">
+            @{
+                if (isManager && !isFinished)
+                {
+                    <p><a href="/Report/Create/@project.ProjectId">Finish project</a></p>
+                }
+            }
+        </div>
     </dl>
-</div>
+    <p>@project.ProjectDescription</p>
 
 <hr />
 
@@ -295,31 +304,6 @@
             }
         </ul>
     </div>
-    @{
-        if (isManager && !isFinished)
-        {
-            <div class="col-3">
-                <h5>Available employees</h5>
-                <hr />
-                <ul class="noStyle">
-                    @{
-                        foreach (User user in availableUsers)
-                        {
-                            <li>
-                                <form method="post" action="/Project/AddParticipant">
-                                    <input type="hidden" name="projectId" value="@project.ProjectId" />
-                                    <input type="hidden" name="userId" value="@user.UserId" />
-                                    <a href="/User/Details/@user.UserId">@user.GetName()</a>
-                                    <button title="Add to project" type="submit" class="noButton"><i class="fas fa-plus"></i></button>
-                                </form>
-
-                            </li>
-                        }
-                    }
-                </ul>
-            </div>
-        }
-    }
 </div>
 
 <hr />
