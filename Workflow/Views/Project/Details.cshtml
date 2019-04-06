@@ -178,7 +178,7 @@
             if (isManager && !isFinished)
             {
                 <p>
-                    <a asp-controller="PTask" asp-action="Create">Create New</a>
+                    <a asp-controller="PTask" asp-action="Create" asp-route-id="@project.ProjectId">Create New</a>
                 </p>
             }
         }

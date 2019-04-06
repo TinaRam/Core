@@ -21,5 +21,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\images\cookie_monster.jpg" />
+    <None Include="wwwroot\js\addons\datatables-select.js" />
+    <None Include="wwwroot\js\addons\datatables-select.min.js" />
+    <None Include="wwwroot\js\addons\datatables.js" />
+    <None Include="wwwroot\js\addons\datatables.min.js" />
+    <None Include="wwwroot\js\addons\rating.js" />
   </ItemGroup>
 </Project>

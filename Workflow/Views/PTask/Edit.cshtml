@@ -50,13 +50,20 @@
             </div>
             <div class="form-group">
                 <label asp-for="TaskProjectId" hidden class="control-label"></label>
-                <select asp-for="TaskProjectId" hidden class="form-control" asp-items="ViewBag.TaskProjectId"></select>
-                <span asp-validation-for="TaskProjectId" class="text-danger"></span>
+                <input asp-for="TaskProjectId" hidden value="ViewBag.project.id">
+                
             </div>
             <div class="form-group">
                 <label asp-for="TaskListId" class="control-label"></label>
-                <select asp-for="TaskListId" class="form-control" asp-items="ViewBag.TaskListId"></select>
-                <span asp-validation-for="TaskListId" class="text-danger"></span>
+                <select asp-for="TaskListId" class="form-control">
+                    <option>Choose a task list</option>
+                    @{
+                        foreach (TaskList t in ViewBag.tasklist)
+                        {
+                            <option value="@t.TaskListId">@t.ListName</option>
+                        }
+                    }
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

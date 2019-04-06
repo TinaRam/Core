@@ -5,12 +5,58 @@
     var CurrentUser = ViewBag.CurrentUser;
 }
 
-<h3>My projects</h3>
+<h4>Projects i manage</h4>
 
-@*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
-<table class="table">
+<table class="table table-striped" id="projects_managing_table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Start
+            </th>
+            <th>
+                Deadline
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.ProjectsManaging)
+        {
+            <tr>
+                <td>
+                    @item.ProjectName
+                </td>
+                <td>
+                    @item.ProjectDescription
+                </td>
+                <td>
+                    @item.ProjectStart
+                </td>
+                <td>
+                    @item.ProjectDeadline
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit |</a>
+
+                    <a asp-action="Details" asp-route-id="@item.ProjectId">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+
+
+<h4>Other projects</h4>
+
+<table class="table table-striped" id="projects_table">
     <thead>
         <tr>
             <th>
@@ -32,35 +78,56 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @item.ProjectName
-            </td>
-            <td>
-                @item.ProjectDescription
-            </td>
-            <td>
-                @item.ProjectStart
-            </td>
-            <td>
-                @item.ProjectDeadline
-            </td>
-            <td>
-                @item.ProjectManagerNavigation.GetName()
-            </td>
-            <td>
-                @{
-                    // check if you are project manager
-                    if (item.isManager(CurrentUser.UserId))
-                    {
-                        // if so, you get the "edit" option
-                        <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit |</a>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.ProjectName
+                </td>
+                <td>
+                    @item.ProjectDescription
+                </td>
+                <td>
+                    @item.ProjectStart
+                </td>
+                <td>
+                    @item.ProjectDeadline
+                </td>
+                <td>
+                    @item.ProjectManagerNavigation.GetName()
+                </td>
+                <td>
+                    @{
+                        // check if you are project manager
+                        if (item.isManager(CurrentUser.UserId))
+                        {
+                            // if so, you get the "edit" option
+                            <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit |</a>
+                        }
                     }
-                }
-                <a asp-action="Details" asp-route-id="@item.ProjectId">View</a>
-            </td>
-        </tr>
-}
+                    <a asp-action="Details" asp-route-id="@item.ProjectId">View</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@{
+    var p = ViewBag.ProjectsManaging;
+    if (p.Count > 5)
+    {
+        <script>
+            $(document).ready(function() {
+                $('#projects_managing_table').DataTable();
+            } );
+        </script>
+    }
+    if (Model.Count() > 5)
+    {
+        <script>
+            $(document).ready(function() {
+                $('#projects_table').DataTable();
+            } );
+        </script>
+    }
+}

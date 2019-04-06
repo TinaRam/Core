@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +23,14 @@ namespace Workflow.Controllers
         // GET: PTask
         public async Task<IActionResult> Index()
         {
-            var workflowContext = _context.Ptask.Include(p => p.TaskList).Include(p => p.TaskProject);
-            return View(await workflowContext.ToListAsync());
+            List<Ptask> list = new List<Ptask>();
+
+            foreach (AssignedTask a in _context.AssignedTask.Where(a => a.UserId == CurrentUser.UserId))
+            {
+                list.Add(_context.Ptask.Include(p => p.TaskList).Include(p => p.TaskProject).FirstOrDefault(m => m.TaskId == a.TaskId));
+            }
+
+            return View(list);
         }
 
         // GET: PTask/Details/5
@@ -46,10 +53,14 @@ namespace Workflow.Controllers
         }
 
         // GET: PTask/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
             ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "ListName");
             ViewData["TaskProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName");
+
+            ViewBag.tasklist = _context.TaskList.Where(t => t.ProjectId == id).ToList();
+            ViewBag.project = _context.Project.Find(id);
+
             return View();
         }
 
@@ -86,6 +97,8 @@ namespace Workflow.Controllers
             }
             ViewData["TaskListId"] = new SelectList(_context.TaskList, "TaskListId", "ListName", ptask.TaskListId);
             ViewData["TaskProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName", ptask.TaskProjectId);
+            ViewBag.tasklist = _context.TaskList.Where(t => t.ProjectId == ptask.TaskProjectId).ToList();
+            ViewBag.project = _context.Project.Find(ptask.TaskProjectId);
             return View(ptask);
         }
 
