@@ -66,12 +66,6 @@ namespace Workflow.Controllers
                 }
                 if (action == "Delete" || action == "Edit")
                 {
-                    System.Diagnostics.Debug.WriteLine("");
-                    System.Diagnostics.Debug.WriteLine("");
-                    System.Diagnostics.Debug.WriteLine(controller + " / " + action + " / " + id);
-                    System.Diagnostics.Debug.WriteLine("");
-                    System.Diagnostics.Debug.WriteLine("");
-
                     if (id == "") return false;
                     int i = Convert.ToInt32(id);
                     Ptask t = _context.Ptask.Find(i);
