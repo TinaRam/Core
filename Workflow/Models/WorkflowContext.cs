@@ -17,6 +17,8 @@ namespace Workflow.Models
 
         public virtual DbSet<AssignedTask> AssignedTask { get; set; }
         public virtual DbSet<EmployeeLeave> EmployeeLeave { get; set; }
+        public virtual DbSet<Event> Event { get; set; }
+        public virtual DbSet<Notification> Notification { get; set; }
         public virtual DbSet<Project> Project { get; set; }
         public virtual DbSet<ProjectParticipant> ProjectParticipant { get; set; }
         public virtual DbSet<Ptask> Ptask { get; set; }
@@ -58,6 +60,61 @@ namespace Workflow.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("EmployeeLeaveUserFK");
+            });
+
+            modelBuilder.Entity<Event>(entity =>
+            {
+                entity.HasIndex(e => e.CreatorId)
+                    .HasName("EventUserFK");
+
+                entity.HasIndex(e => e.ProjectId)
+                    .HasName("EventProjectFK");
+
+                entity.HasIndex(e => e.TaskId)
+                    .HasName("EventPTaskFK");
+
+                entity.HasIndex(e => e.UserId)
+                    .HasName("EventUserIIFK");
+
+                entity.Property(e => e.EventDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.Type).IsUnicode(false);
+
+                entity.HasOne(d => d.Creator)
+                    .WithMany(p => p.EventCreator)
+                    .HasForeignKey(d => d.CreatorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("EventUserFK");
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.Event)
+                    .HasForeignKey(d => d.ProjectId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("EventProjectFK");
+
+                entity.HasOne(d => d.Task)
+                    .WithMany(p => p.Event)
+                    .HasForeignKey(d => d.TaskId)
+                    .HasConstraintName("EventPTaskFK");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.EventUser)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("EventUserIIFK");
+            });
+
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.HasIndex(e => e.EventId)
+                    .HasName("NotificationEventFK");
+
+                entity.Property(e => e.Viewed).HasDefaultValueSql("0");
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.Notification)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("NotificationEventFK");
             });
 
             modelBuilder.Entity<Project>(entity =>

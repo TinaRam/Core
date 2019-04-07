@@ -11,6 +11,7 @@ namespace Workflow.Models
         public Ptask()
         {
             AssignedTask = new HashSet<AssignedTask>();
+            Event = new HashSet<Event>();
         }
 
         [Key]
@@ -41,6 +42,8 @@ namespace Workflow.Models
         public virtual Project TaskProject { get; set; }
         [InverseProperty("Task")]
         public virtual ICollection<AssignedTask> AssignedTask { get; set; }
+        [InverseProperty("Task")]
+        public virtual ICollection<Event> Event { get; set; }
 
         public string GetStatus()
         {

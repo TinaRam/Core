@@ -10,6 +10,7 @@ namespace Workflow.Models
     {
         public Project()
         {
+            Event = new HashSet<Event>();
             ProjectParticipant = new HashSet<ProjectParticipant>();
             Ptask = new HashSet<Ptask>();
             Report = new HashSet<Report>();
@@ -37,6 +38,8 @@ namespace Workflow.Models
         [ForeignKey("ProjectManager")]
         [InverseProperty("Project")]
         public virtual User ProjectManagerNavigation { get; set; }
+        [InverseProperty("Project")]
+        public virtual ICollection<Event> Event { get; set; }
         [InverseProperty("Project")]
         public virtual ICollection<ProjectParticipant> ProjectParticipant { get; set; }
         [InverseProperty("TaskProject")]

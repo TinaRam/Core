@@ -11,6 +11,8 @@ namespace Workflow.Models
         public User()
         {
             EmployeeLeave = new HashSet<EmployeeLeave>();
+            EventCreator = new HashSet<Event>();
+            EventUser = new HashSet<Event>();
             Project = new HashSet<Project>();
             ProjectParticipant = new HashSet<ProjectParticipant>();
         }
@@ -40,6 +42,10 @@ namespace Workflow.Models
 
         [InverseProperty("User")]
         public virtual ICollection<EmployeeLeave> EmployeeLeave { get; set; }
+        [InverseProperty("Creator")]
+        public virtual ICollection<Event> EventCreator { get; set; }
+        [InverseProperty("User")]
+        public virtual ICollection<Event> EventUser { get; set; }
         [InverseProperty("ProjectManagerNavigation")]
         public virtual ICollection<Project> Project { get; set; }
         [InverseProperty("User")]
