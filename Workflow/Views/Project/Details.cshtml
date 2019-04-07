@@ -16,47 +16,57 @@
 }
 
 
-    <dl class="row">
-        <div class="col-sm">
-            <h5>@project.ProjectName</h5>
-        </div>
-        <div class="col-sm">
-            Project manager <b>@project.ProjectManagerNavigation.GetName()</b>
-        </div>
-        <div class="col-sm">
-            Deadline <b>@project.ProjectDeadline</b>
-        </div>
-        <div class="col-sm right_align">
-            <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Available employees
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    @{
-                        foreach (User user in availableUsers)
-                        {
-                            <li class="dropdown-item">
-                                <form method="post" action="/Project/AddParticipant">
-                                    <input type="hidden" name="projectId" value="@project.ProjectId" />
-                                    <input type="hidden" name="userId" value="@user.UserId" />
-                                    <a href="/User/Details/@user.UserId">@user.GetName()</a>
-                                    <button title="Add to project" type="submit" class="noButton"><i class="fas fa-plus"></i></button>
-                                </form>
-                            </li>
+<dl class="row">
+    <div class="col-sm">
+        <h5>@project.ProjectName</h5>
+    </div>
+    <div class="col-sm">
+        Project manager <b>@project.ProjectManagerNavigation.GetName()</b>
+    </div>
+    <div class="col-sm">
+        Deadline <b>@project.ProjectDeadline</b>
+    </div>
+
+    @{
+        if (isManager)
+        {
+            <div class="col-sm right_align">
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Available employees
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        @{
+                            foreach (User user in availableUsers)
+                            {
+                                <li class="dropdown-item">
+                                    <form method="post" action="/Project/AddParticipant">
+                                        <input type="hidden" name="projectId" value="@project.ProjectId" />
+                                        <input type="hidden" name="userId" value="@user.UserId" />
+                                        <a href="/User/Details/@user.UserId">@user.GetName()</a>
+                                        <button title="Add to project" type="submit" class="noButton"><i class="fas fa-plus"></i></button>
+                                    </form>
+                                </li>
+                            }
                         }
-                    }
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col right_align">
-            @{
-                if (isManager && !isFinished)
-                {
-                    <p><a href="/Report/Create/@project.ProjectId">Finish project</a></p>
-                }
+        }
+    }
+
+
+
+
+    <div class="col right_align">
+        @{
+            if (isManager && !isFinished)
+            {
+                <p><a href="/Report/Create/@project.ProjectId">Finish project</a></p>
             }
-        </div>
-    </dl>
+        }
+    </div>
+</dl>
     <p>@project.ProjectDescription</p>
 
 <hr />
