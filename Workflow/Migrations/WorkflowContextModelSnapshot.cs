@@ -62,6 +62,82 @@ namespace Workflow.Migrations
                     b.ToTable("EmployeeLeave","app2000g11");
                 });
 
+            modelBuilder.Entity("Workflow.Models.Event", b =>
+                {
+                    b.Property<int>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int(11)");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int(11)");
+
+                    b.Property<DateTime?>("EventDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int(11)");
+
+                    b.Property<int?>("TaskId")
+                        .HasColumnType("int(11)");
+
+                    b.Property<int?>("TaskListId")
+                        .HasColumnType("int(11)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(55)
+                        .IsUnicode(false);
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int(11)");
+
+                    b.HasKey("EventId");
+
+                    b.HasIndex("CreatorId")
+                        .HasName("EventUserFK");
+
+                    b.HasIndex("ProjectId")
+                        .HasName("EventProjectFK");
+
+                    b.HasIndex("TaskId")
+                        .HasName("EventPTaskFK");
+
+                    b.HasIndex("UserId")
+                        .HasName("EventUserIIFK");
+
+                    b.ToTable("Event","app2000g11");
+                });
+
+            modelBuilder.Entity("Workflow.Models.Notification", b =>
+                {
+                    b.Property<int>("Nid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("NId")
+                        .HasColumnType("int(11)");
+
+                    b.Property<byte?>("Email")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int(11)");
+
+                    b.Property<byte?>("InApp")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<byte?>("Viewed")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValueSql("0");
+
+                    b.HasKey("Nid");
+
+                    b.HasIndex("EventId")
+                        .HasName("NotificationEventFK");
+
+                    b.ToTable("Notification","app2000g11");
+                });
+
             modelBuilder.Entity("Workflow.Models.Project", b =>
                 {
                     b.Property<int>("ProjectId")
@@ -266,6 +342,37 @@ namespace Workflow.Migrations
                         .WithMany("EmployeeLeave")
                         .HasForeignKey("UserId")
                         .HasConstraintName("EmployeeLeaveUserFK");
+                });
+
+            modelBuilder.Entity("Workflow.Models.Event", b =>
+                {
+                    b.HasOne("Workflow.Models.User", "Creator")
+                        .WithMany("EventCreator")
+                        .HasForeignKey("CreatorId")
+                        .HasConstraintName("EventUserFK");
+
+                    b.HasOne("Workflow.Models.Project", "Project")
+                        .WithMany("Event")
+                        .HasForeignKey("ProjectId")
+                        .HasConstraintName("EventProjectFK");
+
+                    b.HasOne("Workflow.Models.Ptask", "Task")
+                        .WithMany("Event")
+                        .HasForeignKey("TaskId")
+                        .HasConstraintName("EventPTaskFK");
+
+                    b.HasOne("Workflow.Models.User", "User")
+                        .WithMany("EventUser")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("EventUserIIFK");
+                });
+
+            modelBuilder.Entity("Workflow.Models.Notification", b =>
+                {
+                    b.HasOne("Workflow.Models.Event", "Event")
+                        .WithMany("Notification")
+                        .HasForeignKey("EventId")
+                        .HasConstraintName("NotificationEventFK");
                 });
 
             modelBuilder.Entity("Workflow.Models.Project", b =>
