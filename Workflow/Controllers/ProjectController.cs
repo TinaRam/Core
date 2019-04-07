@@ -236,6 +236,14 @@ namespace Workflow.Controllers
         public void RemoveParticipant(int projectId, int userId)
         {
             ProjectParticipant p = _context.ProjectParticipant.Find(projectId, userId);
+
+            var a = _context.AssignedTask.Where(t => t.ProjectId == projectId && t.UserId == userId).ToList();
+
+            foreach(AssignedTask t in a)
+            {
+                _context.Remove(t);
+            }
+
             _context.Remove(p);
             _context.SaveChanges();
 
