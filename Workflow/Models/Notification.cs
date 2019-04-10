@@ -13,6 +13,8 @@ namespace Workflow.Models
         public int Nid { get; set; }
         [Column(TypeName = "int(11)")]
         public int EventId { get; set; }
+        [Column(TypeName = "int(11)")]
+        public int? UserId { get; set; }
         [Column(TypeName = "tinyint(1)")]
         public byte? Viewed { get; set; }
         [Column(TypeName = "tinyint(1)")]
@@ -23,6 +25,9 @@ namespace Workflow.Models
         [ForeignKey("EventId")]
         [InverseProperty("Notification")]
         public virtual Event Event { get; set; }
+        [ForeignKey("UserId")]
+        [InverseProperty("Notification")]
+        public virtual User User { get; set; }
 
         public string getMessage()
         {

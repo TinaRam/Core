@@ -112,6 +112,9 @@ namespace Workflow.Models
                 entity.HasIndex(e => e.EventId)
                     .HasName("NotificationEventFK");
 
+                entity.HasIndex(e => e.UserId)
+                    .HasName("NotificationUserFK");
+
                 entity.Property(e => e.Viewed).HasDefaultValueSql("0");
 
                 entity.HasOne(d => d.Event)
@@ -119,6 +122,11 @@ namespace Workflow.Models
                     .HasForeignKey(d => d.EventId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("NotificationEventFK");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Notification)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("NotificationUserFK");
             });
 
             modelBuilder.Entity<Project>(entity =>
