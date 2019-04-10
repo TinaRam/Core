@@ -23,5 +23,13 @@ namespace Workflow.Models
         [ForeignKey("EventId")]
         [InverseProperty("Notification")]
         public virtual Event Event { get; set; }
+
+        public string getMessage()
+        {
+            string message = "";
+            
+
+            return message;
+        }
     }
 }

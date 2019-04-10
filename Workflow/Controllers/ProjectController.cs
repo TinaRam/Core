@@ -228,7 +228,7 @@ namespace Workflow.Controllers
             _context.Add(p);
             _context.SaveChanges();
 
-            // TODO: send notification
+            EventController.NewEvent(projectId, CurrentUser.UserId, "new participant", userId, null, null, true, false, true);
 
             Response.Redirect("/Project/Details/" + projectId);
         }
@@ -247,7 +247,7 @@ namespace Workflow.Controllers
             _context.Remove(p);
             _context.SaveChanges();
 
-            // TODO: send notification
+            EventController.NewEvent(projectId, CurrentUser.UserId, "removed participant", userId, null, null, true, false, true);
 
             Response.Redirect("/Project/Details/" + projectId);
         }

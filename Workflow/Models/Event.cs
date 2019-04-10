@@ -44,5 +44,26 @@ namespace Workflow.Models
         public virtual User User { get; set; }
         [InverseProperty("Event")]
         public virtual ICollection<Notification> Notification { get; set; }
+
+        public string GetMessage()
+        {
+            var list = new List<KeyValuePair<string, string>>();
+
+            list.Add(new KeyValuePair<string, string>("new participant", Creator.GetName() + " added you to " + Project.ProjectName));
+            list.Add(new KeyValuePair<string, string>("removed participant", "You are no longer a participant in " + Project.ProjectName));
+
+            list.Add(new KeyValuePair<string, string>("new projectmanager", "You have been assigned project manager for " + Project.ProjectName));
+            list.Add(new KeyValuePair<string, string>("remove projectmanager", "You are no longer project manager for " + Project.ProjectName));
+            
+
+            //list.Add(new KeyValuePair<string, string>("new assigned task", "You have been assigned to the task " + Task.TaskName + " in + " + Project.ProjectName));
+            //list.Add(new KeyValuePair<string, string>("remove assigned task", "You are no longer assigned to the task " + Task.TaskName + " in + " + Project.ProjectName));
+            
+            // .. and so on
+
+            
+
+            return list.Find(l => l.Key == Type).Value.ToString();
+        }
     }
 }

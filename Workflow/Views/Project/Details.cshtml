@@ -103,13 +103,27 @@
                             @{
                                 if (isManager && !isFinished)
                                 {
-                                    <a title="Edit tasklist" href="/TaskList/Edit/@tasklist.TaskListId"><i class="fas fa-edit"></i></a>
+
                                     
-                                        if (!tasklist.hasTasks())
-                                        {
-                                            <a href="/TaskList/Delete/@tasklist.TaskListId" title="Delete" class="warning"><i class="fas fa-trash-alt"></i></a>
-                                        }
-                                    
+                                    <div class="dropdown">
+                                        <button class="noButton menu_icon" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a title="Edit tasklist" class="dropdown-item" href="/TaskList/Edit/@tasklist.TaskListId">Edit</a>
+                                            @{
+                                                if (!tasklist.hasTasks())
+                                                {
+                                                    <a href="/TaskList/Delete/@tasklist.TaskListId" title="Delete" class="warning dropdown-item">Delete</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="javascript:void(0)" title="Cannot delete tasklist while it contains tasks." class="warning dropdown-item disabled">Delete</a>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+
                                 }
                             }
 
@@ -133,13 +147,29 @@
 
 
                                                 <form asp-controller="Ptask" asp-action="Delete" asp-route-id="@task.TaskId">
-                                                    <a asp-controller="Ptask" title="Edit" asp-action="Edit" asp-route-id="@task.TaskId"><i class="fas fa-edit"></i></a>
-                                                    @{
-                                                        if (!task.isAssigned())
-                                                        {
-                                                            <button title="Delete" type="submit" class="noButton warning"><i class="fas fa-trash-alt"></i></button>
-                                                        }
-                                                    }
+
+
+                                                    <div class="dropdown">
+                                                        <button class="noButton menu_icon" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-h"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <a asp-controller="Ptask" title="Edit" asp-action="Edit" asp-route-id="@task.TaskId" class="dropdown-item">Edit</a>
+                                                            @{
+                                                                if (!task.isAssigned())
+                                                                {
+                                                                    <button title="Delete" type="submit" class="noButton warning dropdown-item">Delete</button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a title="Cannot delete while task is assigned." class="noButton warning dropdown-item disabled href="javascript:void(0)">Delete</a>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+
+
+                                                    
 
                                                 </form>
                                             </div>

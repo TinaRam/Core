@@ -51,3 +51,21 @@ function toggleDisplay(div_id) {
         div.classList.add("hidden");
     }
 }
+
+function setNotesViewed(id) {
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Event/SetViewed/1",
+            contentType: "application/json; charset=utf-8",
+        }).always(function () {
+            console.log("hei");
+        }).fail(function () {
+            console.log("fail");
+        }).success(function () {
+            console.log("success");
+        });
+    });
+
+    
+}
