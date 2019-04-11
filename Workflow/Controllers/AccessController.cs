@@ -20,6 +20,7 @@ namespace Workflow.Controllers
             if (controller == "Login") return true;
             if (controller == "Home") return true;
             if (controller == "Access") return true;
+            if (controller == "Event") return true;
 
             if (controller == "Project")
             {

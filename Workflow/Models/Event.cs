@@ -54,6 +54,8 @@ namespace Workflow.Models
 
             list.Add(new KeyValuePair<string, string>("new projectmanager", "You have been assigned project manager for " + Project.ProjectName));
             list.Add(new KeyValuePair<string, string>("remove projectmanager", "You are no longer project manager for " + Project.ProjectName));
+
+            list.Add(new KeyValuePair<string, string>("project finished", Project.ProjectName + " is now finished."));
             
 
             //list.Add(new KeyValuePair<string, string>("new assigned task", "You have been assigned to the task " + Task.TaskName + " in + " + Project.ProjectName));

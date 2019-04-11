@@ -16,7 +16,7 @@ namespace Workflow.Controllers
         public static List<Notification> GetNotes(int UserId)
         {
             List<Notification> notes = _context.Notification
-                .Where(n => n.Event.UserId == UserId)
+                .Where(n => n.UserId == UserId || n.Event.UserId == UserId)
                 .Include(n => n.Event)
                     .ThenInclude(e => e.Creator)
                 .Include(n => n.Event)
@@ -28,27 +28,47 @@ namespace Workflow.Controllers
             return notes;
         }
 
-        public static void NewEvent(int projectId, int creatorId, string type, int userId, int? taskId, int? taskListId, bool? createNotification, bool? email, bool? app)
+        public static void NewEvent(int projectId, int creatorId, string type, int? userId, int? taskId, int? taskListId, bool? createNotification, bool? email, bool? app)
         {
             Event e = new Event();
             e.ProjectId = projectId;
             e.CreatorId = creatorId;
             e.Type = type;
-            e.UserId = userId;
+            if (userId != null) e.UserId = userId;
             if (taskId != null) e.TaskId = taskId;
             if (taskListId != null) e.TaskListId = taskListId;
 
             _context.Add(e);
+            
 
             if (createNotification == true)
             {
-                Notification n = new Notification();
-                n.EventId = e.EventId;
-                if (email == true) n.Email = 1;
-                if (app == true) n.InApp = 1;
-
-                _context.Add(n);
+                if (userId == null)
+                {
+                    List<ProjectParticipant> participants = _context.ProjectParticipant.Where(p => p.ProjectId == projectId).ToList();
+                    foreach (ProjectParticipant pp in participants)
+                    {
+                        NewNotification(e.EventId, email, app, pp.UserId);
+                    }
+                }
+                else
+                {
+                    NewNotification(e.EventId, email, app, null);
+                }
             }
+
+            _context.SaveChanges();
+        }
+
+        public static void NewNotification(int eventId, bool? email, bool? app, int? userId)
+        {
+            Notification n = new Notification();
+            n.EventId = eventId;
+            if (email == true) n.Email = 1;
+            if (app == true) n.InApp = 1;
+            if (userId != null) n.UserId = userId;
+
+            _context.Add(n);
 
             _context.SaveChanges();
         }
