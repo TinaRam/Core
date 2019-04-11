@@ -77,6 +77,9 @@ namespace Workflow.Models
                 entity.HasIndex(e => e.TaskId)
                     .HasName("EventPTaskFK");
 
+                entity.HasIndex(e => e.TaskListId)
+                    .HasName("EventTaskListFK");
+
                 entity.HasIndex(e => e.UserId)
                     .HasName("EventUserIIFK");
 
@@ -101,11 +104,17 @@ namespace Workflow.Models
                     .HasForeignKey(d => d.TaskId)
                     .HasConstraintName("EventPTaskFK");
 
+                entity.HasOne(d => d.TaskList)
+                    .WithMany(p => p.Event)
+                    .HasForeignKey(d => d.TaskListId)
+                    .HasConstraintName("EventTaskListFK");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.EventUser)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("EventUserIIFK");
             });
+
 
             modelBuilder.Entity<Notification>(entity =>
             {
