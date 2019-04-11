@@ -10,6 +10,7 @@ namespace Workflow.Models
     {
         public TaskList()
         {
+            Event = new HashSet<Event>();
             Ptask = new HashSet<Ptask>();
         }
 
@@ -23,6 +24,8 @@ namespace Workflow.Models
         [ForeignKey("ProjectId")]
         [InverseProperty("TaskList")]
         public virtual Project Project { get; set; }
+        [InverseProperty("TaskList")]
+        public virtual ICollection<Event> Event { get; set; }
         [InverseProperty("TaskList")]
         public virtual ICollection<Ptask> Ptask { get; set; }
 

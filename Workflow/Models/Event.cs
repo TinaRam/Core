@@ -39,6 +39,9 @@ namespace Workflow.Models
         [ForeignKey("TaskId")]
         [InverseProperty("Event")]
         public virtual Ptask Task { get; set; }
+        [ForeignKey("TaskListId")]
+        [InverseProperty("Event")]
+        public virtual TaskList TaskList { get; set; }
         [ForeignKey("UserId")]
         [InverseProperty("EventUser")]
         public virtual User User { get; set; }
