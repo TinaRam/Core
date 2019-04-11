@@ -7,6 +7,7 @@
     var CurrentUser = ViewBag.CurrentUser;
     var Participants = ViewBag.Participants;
     var availableUsers = ViewBag.availableUsers;
+    var events = ViewBag.events;
 
     bool isManager = project.isManager(CurrentUser.UserId);
     bool isFinished = project.isFinished();
@@ -14,6 +15,28 @@
 
     WorkflowContext context = ViewBag.context;
 }
+
+
+<div class="float-right" id="events">
+    <span class="text-center"><h5>Recent events</h5></span>
+    <hr />
+    <ul class="list-unstyled">
+        @{
+            foreach (Event e in events)
+            {
+                <li>
+                    <div class="event_icon">
+                        <i class="@e.GetIcon()"></i>
+                    </div>
+                    @e.GetEvent()<br />
+                    <span class="text-secondary font-italic">@e.EventDate</span>
+                    <hr />
+                </li>
+            }
+        }
+    </ul>
+
+</div>
 
 
 <dl class="row">
@@ -27,33 +50,7 @@
         Deadline <b>@project.ProjectDeadline</b>
     </div>
 
-    @{
-        if (isManager)
-        {
-            <div class="col-sm right_align">
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Available employees
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        @{
-                            foreach (User user in availableUsers)
-                            {
-                                <li class="dropdown-item">
-                                    <form method="post" action="/Project/AddParticipant">
-                                        <input type="hidden" name="projectId" value="@project.ProjectId" />
-                                        <input type="hidden" name="userId" value="@user.UserId" />
-                                        <a href="/User/Details/@user.UserId">@user.GetName()</a>
-                                        <button title="Add to project" type="submit" class="noButton"><i class="fas fa-plus"></i></button>
-                                    </form>
-                                </li>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-        }
-    }
+
 
 
 
@@ -67,26 +64,27 @@
         }
     </div>
 </dl>
-    <p>@project.ProjectDescription</p>
+<p>@project.ProjectDescription</p>
 
 <hr />
 
+
 <div class="row">
-    <div class="col">
+    <div class="col-7">
         <h5>Tasks</h5>
         <hr />
         @{
             if (isManager && !isFinished)
             {
-                
-                    <div class="tasklist_view">
-                        <a href="javascript:void(0)" id="new-task-list-link" onclick="toggleDisplay('new-task-list-form')"><i class="fas fa-plus"></i> New tasklist</a>
-                        <form method="post" id="new-task-list-form" asp-controller="Tasklist" asp-action="Create" class="hidden">
-                            <input name="ProjectId" hidden value="@project.ProjectId" />
-                            <input name="ListName" id="ListName" type="text" required" placeholder="List name" class="form-control" /><br />
-                            <input type="submit" value="Add list" class="btn btn-primary" />
-                        </form>
-                    </div>
+
+                <div class="tasklist_view">
+                    <a href="javascript:void(0)" id="new-task-list-link" onclick="toggleDisplay('new-task-list-form')"><i class="fas fa-plus"></i> New tasklist</a>
+                    <form method="post" id="new-task-list-form" asp-controller="Tasklist" asp-action="Create" class="hidden">
+                        <input name="ProjectId" hidden value="@project.ProjectId" />
+                        <input name="ListName" id="ListName" type="text" required" placeholder="List name" class="form-control" /><br />
+                        <input type="submit" value="Add list" class="btn btn-primary" />
+                    </form>
+                </div>
             }
         }
         @{
@@ -104,7 +102,7 @@
                                 if (isManager && !isFinished)
                                 {
 
-                                    
+
                                     <div class="dropdown">
                                         <button class="noButton menu_icon" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-h"></i>
@@ -169,7 +167,7 @@
                                                     </div>
 
 
-                                                    
+
 
                                                 </form>
                                             </div>
@@ -315,7 +313,41 @@
 
     </div>
     <div class="col-3">
-        <h5>Participants</h5>
+
+        <div class="row">
+            <div class="col"><h5>Participants</h5></div>
+            <div class="col">
+                @{
+                    if (isManager)
+                    {
+                        <div class="col-sm right_align">
+                            <div class="dropdown">
+                                <button class="btn noButton dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Add
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @{
+                                        foreach (User user in availableUsers)
+                                        {
+                                            <li class="dropdown-item">
+                                                <form method="post" action="/Project/AddParticipant">
+                                                    <input type="hidden" name="projectId" value="@project.ProjectId" />
+                                                    <input type="hidden" name="userId" value="@user.UserId" />
+                                                    <a href="/User/Details/@user.UserId">@user.GetName()</a>
+                                                    <button title="Add to project" type="submit" class="noButton"><i class="fas fa-plus"></i></button>
+                                                </form>
+                                            </li>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+
         <hr />
         <ul class="noStyle">
             @{

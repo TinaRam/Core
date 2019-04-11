@@ -50,7 +50,7 @@ namespace Workflow.Models
             var list = new List<KeyValuePair<string, string>>();
 
             list.Add(new KeyValuePair<string, string>("new participant", Creator.GetName() + " added you to " + Project.ProjectName));
-            list.Add(new KeyValuePair<string, string>("removed participant", "You are no longer a participant in " + Project.ProjectName));
+            list.Add(new KeyValuePair<string, string>("remove participant", "You are no longer a participant in " + Project.ProjectName));
 
             list.Add(new KeyValuePair<string, string>("new projectmanager", "You have been assigned project manager for " + Project.ProjectName));
             list.Add(new KeyValuePair<string, string>("remove projectmanager", "You are no longer project manager for " + Project.ProjectName));
@@ -64,6 +64,36 @@ namespace Workflow.Models
             // .. and so on
 
             
+
+            return list.Find(l => l.Key == Type).Value.ToString();
+        }
+
+        public string GetEvent()
+        {
+            var list = new List<KeyValuePair<string, string>>();
+
+            list.Add(new KeyValuePair<string, string>("new participant", User.GetName() + " is now participating in the project."));
+            list.Add(new KeyValuePair<string, string>("remove participant", User.GetName() + " is no longer participating in the project."));
+
+            list.Add(new KeyValuePair<string, string>("new tasklist", Creator.GetName() + " added " + "[tasklist]" + " to the project."));
+            //list.Add(new KeyValuePair<string, string>("remove tasklist", Creator.GetName() + " removed " + TaskList.ListName + " from the project."));
+
+            //list.Add(new KeyValuePair<string, string>("new task", Creator.GetName() + " added " + Task.TaskName + " to the project."));
+            //list.Add(new KeyValuePair<string, string>("remove tasklist", Creator.GetName() + " removed " + Task.TaskName + " from the project."));
+            
+            
+            return list.Find(l => l.Key == Type).Value.ToString();
+        }
+
+        public string GetIcon()
+        {
+            var list = new List<KeyValuePair<string, string>>();
+
+            list.Add(new KeyValuePair<string, string>("new participant", "fas fa-user-plus"));
+            list.Add(new KeyValuePair<string, string>("remove participant", "fas fa-user-slash"));
+
+            list.Add(new KeyValuePair<string, string>("new task", "fas fa-sticky-note"));
+            list.Add(new KeyValuePair<string, string>("new tasklist", "fas fa-clipboard"));
 
             return list.Find(l => l.Key == Type).Value.ToString();
         }

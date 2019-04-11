@@ -7,6 +7,33 @@ a.navbar-brand {
     word-break: break-all;
 }
 
+#events {
+    background-color: #eee;
+    z-index: 100;
+    width: 300px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 56px;
+    padding: 20px;
+    -moz-box-shadow: 0 0 5px 0 #adadad;
+    -webkit-box-shadow: 0 0 5px 0 #adadad;
+    box-shadow: 0 0 5px 0 #adadad;
+}
+
+.event_icon {
+    float: left;
+    margin-right: 10px;
+    font-size: 20px;
+    line-height: 40px;
+    width: 40px;
+    text-align: center;
+    vertical-align: center;
+    background-color: #a7a7c7;
+    border-radius: 20px;
+}
+
+
 /* Sticky footer styles
 ------------------------------------------------------------------------------------------------------------ */
 html {

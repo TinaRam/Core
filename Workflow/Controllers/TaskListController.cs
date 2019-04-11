@@ -61,6 +61,9 @@ namespace Workflow.Controllers
             t.ListName = ListName;
             _context.Add(t);
             _context.SaveChanges();
+
+            EventController.NewEvent(ProjectId, CurrentUser.UserId, "new tasklist", null, null, t.TaskListId, null, null, null);
+
             Response.Redirect("/Project/Details/" + ProjectId);
         }
 

@@ -16,13 +16,14 @@ namespace Workflow.Controllers
         public static List<Notification> GetNotes(int UserId)
         {
             List<Notification> notes = _context.Notification
-                .Where(n => n.UserId == UserId || n.Event.UserId == UserId && n.Viewed == 0)
+                .Where(n => (n.UserId == UserId || n.Event.UserId == UserId) && n.Viewed == 0)
                 .Include(n => n.Event)
                     .ThenInclude(e => e.Creator)
-                .Include(n => n.Event)
-                    .ThenInclude(e => e.Task)
-                .Include(n => n.Event)
-                    .ThenInclude(e => e.Project)
+                .Include(n => n.Event.Task)
+                //.Include(n => n.Event.TaskList)
+                //    .ThenInclude(e => e.TaskList)
+                .Include(n => n.Event.Project)
+                    //.ThenInclude(e => e.Project)
                 .ToList();
 
             return notes;

@@ -95,10 +95,13 @@ namespace Workflow.Controllers
                 }
             }
 
+            List<Event> events = _context.Event.Where(e => e.ProjectId == id).OrderByDescending(e => e.EventDate).ToList();
+
             ViewBag.project = project;
             ViewBag.tasklist = TaskList;
             ViewBag.Participants = Participants;
             ViewBag.availableUsers = availableUsers;
+            ViewBag.events = events;
             
             // må sende med context fordi assignedtask-tabellen ikke har noen connection til user-tabellen,
             // derfor må man finne den fra viewet. ikke så clean, men det funker.. 
@@ -247,7 +250,7 @@ namespace Workflow.Controllers
             _context.Remove(p);
             _context.SaveChanges();
 
-            EventController.NewEvent(projectId, CurrentUser.UserId, "removed participant", userId, null, null, true, false, true);
+            EventController.NewEvent(projectId, CurrentUser.UserId, "remove participant", userId, null, null, true, false, true);
 
             Response.Redirect("/Project/Details/" + projectId);
         }
