@@ -83,6 +83,9 @@ namespace Workflow.Controllers
             t.TaskListId = TaskListId;
             _context.Add(t);
             _context.SaveChanges();
+
+            EventController.NewEvent(TaskProjectId, CurrentUser.UserId, "new task", null, t.TaskId, TaskListId, false, null, null);
+
             Response.Redirect("/Project/Details/" + TaskProjectId);
         }
 
@@ -160,7 +163,6 @@ namespace Workflow.Controllers
             {
                 return NotFound();
             }
-
             return View(ptask);
         }
 
@@ -171,6 +173,9 @@ namespace Workflow.Controllers
         {
             var ptask = await _context.Ptask.FindAsync(id);
             var i = ptask.TaskProjectId;
+
+            EventController.NewEvent(ptask.TaskProjectId.Value, CurrentUser.UserId, "remove task", null, ptask.TaskId, null, false, null, null);
+
             _context.Ptask.Remove(ptask);
             _context.SaveChanges();
             return Redirect("/Project/Details/" + i);

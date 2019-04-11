@@ -23,6 +23,8 @@
               crossorigin="anonymous"
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <!-- MDBootstrap Datatables  -->
     <link href="css/addons/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
@@ -32,7 +34,7 @@
     @{
         if (LoggedIn)
         {
-            <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+            <nav class="navbar navbar-expand navbar-dark bg-dark static-top" id="header">
 
                 <a class="navbar-brand mr-1" href="index.html">Workflow</a>
 
@@ -61,6 +63,17 @@
                                 if (ViewBag.notes.Count > 0)
                                 {
                                     foreach (Notification n in ViewBag.notes)
+                                    {
+                                        <a href="/Project/Details/@n.Event.ProjectId" class="dropdown-item note-item">
+                                            @n.Event.GetMessage() <br>
+                                            <p class="text-secondary font-italic">@n.Event.EventDate</p>
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                    }
+                                }
+                                if (ViewBag.viewedNotes.Count > 0)
+                                {
+                                    foreach (Notification n in ViewBag.viewedNotes)
                                     {
                                         <a href="/Project/Details/@n.Event.ProjectId" class="dropdown-item">
                                             @n.Event.GetMessage() <br>

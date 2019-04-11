@@ -51,6 +51,9 @@ namespace Workflow.Controllers
 
                 List<Notification> notes = EventController.GetNotes(CurrentUser.UserId);
                 ViewBag.notes = notes;
+
+                List<Notification> viewedNotes = EventController.GetViewedNotes(CurrentUser.UserId);
+                ViewBag.viewedNotes = viewedNotes;
             }
             ViewBag.LoggedIn = LoggedIn;
 

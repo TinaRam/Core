@@ -18,12 +18,24 @@ namespace Workflow.Controllers
             List<Notification> notes = _context.Notification
                 .Where(n => (n.UserId == UserId || n.Event.UserId == UserId) && n.Viewed == 0)
                 .Include(n => n.Event)
-                    .ThenInclude(e => e.Creator)
+                    .ThenInclude(e => e.Task)
+                .Include(n => n.Event.Creator)
                 .Include(n => n.Event.Task)
-                //.Include(n => n.Event.TaskList)
-                //    .ThenInclude(e => e.TaskList)
                 .Include(n => n.Event.Project)
-                    //.ThenInclude(e => e.Project)
+                .ToList();
+
+            return notes;
+        }
+
+        public static List<Notification> GetViewedNotes(int UserId)
+        {
+            List<Notification> notes = _context.Notification
+                .Where(n => (n.UserId == UserId || n.Event.UserId == UserId) && n.Viewed == 1)
+                .Include(n => n.Event)
+                    .ThenInclude(e => e.Task)
+                .Include(n => n.Event.Creator)
+                .Include(n => n.Event.Task)
+                .Include(n => n.Event.Project)
                 .ToList();
 
             return notes;

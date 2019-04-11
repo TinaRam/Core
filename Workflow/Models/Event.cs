@@ -59,33 +59,37 @@ namespace Workflow.Models
             list.Add(new KeyValuePair<string, string>("remove projectmanager", "You are no longer project manager for " + Project.ProjectName));
 
             list.Add(new KeyValuePair<string, string>("project finished", Project.ProjectName + " is now finished."));
-            
+
 
             //list.Add(new KeyValuePair<string, string>("new assigned task", "You have been assigned to the task " + Task.TaskName + " in + " + Project.ProjectName));
             //list.Add(new KeyValuePair<string, string>("remove assigned task", "You are no longer assigned to the task " + Task.TaskName + " in + " + Project.ProjectName));
-            
+
             // .. and so on
 
-            
+            if (Type == "new participant") return Creator.GetName() + " added you to " + Project.ProjectName;
+            if (Type == "remove participant") return "You are no longer a participant in " + Project.ProjectName;
 
-            return list.Find(l => l.Key == Type).Value.ToString();
+            if (Type == "new projectmanager") return "You have been assigned project manager for " + Project.ProjectName;
+            if (Type == "remove projectmanager") return "You are no longer project manager for " + Project.ProjectName;
+
+            if (Type == "new assigned task") return "You have been assigned to " + Task.TaskName + " in " + Project.ProjectName;
+            if (Type == "remove assigned task") return "You are no longer assigned to " + Task.TaskName + " in " + Project.ProjectName;
+
+            return "";
         }
 
         public string GetEvent()
         {
-            var list = new List<KeyValuePair<string, string>>();
+            if (Type == "new participant") return User.GetName() + " is now participating in the project.";
+            if (Type == "remove participant") return User.GetName() + " is no longer participating in the project.";
 
-            list.Add(new KeyValuePair<string, string>("new participant", User.GetName() + " is now participating in the project."));
-            list.Add(new KeyValuePair<string, string>("remove participant", User.GetName() + " is no longer participating in the project."));
+            if (Type == "new tasklist") return Creator.GetName() + " added " + TaskList.ListName + " to the project.";
+            if (Type == "remove tasklist") return Creator.GetName() + " removed a task list from the project.";
 
-            list.Add(new KeyValuePair<string, string>("new tasklist", Creator.GetName() + " added " + "[tasklist]" + " to the project."));
-            //list.Add(new KeyValuePair<string, string>("remove tasklist", Creator.GetName() + " removed " + TaskList.ListName + " from the project."));
+            if (Type == "new task") return Creator.GetName() + " added " + Task.TaskName + " to " + Task.TaskList.ListName;
+            if (Type == "remove task") return Creator.GetName() + " removed a task from the project";
 
-            //list.Add(new KeyValuePair<string, string>("new task", Creator.GetName() + " added " + Task.TaskName + " to the project."));
-            //list.Add(new KeyValuePair<string, string>("remove tasklist", Creator.GetName() + " removed " + Task.TaskName + " from the project."));
-            
-            
-            return list.Find(l => l.Key == Type).Value.ToString();
+            return "";
         }
 
         public string GetIcon()
@@ -96,7 +100,10 @@ namespace Workflow.Models
             list.Add(new KeyValuePair<string, string>("remove participant", "fas fa-user-slash"));
 
             list.Add(new KeyValuePair<string, string>("new task", "fas fa-sticky-note"));
+            list.Add(new KeyValuePair<string, string>("remove task", "far fa-sticky-note"));
+
             list.Add(new KeyValuePair<string, string>("new tasklist", "fas fa-clipboard"));
+            list.Add(new KeyValuePair<string, string>("remove tasklist", "far fa-clipboard"));
 
             return list.Find(l => l.Key == Type).Value.ToString();
         }
