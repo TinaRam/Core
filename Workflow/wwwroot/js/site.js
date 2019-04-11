@@ -56,16 +56,10 @@ function setNotesViewed(id) {
     $(document).ready(function () {
         $.ajax({
             type: "POST",
-            url: "/Event/SetViewed/1",
+            url: "/Event/SetViewed/" + id,
             contentType: "application/json; charset=utf-8",
         }).always(function () {
-            console.log("hei");
-        }).fail(function () {
-            console.log("fail");
-        }).success(function () {
-            console.log("success");
+            document.getElementById("notes_count").classList.add("hidden");
         });
     });
-
-    
 }

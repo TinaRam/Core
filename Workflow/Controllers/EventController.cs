@@ -16,7 +16,7 @@ namespace Workflow.Controllers
         public static List<Notification> GetNotes(int UserId)
         {
             List<Notification> notes = _context.Notification
-                .Where(n => n.UserId == UserId || n.Event.UserId == UserId)
+                .Where(n => n.UserId == UserId || n.Event.UserId == UserId && n.Viewed == 0)
                 .Include(n => n.Event)
                     .ThenInclude(e => e.Creator)
                 .Include(n => n.Event)
@@ -73,11 +73,33 @@ namespace Workflow.Controllers
             _context.SaveChanges();
         }
         
-
-        public static bool SetViewed(int userId)
+        public IActionResult SetViewed(int userId)
         {
+            userId = CurrentUser.UserId;
+            List<Notification> notes = _context.Notification
+                .Include(n => n.Event)
+                .Where(n => n.UserId == userId || n.Event.UserId == userId)
+                .ToList();
 
-            return true;
+
+            foreach (Notification note in notes)
+            {
+
+                System.Diagnostics.Debug.WriteLine("");
+                System.Diagnostics.Debug.WriteLine("");
+                System.Diagnostics.Debug.WriteLine("");
+                System.Diagnostics.Debug.WriteLine(note);
+                System.Diagnostics.Debug.WriteLine("");
+                System.Diagnostics.Debug.WriteLine("");
+                System.Diagnostics.Debug.WriteLine("");
+
+                note.Viewed = 1;
+                note.Email = 1;
+                _context.Update(note);
+            }
+
+            _context.SaveChanges();
+            return View();
         }
     }
 }
