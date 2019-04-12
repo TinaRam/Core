@@ -37,6 +37,8 @@ namespace Workflow.Models
         [Column(TypeName = "int(11)")]
         public int? Role { get; set; }
         public string About { get; set; }
+        [Column(TypeName = "mediumblob")]
+        public byte[] Image { get; set; }
 
         [InverseProperty("User")]
         public virtual ICollection<EmployeeLeave> EmployeeLeave { get; set; }
