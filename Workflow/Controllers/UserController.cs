@@ -146,9 +146,10 @@ namespace Workflow.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
-        {
-            return _context.User.Any(e => e.UserId == id);
-        }
+        // Ikke i bruk?
+        //private bool UserExists(int id)
+        //{
+        //    return _context.User.Any(e => e.UserId == id);
+        //}
     }
 }
