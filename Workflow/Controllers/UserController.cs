@@ -76,10 +76,30 @@ namespace Workflow.Controllers
             user.PhoneNumber = PhoneNumber;
             user.Role = Role;
             user.About = About;
-
+            
             _context.SaveChanges();
 
-            Response.Redirect("/User/Details/" + UserId);
+            //Response.Redirect("/User/Details/" + UserId);
+            Response.Redirect("/User/Profile/" + UserId);
+        }
+
+        
+        // GET: User/Profile/5
+        public async Task<IActionResult> Profile(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.User
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
         }
 
         // POST: User/Edit/5

@@ -40,6 +40,23 @@
     event.preventDefault();
   });
 
+  // Add/remove classes when window resizes -TR
+  $(document).ready(function($) {
+    var changeClass = function() {
+        var w = document.body.clientWidth;
+        if (w < 768) {
+          $('#form1').removeClass('m-3 text-right');
+        } else if (w >= 768) {
+           $('#form1').addClass('m-3 text-right');
+        };
+    };
+    $(window).resize(function(){
+      changeClass();
+    });
+    //Fire it when the page first loads:
+    changeClass();
+  });
+
 })(jQuery); // End of use strict
 
 function toggleDisplay(div_id) {
@@ -51,3 +68,4 @@ function toggleDisplay(div_id) {
         div.classList.add("hidden");
     }
 }
+
