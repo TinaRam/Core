@@ -282,10 +282,30 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 #aboutSection {
-    max-width: 500px;
+    max-width: 600px;
     word-wrap: break-word;
     font-size: 1.15em;
     color: #237474;
+}
+
+#img-text {
+    margin-left: -3px;
+    margin-top: 10px;
+}
+
+#aboutTextarea:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+#form1 {
+    /*padding-top: 1%;*/1
+}
+
+@media (min-width: 768px) {
+    #img-text {
+        margin-left: -15px;
+    }
 }
 
 /* Main layout

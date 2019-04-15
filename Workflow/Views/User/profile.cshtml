@@ -7,35 +7,34 @@
 
 
 <div class="container-fluid mt-4 m-2">
-    <div class="row mt-2 ml-1">
-        <div class="col-md-11">
-            <span class="text-muted">[change image by clicking on it]</span>
-            <div class="media">
-                <img class="d-flex align-self-start mr-3" alt="" src="./img/trec.PNG" id="profile-img">
-                <hidden input type="file" />
 
-                <div class="media-body ml-5 mt-4" id="aboutSection">
-                    <h4 class="text-capitalize">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h4>
-                    <br>
-                    <p class="ml-1">@Html.DisplayFor(model => model.About)</p>
+    <form method="post" asp-controller="User" asp-action="Edit" enctype="multipart/form-data">
+        <input hidden name="UserId" value="@Html.DisplayFor(model => model.UserId)" />
+        <input hidden name="Password" value="@Html.DisplayFor(model => model.Password)" />
+        <input hidden name="Role" value="@Html.DisplayFor(model => model.Role)" />
+
+        <div class="row mt-2 ml-1">
+            <div class="col-md-11">
+                <div class="media">
+                    <img class="d-flex align-self-start mr-3" alt="" src="./img/trec.PNG" id="profile-img">
+                    <hidden input type="file" />
+
+                    <div class="media-body ml-5 mt-4" id="aboutSection">
+                        <h4 class="text-capitalize">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h4>
+                        <br>
+                        <p class="ml-1">@Html.DisplayFor(model => model.About)</p>
+                    </div>
                 </div>
+                <p class="text-muted" id="img-text">[change image by clicking on it]</p>
             </div>
         </div>
 
-        <!-- row end-->
-    </div>
-
-    <div class="row m-4">
-        <div class="col-md-12 m-3 text-right" id="form1">
-
-            <form method="post" asp-controller="User" asp-action="Edit">
-                <input hidden name="UserId" value="@Html.DisplayFor(model => model.UserId)" />
-                <input hidden name="Password" value="@Html.DisplayFor(model => model.Password)" />
-                <input hidden name="Role" value="@Html.DisplayFor(model => model.Role)" />
+        <div class="row m-4">
+            <div class="col-md-12 m-3 text-right" id="form1">
 
                 <div class="row">
                     <label for="Username" class="col-md-2 font-weight-bolder">Username</label>
-                    <input class="col-md-9 text-muted" type="text" name="Username" value="@Html.DisplayFor(model => model.Username)" />
+                    <input class="col-md-9" type="text" name="Username" value="@Html.DisplayFor(model => model.Username)"/>
                 </div>
 
                 <div class="row mt-3">
@@ -60,20 +59,13 @@
 
                 <div class="row mt-3">
                     <label for="About" class="col-md-2 font-weight-bolder">About</label>
-                    <textarea class="col-md-9 text-muted" name="About" rows="3" cols="30">@Html.DisplayFor(model => model.About)</textarea>
+                    <textarea id="aboutTextarea" class="col-md-9 text-muted" name="About" rows="3" cols="30">@Html.DisplayFor(model => model.About)</textarea>
                 </div>
 
                 <div class="row">
                     <input class="btn btn-primary mt-5 mb-2 col-md-9 offset-2 font-weight-bolder" type="submit" value="Update profile" />
                 </div>
-
-            </form>
-
-            <!-- col end-->
+            </div>
         </div>
-
-        <!-- row end-->
-    </div>
-
-    <!-- container end -->
+    </form>
 </div>
