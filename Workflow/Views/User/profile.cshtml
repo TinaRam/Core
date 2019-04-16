@@ -16,8 +16,7 @@
         <div class="row mt-2 ml-1">
             <div class="col-md-11">
                 <div class="media">
-                    <img class="d-flex align-self-start mr-3" alt="" src="~/images/prec.PNG" id="profile-img">
-                    <hidden input type="file" />
+                    <img class="d-flex align-self-start mr-3" alt="" id="profile-img" src="@Url.Action("RenderImg", "User", new { id = CurrentUser.UserId })"/>
 
                     <div class="media-body ml-5 mt-4" id="aboutSection">
                         <h3 class="text-capitalize">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h3>
@@ -25,7 +24,6 @@
                         <p class="ml-1">@Html.DisplayFor(model => model.About)</p>
                     </div>
                 </div>
-                <p class="text-muted" id="img-text">[change image by clicking on it]</p>
             </div>
         </div>
 
@@ -34,7 +32,7 @@
 
                 <div class="row">
                     <label for="Username" class="col-md-2 font-weight-bolder">Username</label>
-                    <input class="col-md-9" type="text" name="Username" value="@Html.DisplayFor(model => model.Username)"/>
+                    <input class="col-md-9" type="text" name="Username" value="@Html.DisplayFor(model => model.Username)" />
                 </div>
 
                 <div class="row mt-3">
@@ -60,6 +58,11 @@
                 <div class="row mt-3">
                     <label for="About" class="col-md-2 font-weight-bolder">About</label>
                     <textarea id="aboutTextarea" class="col-md-9 text-muted" name="About" rows="3" cols="30">@Html.DisplayFor(model => model.About)</textarea>
+                </div>
+
+                <div class="row mt-3">
+                    <label for="Image" class="col-md-2 font-weight-bolder">Upload image</label>
+                    <input class="col-md-9" type="file" name="Image" value="@Html.DisplayFor(model => model.Image)" />
                 </div>
 
                 <div class="row">

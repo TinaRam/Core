@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Workflow.Models;
 
@@ -26,6 +27,24 @@ namespace Workflow.Controllers
 
         // GET: User/Details/5
         public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.User
+                .FirstOrDefaultAsync(m => m.UserId == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        // GET: User/Profile/5
+        public async Task<IActionResult> Profile(int? id)
         {
             if (id == null)
             {
@@ -65,7 +84,7 @@ namespace Workflow.Controllers
         }
 
         // GET: User/Edit/5
-        public void Edit(int UserId, string Username, String Password, string FirstName, string LastName, string Email, string PhoneNumber, int Role, string About)
+        public void Edit(int UserId, string Username, String Password, string FirstName, string LastName, string Email, string PhoneNumber, int Role, string About, IFormFile Image)
         {
             User user = _context.User.Find(UserId);
             user.Username = Username;
@@ -76,35 +95,25 @@ namespace Workflow.Controllers
             user.PhoneNumber = PhoneNumber;
             user.Role = Role;
             user.About = About;
-            
+
+            if (Image != null)
+            {
+                using (var stream = new System.IO.MemoryStream())
+                {
+                    Image.CopyTo(stream);
+
+                    user.Image = stream.ToArray();
+                }
+            }
+
             _context.SaveChanges();
 
             //Response.Redirect("/User/Details/" + UserId);
             Response.Redirect("/User/Profile/" + UserId);
         }
 
-        
-        // GET: User/Profile/5
-        public async Task<IActionResult> Profile(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-        // POST: User/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        ////POST: User/Edit/5
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> Edit(int id, [Bind("UserId,Username,Password,FirstName,LastName,Email,PhoneNumber,Role,About")] User user)
@@ -113,6 +122,8 @@ namespace Workflow.Controllers
         //    {
         //        return NotFound();
         //    }
+
+
 
         //    if (ModelState.IsValid)
         //    {
@@ -132,9 +143,14 @@ namespace Workflow.Controllers
         //                throw;
         //            }
         //        }
-        //        return RedirectToAction(nameof(Index));
+        //        return RedirectToAction(nameof(Profile));
         //    }
         //    return View(user);
+        //}
+
+        //private bool UserExists(int id)
+        //{
+        //    return _context.User.Any(e => e.UserId == id);
         //}
 
         // GET: User/Delete/5
@@ -166,10 +182,19 @@ namespace Workflow.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Ikke i bruk?
-        //private bool UserExists(int id)
-        //{
-        //    return _context.User.Any(e => e.UserId == id);
-        //}
+
+        // Display image from the database (byte[])
+        [HttpGet]
+        public async Task<IActionResult> RenderImg(int id)
+        {
+            var user = await _context.User.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return File(user.Image, "image/png");
+        }
+
+
     }
 }
