@@ -20,6 +20,9 @@ namespace Workflow.Models
         public int ProjectId { get; set; }
         [StringLength(55)]
         public string ListName { get; set; }
+        [Column(TypeName = "tinyint(1)")]
+        public byte Deleted { get; set; }
+
 
         [ForeignKey("ProjectId")]
         [InverseProperty("TaskList")]

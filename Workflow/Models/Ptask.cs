@@ -33,6 +33,8 @@ namespace Workflow.Models
         public int? TaskProjectId { get; set; }
         [Column(TypeName = "int(11)")]
         public int? TaskListId { get; set; }
+        [Column(TypeName = "tinyint(1)")]
+        public byte Deleted { get; set; }
 
         [ForeignKey("TaskListId")]
         [InverseProperty("Ptask")]

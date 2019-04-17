@@ -187,6 +187,8 @@ namespace Workflow.Models
 
                 entity.Property(e => e.TaskName).IsUnicode(false);
 
+                entity.Property(e => e.Deleted).HasDefaultValueSql("0");
+
                 entity.HasOne(d => d.TaskList)
                     .WithMany(p => p.Ptask)
                     .HasForeignKey(d => d.TaskListId)
@@ -219,6 +221,8 @@ namespace Workflow.Models
                     .HasName("TaskListFK");
 
                 entity.Property(e => e.ListName).IsUnicode(false);
+
+                entity.Property(e => e.Deleted).HasDefaultValueSql("0");
 
                 entity.HasOne(d => d.Project)
                     .WithMany(p => p.TaskList)
