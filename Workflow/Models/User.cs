@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Workflow.Models
 {
     [Table("User", Schema = "app2000g11")]
     public class User
     {
+        private static readonly WorkflowContext _context = new WorkflowContext();
+
         public User()
         {
             EmployeeLeave = new HashSet<EmployeeLeave>();
@@ -59,6 +62,20 @@ namespace Workflow.Models
         public string GetName()
         {
             return FirstName + " " + LastName;
+        }
+
+
+        public Boolean assignedTo(int taskId)
+        {
+            List<AssignedTask> a = _context.AssignedTask.Where(at => at.TaskId == taskId).ToList();
+            foreach (AssignedTask at in a)
+            {
+                if (at.UserId == UserId)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
 
