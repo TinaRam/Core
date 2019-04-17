@@ -448,7 +448,7 @@ body {
 
 .navbar-nav .nav-item .nav-link .badge {
     position: absolute;
-    margin-left: 0.75rem;
+    margin-left: -0.5rem;
     top: 0.3rem;
     font-weight: 400;
     font-size: 0.5rem;
@@ -761,6 +761,10 @@ footer.sticky-footer {
 }
 .note_viewed {
     background-color: white;
+}
+
+.dropdown-item {
+    padding-left: 10px;
 }
 
 

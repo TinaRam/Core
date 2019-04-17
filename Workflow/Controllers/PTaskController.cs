@@ -174,8 +174,6 @@ namespace Workflow.Controllers
             var ptask = await _context.Ptask.FindAsync(id);
             var i = ptask.TaskProjectId;
 
-            EventController.NewEvent(ptask.TaskProjectId.Value, CurrentUser.UserId, "remove task", null, ptask.TaskId, null, false, null, null);
-
             _context.Ptask.Remove(ptask);
             _context.SaveChanges();
             return Redirect("/Project/Details/" + i);
@@ -191,6 +189,9 @@ namespace Workflow.Controllers
             Ptask task = _context.Ptask.Find(id);
             task.CompletionDate = DateTime.Now;
             _context.SaveChanges();
+            
+
+            EventController.NewEvent(task.TaskProjectId.Value, CurrentUser.UserId, "finished task", null, task.TaskId, null, false, null, null);
 
             Response.Redirect("/Project/Details/" + task.TaskProjectId);
         }

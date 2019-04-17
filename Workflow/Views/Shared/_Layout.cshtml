@@ -65,7 +65,7 @@
                                     foreach (Notification n in ViewBag.notes)
                                     {
                                         <a href="/Project/Details/@n.Event.ProjectId" class="dropdown-item note-item">
-                                            @n.Event.GetMessage() <br>
+                                            @n.Event.GetMessage() <br />
                                             <p class="text-secondary font-italic">@n.Event.EventDate</p>
                                         </a>
                                         <div class="dropdown-divider"></div>
@@ -76,28 +76,17 @@
                                     foreach (Notification n in ViewBag.viewedNotes)
                                     {
                                         <a href="/Project/Details/@n.Event.ProjectId" class="dropdown-item">
-                                            @n.Event.GetMessage() <br>
-                                            <p class="text-secondary font-italic">@n.Event.EventDate</p>
+                                            <button type="button" class="noButton" onclick="removeNote(@n.Nid); return false;">&times;</button>
+                                           @n.Event.GetMessage()
+                                            <div class="row">
+                                                <div class="col text-secondary font-italic">@n.Event.EventDate</div>
+                                            </div>
                                         </a>
                                         <div class="dropdown-divider"></div>
                                     }
                                 }
                             }
 
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-envelope fa-fw"></i>
-                            <span class="badge badge-danger">
-                                7
-                            </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown no-arrow">

@@ -80,3 +80,14 @@ function setNotesViewed(id) {
         });
     });
 }
+
+function removeNote(id) {
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Event/RemoveNote",
+            data: { "noteId": id },
+            dataType: "json",
+        });
+    });
+}

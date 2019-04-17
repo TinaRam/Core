@@ -40,6 +40,7 @@ namespace Workflow.Controllers
 
             return notes;
         }
+        
 
         public static void NewEvent(int projectId, int creatorId, string type, int? userId, int? taskId, int? taskListId, bool? createNotification, bool? email, bool? app)
         {
@@ -112,6 +113,16 @@ namespace Workflow.Controllers
             }
 
             _context.SaveChanges();
+            return View();
+        }
+
+        public IActionResult RemoveNote(int noteId)
+        {
+            Notification n = _context.Notification.Find(noteId);
+            _context.Remove(n);
+            _context.SaveChanges();
+            
+
             return View();
         }
     }
