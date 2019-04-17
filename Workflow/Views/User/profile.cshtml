@@ -1,0 +1,74 @@
+﻿@model Workflow.Models.User
+
+@{
+    ViewData["Title"] = "Profile";
+    var CurrentUser = ViewBag.CurrentUser;
+}
+
+
+<div class="container-fluid mt-4 m-2">
+
+    <form method="post" asp-controller="User" asp-action="Edit" enctype="multipart/form-data">
+        <input hidden name="UserId" value="@Html.DisplayFor(model => model.UserId)" />
+        <input hidden name="Password" value="@Html.DisplayFor(model => model.Password)" />
+        <input hidden name="Role" value="@Html.DisplayFor(model => model.Role)" />
+
+        <div class="row mt-2 ml-1">
+            <div class="col-md-11">
+                <div class="media">
+                    <img class="d-flex align-self-start mr-3" alt="" id="profile-img" src="@Url.Action("RenderImg", "User", new { id = CurrentUser.UserId })"/>
+
+                    <div class="media-body ml-5 mt-4" id="aboutSection">
+                        <h3 class="text-capitalize">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h3>
+                        <br>
+                        <p class="ml-1">@Html.DisplayFor(model => model.About)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-4">
+            <div class="col-md-12 m-3 text-right" id="form1">
+
+                <div class="row">
+                    <label for="Username" class="col-md-2 font-weight-bolder">Username</label>
+                    <input class="col-md-9" type="text" name="Username" value="@Html.DisplayFor(model => model.Username)" />
+                </div>
+
+                <div class="row mt-3">
+                    <label for="FirstName" class="col-md-2 font-weight-bolder">First Name</label>
+                    <input class="col-md-9 text-capitalize" type="text" name="FirstName" value="@Html.DisplayFor(model => model.FirstName)" />
+                </div>
+
+                <div class="row mt-3">
+                    <label for="LastName" class="col-md-2 font-weight-bolder">Last Name</label>
+                    <input class="col-md-9 text-capitalize" type="text" name="LastName" value="@Html.DisplayFor(model => model.LastName)" />
+                </div>
+
+                <div class="row mt-3">
+                    <label for="Email" class="col-md-2 font-weight-bolder">Email</label>
+                    <input class="col-md-9" type="text" name="Email" value="@Html.DisplayFor(model => model.Email)" />
+                </div>
+
+                <div class="row mt-3">
+                    <label for="PhoneNumber" class="col-md-2 font-weight-bolder">Phone Number</label>
+                    <input class="col-md-9" type="text" name="PhoneNumber" value="@Html.DisplayFor(model => model.PhoneNumber)" />
+                </div>
+
+                <div class="row mt-3">
+                    <label for="About" class="col-md-2 font-weight-bolder">About</label>
+                    <textarea id="aboutTextarea" class="col-md-9 text-muted" name="About" rows="3" cols="30">@Html.DisplayFor(model => model.About)</textarea>
+                </div>
+
+                <div class="row mt-3">
+                    <label for="Image" class="col-md-2 font-weight-bolder">Upload image</label>
+                    <input class="col-md-9" type="file" name="Image" value="@Html.DisplayFor(model => model.Image)" />
+                </div>
+
+                <div class="row">
+                    <input class="btn btn-primary mt-5 mb-2 col-md-9 offset-2 font-weight-bolder" type="submit" value="Update profile" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

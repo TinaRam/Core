@@ -60,5 +60,21 @@ namespace Workflow.Models
         {
             return FirstName + " " + LastName;
         }
+
+
+        #region Image
+
+        public void SetImage(Microsoft.AspNetCore.Http.IFormFile file)
+        {
+            if (file == null)
+                return;
+
+            using (var stream = new System.IO.MemoryStream())
+            {
+                file.CopyTo(stream);
+                Image = stream.ToArray();
+            }
+        }
+        #endregion
     }
 }
