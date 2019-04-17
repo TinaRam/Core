@@ -174,8 +174,9 @@ namespace Workflow.Controllers
             var ptask = await _context.Ptask.FindAsync(id);
             var i = ptask.TaskProjectId;
 
-            _context.Ptask.Remove(ptask);
+            ptask.Deleted = 1;
             _context.SaveChanges();
+            EventController.NewEvent(ptask.TaskProjectId.Value, CurrentUser.UserId, "remove task", null, ptask.TaskId, null, false, null, null);
             return Redirect("/Project/Details/" + i);
         }
 

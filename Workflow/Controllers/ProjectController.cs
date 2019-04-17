@@ -61,6 +61,7 @@ namespace Workflow.Controllers
             }
 
             List<TaskList> TaskList = _context.TaskList.Where(l => l.ProjectId == id)
+                .Where(tasklist => tasklist.Deleted == 0)
                 .Include(tasklist => tasklist.Ptask)
                     .ThenInclude(task => task.AssignedTask)
                 .ToList();
@@ -95,7 +96,12 @@ namespace Workflow.Controllers
                 }
             }
 
-            List<Event> events = _context.Event.Where(e => e.ProjectId == id).OrderByDescending(e => e.EventDate).ToList();
+            List<Event> events = _context.Event
+                .Where(e => e.ProjectId == id)
+                .Include(e => e.TaskList)
+                .Include(e => e.Task)
+                .OrderByDescending(e => e.EventDate)
+                .ToList();
 
             ViewBag.project = project;
             ViewBag.tasklist = TaskList;

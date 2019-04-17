@@ -129,7 +129,10 @@ namespace Workflow.Controllers
          
             var i = taskList.ProjectId;
 
-            _context.Remove(taskList);
+            taskList.Deleted = 1;
+            EventController.NewEvent(i, CurrentUser.UserId, "remove tasklist", null, null, taskList.TaskListId, false, null, null);
+
+
             _context.SaveChanges();
 
             Response.Redirect("/Project/Details/" + i);

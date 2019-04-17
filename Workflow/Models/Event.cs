@@ -84,10 +84,11 @@ namespace Workflow.Models
             if (Type == "remove participant") return User.GetName() + " is no longer participating in the project.";
 
             if (Type == "new tasklist") return Creator.GetName() + " added " + TaskList.ListName + " to the project.";
-            if (Type == "remove tasklist") return Creator.GetName() + " removed a task list from the project.";
+            if (Type == "remove tasklist") return Creator.GetName() + " removed " + TaskList.ListName + " from the project.";
 
             if (Type == "new task") return Creator.GetName() + " added " + Task.TaskName + " to " + Task.TaskList.ListName + ".";
             if (Type == "finished task") return Creator.GetName() + " finished " + Task.TaskName + ".";
+            if (Type == "remove task") return Creator.GetName() + " deleted " + Task.TaskName + " from " + Task.TaskList.ListName + ".";
 
             return "";
         }
@@ -101,8 +102,10 @@ namespace Workflow.Models
 
             list.Add(new KeyValuePair<string, string>("new task", "fas fa-sticky-note"));
             list.Add(new KeyValuePair<string, string>("finished task", "far fa-sticky-note"));
+            list.Add(new KeyValuePair<string, string>("remove task", "far fa-sticky-note"));
 
             list.Add(new KeyValuePair<string, string>("new tasklist", "fas fa-clipboard"));
+            list.Add(new KeyValuePair<string, string>("remove tasklist", "fa fa-clipboard"));
 
             return list.Find(l => l.Key == Type).Value.ToString();
         }
