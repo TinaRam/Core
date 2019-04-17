@@ -22,6 +22,7 @@ namespace Workflow.Controllers
                 .Include(n => n.Event.Creator)
                 .Include(n => n.Event.Task)
                 .Include(n => n.Event.Project)
+                .OrderByDescending(n => n.Event.EventDate)
                 .ToList();
 
             return notes;
@@ -36,6 +37,7 @@ namespace Workflow.Controllers
                 .Include(n => n.Event.Creator)
                 .Include(n => n.Event.Task)
                 .Include(n => n.Event.Project)
+                .OrderByDescending(n => n.Event.EventDate)
                 .ToList();
 
             return notes;

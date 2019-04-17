@@ -65,8 +65,11 @@
                                     foreach (Notification n in ViewBag.notes)
                                     {
                                         <a href="/Project/Details/@n.Event.ProjectId" class="dropdown-item note-item">
-                                            @n.Event.GetMessage() <br />
-                                            <p class="text-secondary font-italic">@n.Event.EventDate</p>
+                                            <button type="button" class="noButton" onclick="removeNote(@n.Nid); return false;">&times;</button>
+                                            @n.Event.GetMessage() 
+                                            <div class="row">
+                                                <div class="col text-secondary font-italic">@n.Event.EventDate</div>
+                                            </div>
                                         </a>
                                         <div class="dropdown-divider"></div>
                                     }
@@ -77,7 +80,7 @@
                                     {
                                         <a href="/Project/Details/@n.Event.ProjectId" class="dropdown-item">
                                             <button type="button" class="noButton" onclick="removeNote(@n.Nid); return false;">&times;</button>
-                                           @n.Event.GetMessage()
+                                            @n.Event.GetMessage()
                                             <div class="row">
                                                 <div class="col text-secondary font-italic">@n.Event.EventDate</div>
                                             </div>
