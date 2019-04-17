@@ -55,7 +55,7 @@
 
 
 
-    <div class="col right_align">
+    <div class="col">
         @{
             if (isManager && !isFinished)
             {
@@ -322,7 +322,7 @@
             <div class="col"><h5>Participants</h5></div>
             <div class="col">
                 @{
-                    if (isManager)
+                    if (isManager && !isFinished)
                     {
                         <div class="col-sm right_align">
                             <div class="dropdown">

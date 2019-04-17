@@ -72,7 +72,7 @@ namespace Workflow.Models
             if (Type == "new projectmanager") return "You have been assigned project manager for " + Project.ProjectName;
             if (Type == "remove projectmanager") return "You are no longer project manager for " + Project.ProjectName;
 
-            if (Type == "new assigned task") return "You have been assigned to " + Task.TaskName + " in " + Project.ProjectName;
+            if (Type == "assigned task") return "You have been assigned to " + Task.TaskName + " in " + Project.ProjectName;
             if (Type == "remove assigned task") return "You are no longer assigned to " + Task.TaskName + " in " + Project.ProjectName;
             if (Type == "finished task") return Creator.GetName() + " finished " + Task.TaskName + " in " + Project.ProjectName + ".";
 
@@ -90,6 +90,7 @@ namespace Workflow.Models
             if (Type == "new task") return Creator.GetName() + " added " + Task.TaskName + " to " + Task.TaskList.ListName + ".";
             if (Type == "finished task") return Creator.GetName() + " finished " + Task.TaskName + ".";
             if (Type == "remove task") return Creator.GetName() + " deleted " + Task.TaskName + " from " + Task.TaskList.ListName + ".";
+            if (Type == "assigned task") return Creator.GetName() + " assigned " + User.GetName() + " to the task " + Task.TaskName + ".";
 
             return "";
         }
@@ -101,12 +102,13 @@ namespace Workflow.Models
             list.Add(new KeyValuePair<string, string>("new participant", "fas fa-user-plus"));
             list.Add(new KeyValuePair<string, string>("remove participant", "fas fa-user-slash"));
 
-            list.Add(new KeyValuePair<string, string>("new task", "fas fa-sticky-note"));
-            list.Add(new KeyValuePair<string, string>("finished task", "far fa-sticky-note"));
-            list.Add(new KeyValuePair<string, string>("remove task", "far fa-sticky-note"));
+            list.Add(new KeyValuePair<string, string>("new task", "fas fa-clipboard-list"));
+            list.Add(new KeyValuePair<string, string>("finished task", "fas fa-clipboard-check"));
+            list.Add(new KeyValuePair<string, string>("remove task", "fas fa-clipboard"));
+            list.Add(new KeyValuePair<string, string>("assigned task", "far fa-sticky-note"));
 
-            list.Add(new KeyValuePair<string, string>("new tasklist", "fas fa-clipboard"));
-            list.Add(new KeyValuePair<string, string>("remove tasklist", "fa fa-clipboard"));
+            list.Add(new KeyValuePair<string, string>("new tasklist", "fas fa-folder-plus"));
+            list.Add(new KeyValuePair<string, string>("remove tasklist", "fa fa-folder-minus"));
 
             return list.Find(l => l.Key == Type).Value.ToString();
         }

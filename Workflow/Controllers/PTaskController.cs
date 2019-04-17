@@ -226,6 +226,11 @@ namespace Workflow.Controllers
             _context.Add(at);
             _context.SaveChanges();
 
+            Project p = _context.Project.Find(project_id);
+
+            EventController.NewEvent(at.ProjectId, CurrentUser.UserId, "assigned task", user_id, task.TaskId, task.TaskListId, true, true, true);
+
+
             Response.Redirect("/Project/Details/" + project_id);
         }
 
