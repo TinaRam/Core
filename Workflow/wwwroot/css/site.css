@@ -788,6 +788,10 @@ body.sidebar-toggled footer.sticky-footer {
     color: #777777;
 }
 
+.finished {
+    opacity: .5;
+}
+
 
 /* PROGRESS BAR */
 .progressBarDiv {

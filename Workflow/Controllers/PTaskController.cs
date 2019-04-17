@@ -184,7 +184,7 @@ namespace Workflow.Controllers
 
             ptask.Deleted = 1;
             _context.SaveChanges();
-            EventController.NewEvent(ptask.TaskProjectId.Value, CurrentUser.UserId, "remove task", null, ptask.TaskId, null, false, null, null);
+            EventController.NewEvent(ptask.TaskProjectId.Value, CurrentUser.UserId, "remove task", null, ptask.TaskId, ptask.TaskListId, false, null, null);
             return Redirect("/Project/Details/" + i);
         }
 

@@ -155,7 +155,7 @@
                                     }
 
 
-                                    <div class="col-3 task">
+                                    <div class="col-3 task @if (task.CompletionDate != null) { Write("finished"); }">
                                         <div class="row">
                                             <div class="col-8"><h6>@task.TaskName</h6></div>
                                             <div class="col text-right">
@@ -434,8 +434,6 @@
         console.log("finished: " + finishedTasks);
 
         var elem = document.getElementById("myBar");
-        var taskAmountDiv = document.getElementById("taskAmount");
-        var finishedTasksDiv = document.getElementById("finishedTasksAmount");
 
         var percentageFinished = (finishedTasks * 100) / totalTasks;
         percentageFinished = Math.round(percentageFinished);
