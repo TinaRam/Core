@@ -63,5 +63,31 @@ namespace Workflow.Models
         {
             return CompletionDate != null;
         }
+
+        public int getTotalTasks()
+        {
+            int c = 0;
+            foreach (Ptask t in Ptask)
+            {
+                if (t.Deleted == 0)
+                {
+                    c++;
+                }
+            }
+            return c;
+        }
+
+        public int getFinishedTasks()
+        {
+            int c = 0;
+            foreach (Ptask t in Ptask)
+            {
+                if (t.Deleted == 0 && t.CompletionDate != null)
+                {
+                    c++;
+                }
+            }
+            return c;
+        }
     }
 }

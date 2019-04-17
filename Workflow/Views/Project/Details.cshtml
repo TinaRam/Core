@@ -66,6 +66,16 @@
 </dl>
 <p>@project.ProjectDescription</p>
 
+
+
+<div class="row progressBarDiv">
+    <div class="col-10">
+        <div id="myProgress">
+            <div id="myBar"></div>
+        </div>
+    </div>
+</div>
+
 <hr />
 
 
@@ -411,3 +421,39 @@
     }
     <a asp-action="Index">Back to List</a>
 </div>
+
+<script>
+    var totalTasks = @project.getTotalTasks();
+    var finishedTasks = @project.getFinishedTasks();
+
+    var width = 0;
+
+    function moveProgress() {
+
+        console.log("total: " + totalTasks);
+        console.log("finished: " + finishedTasks);
+
+        var elem = document.getElementById("myBar");
+        var taskAmountDiv = document.getElementById("taskAmount");
+        var finishedTasksDiv = document.getElementById("finishedTasksAmount");
+
+        var percentageFinished = (finishedTasks * 100) / totalTasks;
+        percentageFinished = Math.round(percentageFinished);
+
+        var id = setInterval(frame, 40);
+
+        function frame() {
+            if (width == percentageFinished) {
+                clearInterval(id);
+            } else {
+                if (width < percentageFinished) {
+
+                    width++;
+                } else if (width > percentageFinished) {
+                    width--;
+                }
+                elem.style.width = width + '%';
+            }
+        }
+    }
+</script>

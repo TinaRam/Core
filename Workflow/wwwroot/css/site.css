@@ -787,3 +787,24 @@ body.sidebar-toggled footer.sticky-footer {
 .menu_icon  {
     color: #777777;
 }
+
+
+/* PROGRESS BAR */
+.progressBarDiv {
+    width: 100%;
+}
+#myProgress {
+    width: 100%;
+    background-color: #dadada;
+    border-radius: 20px;
+}
+
+#myBar {
+    width: 0%;
+    height: 20px;
+    background-color: #a7a7c7;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    border-radius: 20px;
+}
