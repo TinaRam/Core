@@ -74,6 +74,7 @@ namespace Workflow.Models
 
             if (Type == "new assigned task") return "You have been assigned to " + Task.TaskName + " in " + Project.ProjectName;
             if (Type == "remove assigned task") return "You are no longer assigned to " + Task.TaskName + " in " + Project.ProjectName;
+            if (Type == "finished task") return Creator.GetName() + " finished " + Task.TaskName + " in " + Project.ProjectName + ".";
 
             return "";
         }

@@ -8,6 +8,8 @@ namespace Workflow.Models
     [Table("TaskList", Schema = "app2000g11")]
     public class TaskList
     {
+        private static readonly WorkflowContext _context = new WorkflowContext();
+
         public TaskList()
         {
             Event = new HashSet<Event>();
@@ -34,7 +36,11 @@ namespace Workflow.Models
 
         public bool hasTasks()
         {
-            return Ptask.Count > 0;
+            foreach (Ptask t in Ptask)
+            {
+                if (t.Deleted == 0) return true;
+            }
+            return false;
         }
     }
 }

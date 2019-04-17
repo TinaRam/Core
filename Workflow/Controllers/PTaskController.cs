@@ -6,6 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Workflow.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Workflow.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Web;
 
 
 
@@ -190,9 +198,10 @@ namespace Workflow.Controllers
             Ptask task = _context.Ptask.Find(id);
             task.CompletionDate = DateTime.Now;
             _context.SaveChanges();
-            
 
-            EventController.NewEvent(task.TaskProjectId.Value, CurrentUser.UserId, "finished task", null, task.TaskId, null, false, null, null);
+            Project project = _context.Project.Find(task.TaskProjectId);
+
+            EventController.NewEvent(project.ProjectId, CurrentUser.UserId, "finished task", project.ProjectManager, task.TaskId, null, true, true, true);
 
             Response.Redirect("/Project/Details/" + task.TaskProjectId);
         }
