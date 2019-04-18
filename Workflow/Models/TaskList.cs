@@ -8,8 +8,11 @@ namespace Workflow.Models
     [Table("TaskList", Schema = "app2000g11")]
     public class TaskList
     {
+        private static readonly WorkflowContext _context = new WorkflowContext();
+
         public TaskList()
         {
+            Event = new HashSet<Event>();
             Ptask = new HashSet<Ptask>();
         }
 
@@ -19,16 +22,25 @@ namespace Workflow.Models
         public int ProjectId { get; set; }
         [StringLength(55)]
         public string ListName { get; set; }
+        [Column(TypeName = "tinyint(1)")]
+        public byte Deleted { get; set; }
+
 
         [ForeignKey("ProjectId")]
         [InverseProperty("TaskList")]
         public virtual Project Project { get; set; }
         [InverseProperty("TaskList")]
+        public virtual ICollection<Event> Event { get; set; }
+        [InverseProperty("TaskList")]
         public virtual ICollection<Ptask> Ptask { get; set; }
 
         public bool hasTasks()
         {
-            return Ptask.Count > 0;
+            foreach (Ptask t in Ptask)
+            {
+                if (t.Deleted == 0) return true;
+            }
+            return false;
         }
     }
 }

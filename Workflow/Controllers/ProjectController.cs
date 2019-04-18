@@ -61,6 +61,7 @@ namespace Workflow.Controllers
             }
 
             List<TaskList> TaskList = _context.TaskList.Where(l => l.ProjectId == id)
+                .Where(tasklist => tasklist.Deleted == 0)
                 .Include(tasklist => tasklist.Ptask)
                     .ThenInclude(task => task.AssignedTask)
                 .ToList();
@@ -95,10 +96,18 @@ namespace Workflow.Controllers
                 }
             }
 
+            List<Event> events = _context.Event
+                .Where(e => e.ProjectId == id)
+                .Include(e => e.TaskList)
+                .Include(e => e.Task)
+                .OrderByDescending(e => e.EventDate)
+                .ToList();
+
             ViewBag.project = project;
             ViewBag.tasklist = TaskList;
             ViewBag.Participants = Participants;
             ViewBag.availableUsers = availableUsers;
+            ViewBag.events = events;
             
             // må sende med context fordi assignedtask-tabellen ikke har noen connection til user-tabellen,
             // derfor må man finne den fra viewet. ikke så clean, men det funker.. 
@@ -228,7 +237,7 @@ namespace Workflow.Controllers
             _context.Add(p);
             _context.SaveChanges();
 
-            // TODO: send notification
+            EventController.NewEvent(projectId, CurrentUser.UserId, "new participant", userId, null, null, true, false, true);
 
             Response.Redirect("/Project/Details/" + projectId);
         }
@@ -247,7 +256,7 @@ namespace Workflow.Controllers
             _context.Remove(p);
             _context.SaveChanges();
 
-            // TODO: send notification
+            EventController.NewEvent(projectId, CurrentUser.UserId, "remove participant", userId, null, null, true, false, true);
 
             Response.Redirect("/Project/Details/" + projectId);
         }

@@ -6,6 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Workflow.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Workflow.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Web;
 
 
 
@@ -83,6 +91,9 @@ namespace Workflow.Controllers
             t.TaskListId = TaskListId;
             _context.Add(t);
             _context.SaveChanges();
+
+            EventController.NewEvent(TaskProjectId, CurrentUser.UserId, "new task", null, t.TaskId, TaskListId, false, null, null);
+
             Response.Redirect("/Project/Details/" + TaskProjectId);
         }
 
@@ -160,7 +171,6 @@ namespace Workflow.Controllers
             {
                 return NotFound();
             }
-
             return View(ptask);
         }
 
@@ -171,8 +181,10 @@ namespace Workflow.Controllers
         {
             var ptask = await _context.Ptask.FindAsync(id);
             var i = ptask.TaskProjectId;
-            _context.Ptask.Remove(ptask);
+
+            ptask.Deleted = 1;
             _context.SaveChanges();
+            EventController.NewEvent(ptask.TaskProjectId.Value, CurrentUser.UserId, "remove task", null, ptask.TaskId, ptask.TaskListId, false, null, null);
             return Redirect("/Project/Details/" + i);
         }
 
@@ -186,6 +198,10 @@ namespace Workflow.Controllers
             Ptask task = _context.Ptask.Find(id);
             task.CompletionDate = DateTime.Now;
             _context.SaveChanges();
+
+            Project project = _context.Project.Find(task.TaskProjectId);
+
+            EventController.NewEvent(project.ProjectId, CurrentUser.UserId, "finished task", project.ProjectManager, task.TaskId, null, true, true, true);
 
             Response.Redirect("/Project/Details/" + task.TaskProjectId);
         }
@@ -209,6 +225,11 @@ namespace Workflow.Controllers
             at.TaskId = task_id;
             _context.Add(at);
             _context.SaveChanges();
+
+            Project p = _context.Project.Find(project_id);
+
+            EventController.NewEvent(at.ProjectId, CurrentUser.UserId, "assigned task", user_id, task.TaskId, task.TaskListId, true, true, true);
+
 
             Response.Redirect("/Project/Details/" + project_id);
         }

@@ -23,17 +23,18 @@
               crossorigin="anonymous"
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <!-- MDBootstrap Datatables  -->
     <link href="css/addons/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
-<body id="page-top">
+<body id="page-top" onload="moveProgress()">
     @{
         if (LoggedIn)
         {
-            <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+            <nav class="navbar navbar-expand navbar-dark bg-dark static-top" id="header">
 
                 <a class="navbar-brand mr-1" href="index.html">Workflow</a>
 
@@ -44,26 +45,51 @@
                 <!-- Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" onclick="setNotesViewed(@CurrentUser.UserId)" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
-                            <span class="badge badge-danger">9+</span>
+                            @{
+                                if (ViewBag.notes.Count > 0)
+                                {
+                                    <span class="badge badge-danger @if (ViewBag.notes.Count <= 0) { Write("hidden"); }" id="notes_count">
+
+                                        @ViewBag.notes.Count
+                                    </span>
+                                }
+                            }
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-envelope fa-fw"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+
+                            @{
+                                if (ViewBag.notes.Count > 0)
+                                {
+                                    foreach (Notification n in ViewBag.notes)
+                                    {
+                                        <a href="/Project/Details/@n.Event.ProjectId" class="dropdown-item note-item">
+                                            <button type="button" class="noButton" onclick="removeNote(@n.Nid); return false;">&times;</button>
+                                            @n.Event.GetMessage() 
+                                            <div class="row">
+                                                <div class="col text-secondary font-italic">@n.Event.EventDate</div>
+                                            </div>
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                    }
+                                }
+                                if (ViewBag.viewedNotes.Count > 0)
+                                {
+                                    foreach (Notification n in ViewBag.viewedNotes)
+                                    {
+                                        <a href="/Project/Details/@n.Event.ProjectId" class="dropdown-item">
+                                            <button type="button" class="noButton" onclick="removeNote(@n.Nid); return false;">&times;</button>
+                                            @n.Event.GetMessage()
+                                            <div class="row">
+                                                <div class="col text-secondary font-italic">@n.Event.EventDate</div>
+                                            </div>
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                    }
+                                }
+                            }
+
                         </div>
                     </li>
                     <li class="nav-item dropdown no-arrow">
@@ -166,6 +192,7 @@
     <!-- MDBootstrap Datatables  -->
     <script type="text/javascript" src="js/addons/datatables.min.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

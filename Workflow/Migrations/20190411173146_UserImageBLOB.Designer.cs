@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Workflow.Models;
 
 namespace Workflow.Migrations
 {
     [DbContext(typeof(WorkflowContext))]
-    partial class WorkflowContextModelSnapshot : ModelSnapshot
+    [Migration("20190411173146_UserImageBLOB")]
+    partial class UserImageBLOB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -210,11 +212,6 @@ namespace Workflow.Migrations
                     b.Property<DateTime?>("CompletionDate")
                         .HasColumnType("date");
 
-                    b.Property<byte>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValueSql("0");
-
                     b.Property<string>("Description")
                         .HasMaxLength(255)
                         .IsUnicode(false);
@@ -280,11 +277,6 @@ namespace Workflow.Migrations
                     b.Property<int>("TaskListId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int(11)");
-
-                    b.Property<byte>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValueSql("0");
 
                     b.Property<string>("ListName")
                         .HasMaxLength(55)

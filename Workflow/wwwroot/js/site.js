@@ -69,3 +69,25 @@ function toggleDisplay(div_id) {
     }
 }
 
+function setNotesViewed(id) {
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Event/SetViewed/" + id,
+            contentType: "application/json; charset=utf-8",
+        }).always(function () {
+            document.getElementById("notes_count").classList.add("hidden");
+        });
+    });
+}
+
+function removeNote(id) {
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Event/RemoveNote",
+            data: { "noteId": id },
+            dataType: "json",
+        });
+    });
+}

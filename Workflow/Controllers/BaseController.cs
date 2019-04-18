@@ -16,7 +16,7 @@ namespace Workflow.Controllers
         public static User CurrentUser;
         public bool LoggedIn = false;
 
-
+        private readonly WorkflowContext _context = new WorkflowContext();
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
@@ -48,6 +48,12 @@ namespace Workflow.Controllers
                 {
                     Response.Redirect("/Access/NoAccess");
                 }
+
+                List<Notification> notes = EventController.GetNotes(CurrentUser.UserId);
+                ViewBag.notes = notes;
+
+                List<Notification> viewedNotes = EventController.GetViewedNotes(CurrentUser.UserId);
+                ViewBag.viewedNotes = viewedNotes;
             }
             ViewBag.LoggedIn = LoggedIn;
 

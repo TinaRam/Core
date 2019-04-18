@@ -68,12 +68,15 @@ namespace Workflow.Controllers
                 Project p = _context.Project.Find(report.ProjectId);
                 p.MarkedAsFinished = 1;
 
+                EventController.NewEvent(p.ProjectId, CurrentUser.UserId, "project finished", null, null, null, true, false, true);
+
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Redirect("/Project/Details/" + report.ProjectId);
             }
             ViewData["ProjectId"] = new SelectList(_context.Project, "ProjectId", "ProjectName", report.ProjectId);
+
+
             
-            // TODO: notifications
 
             return View(report);
         }

@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Workflow.Models
 {
     [Table("User", Schema = "app2000g11")]
     public class User
     {
+        private static readonly WorkflowContext _context = new WorkflowContext();
+
         public User()
         {
             EmployeeLeave = new HashSet<EmployeeLeave>();
+            EventCreator = new HashSet<Event>();
+            EventUser = new HashSet<Event>();
+            Notification = new HashSet<Notification>();
             Project = new HashSet<Project>();
             ProjectParticipant = new HashSet<ProjectParticipant>();
         }
@@ -42,6 +48,12 @@ namespace Workflow.Models
 
         [InverseProperty("User")]
         public virtual ICollection<EmployeeLeave> EmployeeLeave { get; set; }
+        [InverseProperty("Creator")]
+        public virtual ICollection<Event> EventCreator { get; set; }
+        [InverseProperty("User")]
+        public virtual ICollection<Event> EventUser { get; set; }
+        [InverseProperty("User")]
+        public virtual ICollection<Notification> Notification { get; set; }
         [InverseProperty("ProjectManagerNavigation")]
         public virtual ICollection<Project> Project { get; set; }
         [InverseProperty("User")]
@@ -50,6 +62,20 @@ namespace Workflow.Models
         public string GetName()
         {
             return FirstName + " " + LastName;
+        }
+
+
+        public Boolean assignedTo(int taskId)
+        {
+            List<AssignedTask> a = _context.AssignedTask.Where(at => at.TaskId == taskId).ToList();
+            foreach (AssignedTask at in a)
+            {
+                if (at.UserId == UserId)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
 

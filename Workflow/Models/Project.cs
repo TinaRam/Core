@@ -10,6 +10,7 @@ namespace Workflow.Models
     {
         public Project()
         {
+            Event = new HashSet<Event>();
             ProjectParticipant = new HashSet<ProjectParticipant>();
             Ptask = new HashSet<Ptask>();
             Report = new HashSet<Report>();
@@ -38,6 +39,8 @@ namespace Workflow.Models
         [InverseProperty("Project")]
         public virtual User ProjectManagerNavigation { get; set; }
         [InverseProperty("Project")]
+        public virtual ICollection<Event> Event { get; set; }
+        [InverseProperty("Project")]
         public virtual ICollection<ProjectParticipant> ProjectParticipant { get; set; }
         [InverseProperty("TaskProject")]
         public virtual ICollection<Ptask> Ptask { get; set; }
@@ -59,6 +62,32 @@ namespace Workflow.Models
         public bool isArchived()
         {
             return CompletionDate != null;
+        }
+
+        public int getTotalTasks()
+        {
+            int c = 0;
+            foreach (Ptask t in Ptask)
+            {
+                if (t.Deleted == 0)
+                {
+                    c++;
+                }
+            }
+            return c;
+        }
+
+        public int getFinishedTasks()
+        {
+            int c = 0;
+            foreach (Ptask t in Ptask)
+            {
+                if (t.Deleted == 0 && t.CompletionDate != null)
+                {
+                    c++;
+                }
+            }
+            return c;
         }
     }
 }

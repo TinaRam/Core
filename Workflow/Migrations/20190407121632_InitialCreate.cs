@@ -211,6 +211,78 @@ namespace Workflow.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Event",
+                schema: "app2000g11",
+                columns: table => new
+                {
+                    EventId = table.Column<int>(type: "int(11)", nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    EventDate = table.Column<DateTime>(nullable: true, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    ProjectId = table.Column<int>(type: "int(11)", nullable: false),
+                    CreatorId = table.Column<int>(type: "int(11)", nullable: false),
+                    Type = table.Column<string>(unicode: false, maxLength: 55, nullable: false),
+                    UserId = table.Column<int>(type: "int(11)", nullable: true),
+                    TaskId = table.Column<int>(type: "int(11)", nullable: true),
+                    TaskListId = table.Column<int>(type: "int(11)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Event", x => x.EventId);
+                    table.ForeignKey(
+                        name: "EventUserFK",
+                        column: x => x.CreatorId,
+                        principalSchema: "app2000g11",
+                        principalTable: "User",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "EventProjectFK",
+                        column: x => x.ProjectId,
+                        principalSchema: "app2000g11",
+                        principalTable: "Project",
+                        principalColumn: "ProjectId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "EventPTaskFK",
+                        column: x => x.TaskId,
+                        principalSchema: "app2000g11",
+                        principalTable: "PTask",
+                        principalColumn: "TaskId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "EventUserIIFK",
+                        column: x => x.UserId,
+                        principalSchema: "app2000g11",
+                        principalTable: "User",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notification",
+                schema: "app2000g11",
+                columns: table => new
+                {
+                    NId = table.Column<int>(type: "int(11)", nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    EventId = table.Column<int>(type: "int(11)", nullable: false),
+                    Viewed = table.Column<byte>(type: "tinyint(1)", nullable: true, defaultValueSql: "0"),
+                    Email = table.Column<byte>(type: "tinyint(1)", nullable: true),
+                    InApp = table.Column<byte>(type: "tinyint(1)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notification", x => x.NId);
+                    table.ForeignKey(
+                        name: "NotificationEventFK",
+                        column: x => x.EventId,
+                        principalSchema: "app2000g11",
+                        principalTable: "Event",
+                        principalColumn: "EventId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "AssignedTaskPTaskFK",
                 schema: "app2000g11",
@@ -222,6 +294,36 @@ namespace Workflow.Migrations
                 schema: "app2000g11",
                 table: "EmployeeLeave",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "EventUserFK",
+                schema: "app2000g11",
+                table: "Event",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "EventProjectFK",
+                schema: "app2000g11",
+                table: "Event",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "EventPTaskFK",
+                schema: "app2000g11",
+                table: "Event",
+                column: "TaskId");
+
+            migrationBuilder.CreateIndex(
+                name: "EventUserIIFK",
+                schema: "app2000g11",
+                table: "Event",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "NotificationEventFK",
+                schema: "app2000g11",
+                table: "Notification",
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "ProjectUserFK",
@@ -271,11 +373,19 @@ namespace Workflow.Migrations
                 schema: "app2000g11");
 
             migrationBuilder.DropTable(
+                name: "Notification",
+                schema: "app2000g11");
+
+            migrationBuilder.DropTable(
                 name: "ProjectParticipant",
                 schema: "app2000g11");
 
             migrationBuilder.DropTable(
                 name: "Report",
+                schema: "app2000g11");
+
+            migrationBuilder.DropTable(
+                name: "Event",
                 schema: "app2000g11");
 
             migrationBuilder.DropTable(

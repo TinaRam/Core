@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Workflow.Models;
 
 namespace Workflow.Migrations
 {
     [DbContext(typeof(WorkflowContext))]
-    partial class WorkflowContextModelSnapshot : ModelSnapshot
+    [Migration("20190407121632_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,9 +105,6 @@ namespace Workflow.Migrations
                     b.HasIndex("TaskId")
                         .HasName("EventPTaskFK");
 
-                    b.HasIndex("TaskListId")
-                        .HasName("EventTaskListFK");
-
                     b.HasIndex("UserId")
                         .HasName("EventUserIIFK");
 
@@ -128,9 +127,6 @@ namespace Workflow.Migrations
                     b.Property<byte?>("InApp")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int(11)");
-
                     b.Property<byte?>("Viewed")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
@@ -140,9 +136,6 @@ namespace Workflow.Migrations
 
                     b.HasIndex("EventId")
                         .HasName("NotificationEventFK");
-
-                    b.HasIndex("UserId")
-                        .HasName("NotificationUserFK");
 
                     b.ToTable("Notification","app2000g11");
                 });
@@ -210,11 +203,6 @@ namespace Workflow.Migrations
                     b.Property<DateTime?>("CompletionDate")
                         .HasColumnType("date");
 
-                    b.Property<byte>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValueSql("0");
-
                     b.Property<string>("Description")
                         .HasMaxLength(255)
                         .IsUnicode(false);
@@ -281,11 +269,6 @@ namespace Workflow.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int(11)");
 
-                    b.Property<byte>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValueSql("0");
-
                     b.Property<string>("ListName")
                         .HasMaxLength(55)
                         .IsUnicode(false);
@@ -319,9 +302,6 @@ namespace Workflow.Migrations
                         .IsRequired()
                         .HasMaxLength(55)
                         .IsUnicode(false);
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("mediumblob");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -383,11 +363,6 @@ namespace Workflow.Migrations
                         .HasForeignKey("TaskId")
                         .HasConstraintName("EventPTaskFK");
 
-                    b.HasOne("Workflow.Models.TaskList", "TaskList")
-                        .WithMany("Event")
-                        .HasForeignKey("TaskListId")
-                        .HasConstraintName("EventTaskListFK");
-
                     b.HasOne("Workflow.Models.User", "User")
                         .WithMany("EventUser")
                         .HasForeignKey("UserId")
@@ -400,11 +375,6 @@ namespace Workflow.Migrations
                         .WithMany("Notification")
                         .HasForeignKey("EventId")
                         .HasConstraintName("NotificationEventFK");
-
-                    b.HasOne("Workflow.Models.User", "User")
-                        .WithMany("Notification")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("NotificationUserFK");
                 });
 
             modelBuilder.Entity("Workflow.Models.Project", b =>

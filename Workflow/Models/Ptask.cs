@@ -11,6 +11,7 @@ namespace Workflow.Models
         public Ptask()
         {
             AssignedTask = new HashSet<AssignedTask>();
+            Event = new HashSet<Event>();
         }
 
         [Key]
@@ -32,6 +33,8 @@ namespace Workflow.Models
         public int? TaskProjectId { get; set; }
         [Column(TypeName = "int(11)")]
         public int? TaskListId { get; set; }
+        [Column(TypeName = "tinyint(1)")]
+        public byte Deleted { get; set; }
 
         [ForeignKey("TaskListId")]
         [InverseProperty("Ptask")]
@@ -41,6 +44,8 @@ namespace Workflow.Models
         public virtual Project TaskProject { get; set; }
         [InverseProperty("Task")]
         public virtual ICollection<AssignedTask> AssignedTask { get; set; }
+        [InverseProperty("Task")]
+        public virtual ICollection<Event> Event { get; set; }
 
         public string GetStatus()
         {
@@ -49,7 +54,6 @@ namespace Workflow.Models
 
         public string getPriorityClass()
         {
-            if (GetStatus() == "Complete") return "priority_finished";
             if (Priority == "low") return "priority_low";
             if (Priority == "normal") return "priority_normal";
             if (Priority == "high") return "priority_high";
