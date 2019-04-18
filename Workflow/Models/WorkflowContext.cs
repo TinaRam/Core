@@ -30,11 +30,7 @@ namespace Workflow.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                // Sanders database
-                //optionsBuilder.UseMySQL("server=waindor.com;port=3306;user=app2000g11;password=Wørkflow11;database=app2000g11");
-
-                // Localhost
-                optionsBuilder.UseMySQL("server=127.0.0.1;port=3306;user=app;password=app2000;database=app2000g11");
+                optionsBuilder.UseMySQL("server=waindor.com;port=3306;user=app2000g11;password=Wørkflow11;database=app2000g11");
             }
         }
 
