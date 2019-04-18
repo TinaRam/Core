@@ -92,13 +92,35 @@ namespace Workflow.Controllers
             }
             if (controller == "User")
             {
-                if (action == "Details")
+                if (action == "Details" || action == "Profile")
                 {
+                    System.Diagnostics.Debug.WriteLine("--------------------------------------");
+
+                    System.Diagnostics.Debug.WriteLine("kommer hit 0");
+                    System.Diagnostics.Debug.WriteLine("--------------------------------------");
+
                     if (id == "") return false;
+                    System.Diagnostics.Debug.WriteLine("--------------------------------------");
+
+                    System.Diagnostics.Debug.WriteLine("kommer hit 1");
+                    System.Diagnostics.Debug.WriteLine("--------------------------------------");
+
                     int i = Convert.ToInt32(id);
                     User u = _context.User.Find(i);
                     if (u == null) return false;
+
+                    System.Diagnostics.Debug.WriteLine("--------------------------------------");
+                    System.Diagnostics.Debug.WriteLine("kommer hit 2");
+                    System.Diagnostics.Debug.WriteLine("--------------------------------------");
+
+
                     if (u.UserId == user.UserId) return true;
+
+                    System.Diagnostics.Debug.WriteLine("--------------------------------------");
+                    System.Diagnostics.Debug.WriteLine("kommer hit 3");
+                    System.Diagnostics.Debug.WriteLine("--------------------------------------");
+
+
                     foreach (Project p in _context.Project.ToList())
                     {
                         if (p.ProjectManager == user.UserId) return true;
