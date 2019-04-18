@@ -44,10 +44,10 @@ namespace Workflow.Controllers
             {
                 LoggedIn = true;
                 ViewBag.CurrentUser = CurrentUser;
-                if (!AccessController.hasAccess(CurrentUser, controller, action, id))
-                {
-                    Response.Redirect("/Access/NoAccess");
-                }
+                //if (!AccessController.hasAccess(CurrentUser, controller, action, id))
+                //{
+                //    Response.Redirect("/Access/NoAccess");
+                //}
 
                 List<Notification> notes = EventController.GetNotes(CurrentUser.UserId);
                 ViewBag.notes = notes;
