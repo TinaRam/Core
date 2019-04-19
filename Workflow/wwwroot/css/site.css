@@ -19,6 +19,10 @@ body {
     z-index: 1000;
 }
 
+.test {
+    margin-right: 300px;
+}
+
 #events {
     background-color: #eee;
     z-index: 100;
