@@ -147,11 +147,15 @@
                                     var MyTask = false;
                                     if (task.isAssigned())
                                     {
-                                        var a = context.AssignedTask.Where(at => at.TaskId == task.TaskId).First();
-                                        if (CurrentUser.UserId == a.UserId)
+                                        var a = context.AssignedTask.Where(at => at.TaskId == task.TaskId).ToList();
+                                        foreach (AssignedTask at in a)
                                         {
-                                            MyTask = true;
+                                            if (CurrentUser.UserId == at.UserId)
+                                            {
+                                                MyTask = true;
+                                            }
                                         }
+
                                     }
 
 

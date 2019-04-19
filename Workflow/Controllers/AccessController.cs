@@ -62,8 +62,15 @@ namespace Workflow.Controllers
                     int i = Convert.ToInt32(id);
                     Ptask t = _context.Ptask.Find(i);
                     if (t.TaskProject.ProjectManager == user.UserId) return true;
-                    AssignedTask a = _context.AssignedTask.Where(at => at.TaskId == i).First();
-                    if (a.UserId == user.UserId) return true;
+                    //AssignedTask a = _context.AssignedTask.Where(at => at.TaskId == i).First();
+                    List<AssignedTask> a = _context.AssignedTask.Where(at => at.TaskId == i).ToList();
+                    foreach (AssignedTask at in a)
+                    {
+                        if (user.UserId == at.UserId)
+                        {
+                            return true;
+                        }
+                    }
                 }
                 if (action == "Edit")
                 {

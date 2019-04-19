@@ -89,5 +89,6 @@ function removeNote(id) {
             data: { "noteId": id },
             dataType: "json",
         });
+        $("#notifications").load(window.location.href + " #notifications");
     });
 }

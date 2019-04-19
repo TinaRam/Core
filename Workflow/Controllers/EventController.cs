@@ -57,7 +57,7 @@ namespace Workflow.Controllers
             _context.Add(e);
             
 
-            if (createNotification == true)
+            if (createNotification == true && userId != creatorId)
             {
                 if (userId == null)
                 {
