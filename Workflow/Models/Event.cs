@@ -50,21 +50,6 @@ namespace Workflow.Models
 
         public string GetMessage()
         {
-            var list = new List<KeyValuePair<string, string>>();
-
-            list.Add(new KeyValuePair<string, string>("new participant", Creator.GetName() + " added you to " + Project.ProjectName));
-            list.Add(new KeyValuePair<string, string>("remove participant", "You are no longer a participant in " + Project.ProjectName));
-
-            list.Add(new KeyValuePair<string, string>("new projectmanager", "You have been assigned project manager for " + Project.ProjectName));
-            list.Add(new KeyValuePair<string, string>("remove projectmanager", "You are no longer project manager for " + Project.ProjectName));
-
-            list.Add(new KeyValuePair<string, string>("project finished", Project.ProjectName + " is now finished."));
-
-
-            //list.Add(new KeyValuePair<string, string>("new assigned task", "You have been assigned to the task " + Task.TaskName + " in + " + Project.ProjectName));
-            //list.Add(new KeyValuePair<string, string>("remove assigned task", "You are no longer assigned to the task " + Task.TaskName + " in + " + Project.ProjectName));
-
-            // .. and so on
 
             if (Type == "new participant") return Creator.GetName() + " added you to " + Project.ProjectName;
             if (Type == "remove participant") return "You are no longer a participant in " + Project.ProjectName;
@@ -76,7 +61,7 @@ namespace Workflow.Models
             if (Type == "remove assigned task") return "You are no longer assigned to " + Task.TaskName + " in " + Project.ProjectName;
             if (Type == "finished task") return Creator.GetName() + " finished " + Task.TaskName + " in " + Project.ProjectName + ".";
 
-            return "";
+            return "unknown notification messasge - update event.cs";
         }
 
         public string GetEvent()
@@ -91,26 +76,28 @@ namespace Workflow.Models
             if (Type == "finished task") return Creator.GetName() + " finished " + Task.TaskName + ".";
             if (Type == "remove task") return Creator.GetName() + " deleted " + Task.TaskName + " from " + Task.TaskList.ListName + ".";
             if (Type == "assigned task") return Creator.GetName() + " assigned " + User.GetName() + " to the task " + Task.TaskName + ".";
+            if (Type == "restore task") return Creator.GetName() + " restored deleted task " + Task.TaskName + ".";
 
-            return "";
+            return "unknown event message - update events.cs";
         }
 
         public string GetIcon()
         {
-            var list = new List<KeyValuePair<string, string>>();
 
-            list.Add(new KeyValuePair<string, string>("new participant", "fas fa-user-plus"));
-            list.Add(new KeyValuePair<string, string>("remove participant", "fas fa-user-slash"));
+            if (Type == "new participant") return "fas fa-user-plus";
+            if (Type == "remove participant") return "fas fa-user-slash";
 
-            list.Add(new KeyValuePair<string, string>("new task", "fas fa-clipboard-list"));
-            list.Add(new KeyValuePair<string, string>("finished task", "fas fa-clipboard-check"));
-            list.Add(new KeyValuePair<string, string>("remove task", "fas fa-clipboard"));
-            list.Add(new KeyValuePair<string, string>("assigned task", "far fa-sticky-note"));
+            if (Type == "new task") return "fas fa-clipboard-list";
+            if (Type == "finished task") return "fas fa-clipboard-check";
+            if (Type == "remove task") return "fas fa-sticky-note";
+            if (Type == "assigned task") return "far fa-sticky-note";
+            if (Type == "restore task") return "far fa-sticky-note";
 
-            list.Add(new KeyValuePair<string, string>("new tasklist", "fas fa-folder-plus"));
-            list.Add(new KeyValuePair<string, string>("remove tasklist", "fa fa-folder-minus"));
+            if (Type == "new tasklist") return "fas fa-folder-plus";
+            if (Type == "remove tasklist") return "fa fa-folder-minus";
 
-            return list.Find(l => l.Key == Type).Value.ToString();
+
+            return "unknown icon - update events.cs";
         }
     }
 }

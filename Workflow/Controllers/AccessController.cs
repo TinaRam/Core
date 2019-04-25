@@ -51,7 +51,7 @@ namespace Workflow.Controllers
             }
             if (controller == "PTask")
             {
-                if (action == "Index" || action == "Delete" || action == "DeleteConfirmed") return true;
+                if (action == "Index" || action == "Delete" || action == "DeleteConfirmed" || action == "Restore") return true;
                 if (action == "Create")
                 {
                     return true;

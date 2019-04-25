@@ -369,8 +369,53 @@
                     {
                         if (task.Deleted == 1 || task.CompletionDate != null)
                         {
+                            var MyTask = false;
+                            if (task.isAssigned())
+                            {
+                                var a = context.AssignedTask.Where(at => at.TaskId == task.TaskId).ToList();
+                                foreach (AssignedTask at in a)
+                                {
+                                    if (CurrentUser.UserId == at.UserId)
+                                    {
+                                        MyTask = true;
+                                    }
+                                }
+
+                            }
                             <div class="task">
-                                <h6>@task.TaskName</h6>
+                                <div class="row">
+                                    <div class="col"><h6>@task.TaskName</h6></div>
+                                    <div class="col text-right">
+
+                                        @{
+                                            if (task.Deleted == 1 && isManager && !isFinished)
+                                            {
+                                                <a href="/Ptask/Restore/@task.TaskId">Restore task</a>
+                                            }
+                                            else if (task.CompletionDate != null && !isFinished && (MyTask || isManager))
+                                            {
+                                                <form method="post" asp-controller="PTask" asp-action="RemoveComplete">
+                                                    <input type="hidden" name="id" value="@task.TaskId" />
+                                                    <input type="submit" class="noButton" value="Incomplete task" />
+                                                </form>
+                                            }
+
+
+
+                                        }
+
+
+
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="far fa-clipboard"></i>
+                                        @task.TaskList.ListName
+                                    </div>
+                                </div>
                                 @{
                                     if (task.Description != null)
                                     {

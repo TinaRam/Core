@@ -236,5 +236,21 @@ namespace Workflow.Controllers
             _context.SaveChanges();
             Response.Redirect("/Project/Details/" + project_id);
         }
+
+        public void Restore(int id)
+        {
+            System.Diagnostics.Debug.WriteLine("");
+            System.Diagnostics.Debug.WriteLine("");
+            System.Diagnostics.Debug.WriteLine("");
+            System.Diagnostics.Debug.WriteLine(id);
+            System.Diagnostics.Debug.WriteLine("");
+            System.Diagnostics.Debug.WriteLine("");
+
+            Ptask ptask = _context.Ptask.Find(id);
+            ptask.Deleted = 0;
+            _context.SaveChanges();
+            EventController.NewEvent(ptask.TaskProjectId.Value, CurrentUser.UserId, "restore task", null, ptask.TaskId, ptask.TaskListId, false, null, null);
+            Response.Redirect("/Project/Details/" + ptask.TaskProjectId);
+        }
     }
 }
