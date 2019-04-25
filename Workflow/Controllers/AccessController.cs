@@ -51,12 +51,12 @@ namespace Workflow.Controllers
             }
             if (controller == "PTask")
             {
-                if (action == "Index" || action == "Delete" || action == "DeleteConfirmed" || action == "Restore") return true;
+                if (action == "Index" || action == "Delete" || action == "DeleteConfirmed" || action == "Restore" || action == "RemoveComplete") return true;
                 if (action == "Create")
                 {
                     return true;
                 }
-                if (action == "Complete" || action == "RemoveComplete")
+                if (action == "Complete")
                 {
                     if (id == "") return false;
                     int i = Convert.ToInt32(id);
