@@ -72,9 +72,9 @@ namespace Workflow.Models
             if (Type == "new tasklist") return Creator.GetName() + " added " + TaskList.ListName + " to the project.";
             if (Type == "remove tasklist") return Creator.GetName() + " removed " + TaskList.ListName + " from the project.";
 
-            if (Type == "new task") return Creator.GetName() + " added " + Task.TaskName + " to " + Task.TaskList.ListName + ".";
+            if (Type == "new task") return Creator.GetName() + " added " + Task.TaskName + ".";
             if (Type == "finished task") return Creator.GetName() + " finished " + Task.TaskName + ".";
-            if (Type == "remove task") return Creator.GetName() + " deleted " + Task.TaskName + " from " + Task.TaskList.ListName + ".";
+            if (Type == "remove task") return Creator.GetName() + " deleted " + Task.TaskName + ".";
             if (Type == "assigned task") return Creator.GetName() + " assigned " + User.GetName() + " to the task " + Task.TaskName + ".";
             if (Type == "restore task") return Creator.GetName() + " restored deleted task " + Task.TaskName + ".";
 

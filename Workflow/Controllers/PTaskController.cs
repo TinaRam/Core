@@ -70,7 +70,7 @@ namespace Workflow.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public void Create(string TaskName, string Description, string Priority, int TaskProjectId, int TaskListId, DateTime? TaskDeadline = null)
+        public void Create(string TaskName, string Description, string Priority, int TaskProjectId, int? TaskListId = null, DateTime? TaskDeadline = null)
         {
             Ptask t = new Ptask();
             t.TaskName = TaskName;
@@ -82,7 +82,11 @@ namespace Workflow.Controllers
                 t.TaskDeadline = TaskDeadline;
             }
             t.TaskProjectId = TaskProjectId;
-            t.TaskListId = TaskListId;
+            if (TaskListId != null)
+            {
+                t.TaskListId = TaskListId;
+            }
+            
             _context.Add(t);
             _context.SaveChanges();
 

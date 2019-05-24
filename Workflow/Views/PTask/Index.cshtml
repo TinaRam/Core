@@ -51,7 +51,13 @@
                 @item.GetStatus()
             </td>
             <td>
-                @item.TaskList.ListName
+                @{
+                    if (item.TaskListId != null)
+                    {
+
+                        @item.TaskList.ListName
+                    }
+                }
             </td>
             <td>
                 <a href="/Project/Details/@item.TaskProjectId">@item.TaskProject.ProjectName</a>

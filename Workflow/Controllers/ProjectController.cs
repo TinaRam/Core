@@ -103,12 +103,18 @@ namespace Workflow.Controllers
                 .OrderByDescending(e => e.EventDate)
                 .ToList();
 
+            List<Ptask> tasks = _context.Ptask
+                .Where(p => p.TaskProjectId == project.ProjectId && p.TaskListId == null)
+                .ToList();
+
+
             ViewBag.project = project;
             ViewBag.tasklist = TaskList;
             ViewBag.Participants = Participants;
             ViewBag.availableUsers = availableUsers;
             ViewBag.events = events;
-            
+            ViewBag.tasks = tasks;
+
             // må sende med context fordi assignedtask-tabellen ikke har noen connection til user-tabellen,
             // derfor må man finne den fra viewet. ikke så clean, men det funker.. 
             ViewBag.context = _context;
