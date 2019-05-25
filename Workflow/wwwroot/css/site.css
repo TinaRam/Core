@@ -8,8 +8,8 @@ a.navbar-brand {
 }
 
 body {
-    margin-top: 50px;
-    overflow-x: hidden;
+   margin-top: 50px;
+   overflow-x: hidden;
 }
 
 #header {
@@ -55,7 +55,7 @@ body {
 }
 
 
-/* Sticky footer styles
+/* ?
 ------------------------------------------------------------------------------------------------------------ */
 html {
     font-size: 14px;
@@ -104,6 +104,7 @@ body {
     /* Set the fixed height of the footer here */
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
+    padding-left: 25%;
 }
 
 
@@ -239,17 +240,17 @@ body.sidebar-toggled footer.sticky-footer {
 
 .login,
 .image {
-    min-height: 100vh;
+    min-height: 90vh;
 }
 
 .bg-image {
-    background-color: aliceblue;
+    background-color: inherit;
     background-size: cover;
     background-position: center;
 }
 
 .login-heading {
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .btn-login#login {
@@ -317,6 +318,9 @@ body.sidebar-toggled footer.sticky-footer {
             font-size: 12px;
             color: #777;
         }
+    #footer_login {
+        padding-left: 45%;
+    }
 
 
 /* Profile
@@ -365,7 +369,7 @@ body {
         overflow-x: hidden;
         width: 100%;
         padding-top: 1rem;
-        padding-bottom: 80px;
+        padding-bottom: 0;
     }
 
 .scroll-to-top {
@@ -396,8 +400,11 @@ body {
 #loggedInUser {
     display: block;
     width: 100%;
-    padding: 0.25rem 1.5rem;
-    color: darkred;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    color: #696969;
+    font-family: serif;
+    font-size: large;
 }
 
 #loggedInUser:hover {
@@ -418,6 +425,10 @@ body {
 
 .z-1 {
     z-index: 1;
+}
+
+.navbar-nav  {
+   margin-bottom: -1px;
 }
 
 .navbar-nav .form-inline .input-group {
@@ -468,7 +479,7 @@ body {
 .sidebar {
     width: 90px !important;
     background-color: #212529;
-    min-height: calc(100vh - 56px);
+    min-height: calc(100vh - 48px);
 }
 
     .sidebar .nav-item:last-child {
@@ -614,11 +625,6 @@ body {
     }
 }
 
-:root {
-    --input-padding-x: 0.75rem;
-    --input-padding-y: 0.75rem;
-}
-
 .card-login {
     max-width: 25rem;
 }
@@ -699,8 +705,9 @@ footer.sticky-footer {
     }
 
 
-/* TASKS */
-
+/*
+/* TASKS
+------------------------------------------------------------------------------------------------------------ */
 .priority {
     padding-top: 5px;
     padding-bottom: 5px;
