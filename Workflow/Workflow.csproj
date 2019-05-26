@@ -17,19 +17,7 @@
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\images\sweat\" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Remove="Views\PTask\Create.cshtml" />
-    <Content Remove="Views\TaskList\Create.cshtml" />
-    <Content Remove="wwwroot\images\cookie_monster.jpg" />
-    <Content Remove="wwwroot\images\sweat\logo.PNG" />
-    <Content Remove="wwwroot\images\sweat\1-4.PNG" />
-    <Content Remove="wwwroot\images\sweat\2-4.PNG" />
-    <Content Remove="wwwroot\images\sweat\3-4.PNG" />
-    <Content Remove="wwwroot\images\sweat\4-4.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Views\Home\sweat.html" />
-  </ItemGroup>
+
   <ItemGroup>
     <None Include="wwwroot\images\cookie_monster.jpg" />
     <None Include="wwwroot\js\addons\datatables-select.js" />
