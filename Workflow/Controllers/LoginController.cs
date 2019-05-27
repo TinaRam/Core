@@ -35,14 +35,17 @@ namespace Workflow.Controllers
                 {
 
                     MySqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = "SELECT * FROM user WHERE Username = '" + username + "' AND Password = '" + password + "';";
+                    cmd.CommandText = "SELECT * FROM user WHERE Username = '" + username + "';";
 
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        int UserID = (int)reader.GetValue(0);
-                        HttpContext.Session.SetInt32(SessionId, UserID);
-                        CurrentUser = _context.User.Find(UserID);
+                        if (BCrypt.Net.BCrypt.Verify(password, (string)reader.GetValue(2)))
+                        {
+                            int UserID = (int)reader.GetValue(0);
+                            HttpContext.Session.SetInt32(SessionId, UserID);
+                            CurrentUser = _context.User.Find(UserID);
+                        }
                     }
 
                 }
