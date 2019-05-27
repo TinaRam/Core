@@ -15,7 +15,7 @@ namespace Workflow.Controllers
 
         public static bool hasAccess(User user, string controller, string action, string id)
         {
-            if (user.Role == 1) return true; // er 1 admin? husker ikke.. insert admin here
+            if (user.Role == 0) return true; // er 1 admin? husker ikke.. insert admin here
 
             if (controller == "Login") return true;
             if (controller == "Home") return true;

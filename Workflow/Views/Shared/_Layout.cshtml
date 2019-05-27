@@ -30,23 +30,23 @@
     <link rel="stylesheet" href="~/css/site.css" />
 
 </head>
-<body id="page-top" onload="moveProgress()">
+<body id="page-top" onload="moveProgress()" style="margin-bottom: 0px">
     @{
         if (LoggedIn)
         {
             <nav class="navbar navbar-expand navbar-dark bg-dark static-top" id="header">
 
-                <a class="navbar-brand mr-1" href="index.html">Workflow</a>
+                <a style="font-size:1.3rem" class="navbar-brand mr-1" href="index.html">W<i class="fas fa-tools fa-xs" style="padding:3px"></i>rkflow </a>
 
                 <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-                    <i class="fas fa-bars"></i>
+                    <i class="fas fa-bars fa-lg" style="margin-left:10px"></i>
                 </button>
 
                 <!-- Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown no-arrow mx-1">
                         <a class="nav-link dropdown-toggle" onclick="setNotesViewed(@CurrentUser.UserId)" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-bell fa-fw"></i>
+                            <i class="fas fa-bell fa-fw fa-lg" style="color:white"></i>
                             @{
                                 if (ViewBag.notes.Count > 0)
                                 {
@@ -94,7 +94,7 @@
                     </li>
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-user-circle fa-fw"></i>
+                            <i class="fas fa-user-circle fa-fw fa-lg" style="color:white"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             <div id="loggedInUser">@CurrentUser.Username</div>
@@ -134,12 +134,6 @@
                             <span>Tasks</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Index">
-                            <i class="fas fa-award"></i>
-                            <span>[ Worklog ]</span>
-                        </a>
-                    </li>
                 </ul>
             }
         }
@@ -155,12 +149,22 @@
 
             </div>
             <!-- /.container-fluid -->
-            <!-- <partial name="_CookieConsentPartial" /> -->
-            <footer class="border-top footer text-muted">
-                <div class="container">
-                    &copy; 2019 - Workflow - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </div>
-            </footer>
+
+                    @{
+            if (LoggedIn)
+            {
+                <footer class="border-top footer text-muted">
+                    <div class="container">
+                        &copy; 2019 - Workflow - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </div>
+                </footer>
+            } else {
+                <footer class="border-top footer text-muted" id="footer_login">
+                        &copy; 2019 - Workflow 
+                </footer>
+            }
+        }
+        
 
         </div>
         <!-- /.content-wrapper -->

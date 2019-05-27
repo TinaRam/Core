@@ -1,0 +1,83 @@
+﻿/* -------------------------------------------------------------------------- */
+/*    set constants to easily change things like color
+/*    using the css var() function
+/*
+/*    :root { --varName: value; }
+/*
+/*    #example { color: var(--varName); }
+/*
+/* -------------------------------------------------------------------------- */
+:root {
+    --background_color: white;
+}
+
+/* Remove browsers default padding and margin */
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color: var(--background_color);
+}
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*
+/* -------------------------------------------------------------------------- */
+
+#logo {
+    z-index: -1; /* Place the logo behind the images*/
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#img-container {
+    width: 18.8%;
+    height: 60%;
+    position: absolute; /* Glues the #img-container and #logo together */
+    overflow: hidden; /* only displaying 100% of the #img_container (1st image) */
+    left: 18%;
+    bottom: 23.5%;
+}
+
+#images {
+    filter: grayscale(1%); /* Magically remove flickering in firefox */
+    width: 400%; /* Because one image is 100% */
+    height: 100%;
+    position: relative;
+    left: 0;
+    animation: slidemove 2.5s;
+    animation-timing-function: steps(1); /* images overlap */
+    animation-delay: 1s;
+    animation-iteration-count: 48; /* don't annoy people with eternal loops.. 48 = 2 minutes  */
+}
+
+    #images img {
+        width: 25%; /*  100% / 4 = 25% */
+        float: left;
+    }
+
+/* Animate. Changes the position of #imgbox percentage by total animation length */
+@keyframes slidemove {
+    0% {
+        left: 0;
+    }
+
+    10% {
+        left: -100%;
+    }
+
+    20% {
+        left: -200%;
+    }
+
+    30% {
+        left: -300%;
+    }
+
+    60% {
+        left: 0;
+    }
+}
