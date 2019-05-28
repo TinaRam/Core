@@ -40,7 +40,7 @@ namespace Workflow.Models
         public string Email { get; set; }
         [StringLength(11)]
         public string PhoneNumber { get; set; }
-        [Column(TypeName = "int(11)")]
+        [Column(TypeName = "tinyint(1)")]
         public int? Role { get; set; }
         public string About { get; set; }
         [Column(TypeName = "mediumblob")]

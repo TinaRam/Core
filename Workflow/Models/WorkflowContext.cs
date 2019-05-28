@@ -16,7 +16,6 @@ namespace Workflow.Models
         }
 
         public virtual DbSet<AssignedTask> AssignedTask { get; set; }
-        public virtual DbSet<EmployeeLeave> EmployeeLeave { get; set; }
         public virtual DbSet<Event> Event { get; set; }
         public virtual DbSet<Notification> Notification { get; set; }
         public virtual DbSet<Project> Project { get; set; }
@@ -50,17 +49,6 @@ namespace Workflow.Models
                     .HasConstraintName("AssignedTaskPTaskFK");
             });
 
-            modelBuilder.Entity<EmployeeLeave>(entity =>
-            {
-                entity.HasIndex(e => e.UserId)
-                    .HasName("EmployeeLeaveUserFK");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.EmployeeLeave)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("EmployeeLeaveUserFK");
-            });
 
             modelBuilder.Entity<Event>(entity =>
             {
