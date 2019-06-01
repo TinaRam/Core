@@ -13,7 +13,6 @@ namespace Workflow.Models
 
         public User()
         {
-            EmployeeLeave = new HashSet<EmployeeLeave>();
             EventCreator = new HashSet<Event>();
             EventUser = new HashSet<Event>();
             Notification = new HashSet<Notification>();
@@ -45,9 +44,6 @@ namespace Workflow.Models
         public string About { get; set; }
         [Column(TypeName = "mediumblob")]
         public byte[] Image { get; set; }
-
-        [InverseProperty("User")]
-        public virtual ICollection<EmployeeLeave> EmployeeLeave { get; set; }
         [InverseProperty("Creator")]
         public virtual ICollection<Event> EventCreator { get; set; }
         [InverseProperty("User")]
