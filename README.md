@@ -17,3 +17,7 @@ The system, "Workflow", consist of a web application where users (employees) can
   - Font Awesome v5
 - Entity Framework Core 8.0.15 https://docs.microsoft.com/en-us/ef/
   - MySQL
+
+## ER model Database
+
+![ER model](Database/Db.png)
